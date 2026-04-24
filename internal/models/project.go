@@ -49,3 +49,51 @@ type SummaryRow struct {
 	Target  float64 `json:"target"`
 	Remain  float64 `json:"remain"`
 }
+
+type TagCategory struct {
+	ID        int       `json:"id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type TagValue struct {
+	ID         int       `json:"id"`
+	CategoryID int       `json:"category_id"`
+	Code       string    `json:"code"`
+	CreatedAt  time.Time `json:"created_at"`
+}
+
+type SubJobTag struct {
+	ID          int     `json:"id"`
+	ProjectID   int     `json:"project_id"`
+	SubJobName  string  `json:"sub_job_name"`
+	TagValueID  int     `json:"tag_value_id"`
+	TagCode     string  `json:"tag_code,omitempty"`
+	CategoryID  int     `json:"category_id,omitempty"`
+	Percentage  float64 `json:"percentage"`
+}
+
+type TagSummaryRow struct {
+	Code   string  `json:"code"`
+	Budget float64 `json:"budget"`
+	Target float64 `json:"target"`
+	Remain float64 `json:"remain"`
+}
+
+type FlatProject struct {
+	ID               int     `json:"id"`
+	ProjectCode      string  `json:"project_code"`
+	Name             string  `json:"name"`
+	Division         *string `json:"division"`
+	ProjectType      string  `json:"project_type"`
+	Year             int     `json:"year"`
+	BudgetCommitted  float64 `json:"budget_committed"`
+	BudgetInvest     float64 `json:"budget_invest"`
+	BudgetTotal      float64 `json:"budget_total"`
+	TargetCommitted  float64 `json:"target_committed"`
+	TargetInvest     float64 `json:"target_invest"`
+	TargetTotal      float64 `json:"target_total"`
+	RemainCommitted  float64 `json:"remain_committed"`
+	RemainInvest     float64 `json:"remain_invest"`
+	RemainTotal      float64 `json:"remain_total"`
+}

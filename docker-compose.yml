@@ -6,10 +6,15 @@ services:
       POSTGRES_PASSWORD: budget
       POSTGRES_DB: budget_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U budget -d budget_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   api:
     build: .
@@ -23,7 +28,8 @@ services:
       DB_NAME: budget_db
       PORT: 8080
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   web:
     build:

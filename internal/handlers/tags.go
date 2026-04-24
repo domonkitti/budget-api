@@ -1,0 +1,253 @@
+package handlers
+
+import (
+	"encoding/json"
+	"net/http"
+
+	"github.com/domonkitti/budget-app-api/internal/models"
+	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
+)
+
+type TagHandler struct {
+	db *pgxpool.Pool
+}
+
+func NewTagHandler(db *pgxpool.Pool) *TagHandler {
+	return &TagHandler{db: db}
+}
+
+// ── Categories ────────────────────────────────────────────────────────────────
+
+func (h *TagHandler) ListCategories(w http.ResponseWriter, r *http.Request) {
+	rows, err := h.db.Query(r.Context(),
+		`SELECT id, name, created_at FROM tag_categories ORDER BY name`)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	cats := []models.TagCategory{}
+	for rows.Next() {
+		var c models.TagCategory
+		rows.Scan(&c.ID, &c.Name, &c.CreatedAt)
+		cats = append(cats, c)
+	}
+	respond(w, http.StatusOK, cats)
+}
+
+func (h *TagHandler) CreateCategory(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		Name string `json:"name"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.Name == "" {
+		http.Error(w, "name required", http.StatusBadRequest)
+		return
+	}
+	var c models.TagCategory
+	err := h.db.QueryRow(r.Context(),
+		`INSERT INTO tag_categories(name) VALUES($1) RETURNING id, name, created_at`,
+		body.Name).Scan(&c.ID, &c.Name, &c.CreatedAt)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusConflict)
+		return
+	}
+	respond(w, http.StatusCreated, c)
+}
+
+func (h *TagHandler) DeleteCategory(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	h.db.Exec(r.Context(), `DELETE FROM tag_categories WHERE id=$1`, id)
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// ── Values ────────────────────────────────────────────────────────────────────
+
+func (h *TagHandler) ListValues(w http.ResponseWriter, r *http.Request) {
+	catID := chi.URLParam(r, "catID")
+	rows, err := h.db.Query(r.Context(),
+		`SELECT id, category_id, code, created_at FROM tag_values WHERE category_id=$1 ORDER BY code`,
+		catID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	vals := []models.TagValue{}
+	for rows.Next() {
+		var v models.TagValue
+		rows.Scan(&v.ID, &v.CategoryID, &v.Code, &v.CreatedAt)
+		vals = append(vals, v)
+	}
+	respond(w, http.StatusOK, vals)
+}
+
+func (h *TagHandler) CreateValue(w http.ResponseWriter, r *http.Request) {
+	catID := chi.URLParam(r, "catID")
+	var body struct {
+		Code string `json:"code"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.Code == "" {
+		http.Error(w, "code required", http.StatusBadRequest)
+		return
+	}
+	var v models.TagValue
+	err := h.db.QueryRow(r.Context(),
+		`INSERT INTO tag_values(category_id, code) VALUES($1,$2) RETURNING id, category_id, code, created_at`,
+		catID, body.Code).Scan(&v.ID, &v.CategoryID, &v.Code, &v.CreatedAt)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusConflict)
+		return
+	}
+	respond(w, http.StatusCreated, v)
+}
+
+func (h *TagHandler) DeleteValue(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	h.db.Exec(r.Context(), `DELETE FROM tag_values WHERE id=$1`, id)
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// ── Sub-job tags ──────────────────────────────────────────────────────────────
+
+// GET /sub-job-tags?project_id=1&sub_job_name=หมวด...
+func (h *TagHandler) GetSubJobTags(w http.ResponseWriter, r *http.Request) {
+	projectID := r.URL.Query().Get("project_id")
+	name := r.URL.Query().Get("sub_job_name")
+
+	rows, err := h.db.Query(r.Context(), `
+		SELECT sjt.id, sjt.project_id, sjt.sub_job_name,
+		       sjt.tag_value_id, tv.code, tv.category_id, sjt.percentage
+		FROM sub_job_tags sjt
+		JOIN tag_values tv ON tv.id = sjt.tag_value_id
+		WHERE sjt.project_id=$1 AND sjt.sub_job_name=$2
+		ORDER BY tv.category_id, tv.code`,
+		projectID, name)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	tags := []models.SubJobTag{}
+	for rows.Next() {
+		var t models.SubJobTag
+		rows.Scan(&t.ID, &t.ProjectID, &t.SubJobName, &t.TagValueID, &t.TagCode, &t.CategoryID, &t.Percentage)
+		tags = append(tags, t)
+	}
+	respond(w, http.StatusOK, tags)
+}
+
+// PUT /sub-job-tags — replace all tags for a sub-job in one category
+// Body: { project_id, sub_job_name, category_id, tags: [{tag_value_id, percentage}] }
+func (h *TagHandler) SetSubJobTags(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		ProjectID   int    `json:"project_id"`
+		SubJobName  string `json:"sub_job_name"`
+		CategoryID  int    `json:"category_id"`
+		Tags        []struct {
+			TagValueID int     `json:"tag_value_id"`
+			Percentage float64 `json:"percentage"`
+		} `json:"tags"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+
+	// Validate: percentages must sum to 99.99–100.01
+	if len(body.Tags) > 0 {
+		var sum float64
+		for _, t := range body.Tags {
+			sum += t.Percentage
+		}
+		if sum < 99.99 || sum > 100.01 {
+			http.Error(w, "percentages must sum to 100%", http.StatusUnprocessableEntity)
+			return
+		}
+	}
+
+	// Delete existing tags for this sub-job + category, then insert new ones
+	tx, err := h.db.Begin(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(r.Context())
+
+	tx.Exec(r.Context(), `
+		DELETE FROM sub_job_tags
+		WHERE project_id=$1 AND sub_job_name=$2
+		  AND tag_value_id IN (SELECT id FROM tag_values WHERE category_id=$3)`,
+		body.ProjectID, body.SubJobName, body.CategoryID)
+
+	for _, t := range body.Tags {
+		tx.Exec(r.Context(), `
+			INSERT INTO sub_job_tags(project_id, sub_job_name, tag_value_id, percentage)
+			VALUES($1,$2,$3,$4)
+			ON CONFLICT(project_id, sub_job_name, tag_value_id) DO UPDATE SET percentage=$4`,
+			body.ProjectID, body.SubJobName, t.TagValueID, t.Percentage)
+	}
+
+	if err := tx.Commit(r.Context()); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// GET /summary/by-tag?category=SO&year=2570&fund_type=ลงทุน
+func (h *TagHandler) SummaryByTag(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query()
+	category := q.Get("category")
+	year := q.Get("year")
+	fundType := q.Get("fund_type")
+
+	if category == "" {
+		http.Error(w, "category required", http.StatusBadRequest)
+		return
+	}
+
+	sql := `
+		SELECT tv.code,
+			ROUND(SUM(sj.budget * sjt.percentage / 100.0)::numeric, 3),
+			ROUND(SUM(sj.target * sjt.percentage / 100.0)::numeric, 3),
+			ROUND(SUM((sj.budget - sj.target) * sjt.percentage / 100.0)::numeric, 3)
+		FROM sub_job_tags sjt
+		JOIN tag_values tv ON tv.id = sjt.tag_value_id
+		JOIN tag_categories tc ON tc.id = tv.category_id
+		JOIN sub_jobs sj ON sj.project_id = sjt.project_id AND sj.name = sjt.sub_job_name
+		JOIN projects p ON p.id = sjt.project_id
+		WHERE tc.name = $1`
+	args := []any{category}
+	i := 2
+
+	if year != "" {
+		sql += ` AND p.year = $` + itoa(i)
+		args = append(args, year)
+		i++
+	}
+	if fundType != "" {
+		sql += ` AND sj.fund_type = $` + itoa(i)
+		args = append(args, fundType)
+		i++
+	}
+	sql += ` GROUP BY tv.id, tv.code ORDER BY tv.code`
+
+	rows, err := h.db.Query(r.Context(), sql, args...)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	result := []models.TagSummaryRow{}
+	for rows.Next() {
+		var row models.TagSummaryRow
+		rows.Scan(&row.Code, &row.Budget, &row.Target, &row.Remain)
+		result = append(result, row)
+	}
+	respond(w, http.StatusOK, result)
+}

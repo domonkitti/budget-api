@@ -118,6 +118,71 @@ func (h *ProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusOK, detail)
 }
 
+func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query()
+	year := q.Get("year")
+	projectType := q.Get("type")
+	division := q.Get("division")
+
+	sql := `
+		SELECT
+			p.id, p.project_code, p.name, p.division, p.project_type, p.year,
+			COALESCE(SUM(CASE WHEN sj.fund_type = 'ผูกพัน' THEN sj.budget ELSE 0 END), 0),
+			COALESCE(SUM(CASE WHEN sj.fund_type = 'ลงทุน'  THEN sj.budget ELSE 0 END), 0),
+			COALESCE(SUM(sj.budget), 0),
+			COALESCE(SUM(CASE WHEN sj.fund_type = 'ผูกพัน' THEN sj.target ELSE 0 END), 0),
+			COALESCE(SUM(CASE WHEN sj.fund_type = 'ลงทุน'  THEN sj.target ELSE 0 END), 0),
+			COALESCE(SUM(sj.target), 0),
+			COALESCE(SUM(CASE WHEN sj.fund_type = 'ผูกพัน' THEN sj.budget - sj.target ELSE 0 END), 0),
+			COALESCE(SUM(CASE WHEN sj.fund_type = 'ลงทุน'  THEN sj.budget - sj.target ELSE 0 END), 0),
+			COALESCE(SUM(sj.budget - sj.target), 0)
+		FROM projects p
+		LEFT JOIN sub_jobs sj ON sj.project_id = p.id
+		WHERE 1=1`
+	args := []any{}
+	i := 1
+
+	if year != "" {
+		sql += ` AND p.year = $` + strconv.Itoa(i)
+		args = append(args, year)
+		i++
+	}
+	if projectType != "" {
+		sql += ` AND p.project_type = $` + strconv.Itoa(i)
+		args = append(args, projectType)
+		i++
+	}
+	if division != "" {
+		sql += ` AND p.division = $` + strconv.Itoa(i)
+		args = append(args, division)
+		i++
+	}
+	sql += ` GROUP BY p.id, p.project_code, p.name, p.division, p.project_type, p.year ORDER BY p.project_code`
+
+	rows, err := h.db.Query(r.Context(), sql, args...)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	result := []models.FlatProject{}
+	for rows.Next() {
+		var fp models.FlatProject
+		if err := rows.Scan(
+			&fp.ID, &fp.ProjectCode, &fp.Name, &fp.Division, &fp.ProjectType, &fp.Year,
+			&fp.BudgetCommitted, &fp.BudgetInvest, &fp.BudgetTotal,
+			&fp.TargetCommitted, &fp.TargetInvest, &fp.TargetTotal,
+			&fp.RemainCommitted, &fp.RemainInvest, &fp.RemainTotal,
+		); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		result = append(result, fp)
+	}
+	respond(w, http.StatusOK, result)
+}
+
 func respond(w http.ResponseWriter, status int, body any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
