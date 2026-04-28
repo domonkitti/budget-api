@@ -75,23 +75,6 @@ type SubJobTag struct {
 	Percentage float64 `json:"percentage"`
 }
 
-type ProjectTag struct {
-	ID         int     `json:"id"`
-	ProjectID  int     `json:"project_id"`
-	TagValueID int     `json:"tag_value_id"`
-	TagCode    string  `json:"tag_code,omitempty"`
-	CategoryID int     `json:"category_id,omitempty"`
-	Percentage float64 `json:"percentage"`
-}
-
-type CategoryAllocationSelection struct {
-	ID         int     `json:"id,omitempty"`
-	CategoryID int     `json:"category_id"`
-	ProjectID  int     `json:"project_id"`
-	TargetType string  `json:"target_type"`
-	SubJobName *string `json:"sub_job_name,omitempty"`
-}
-
 type TagSummaryRow struct {
 	Code   string  `json:"code"`
 	Budget float64 `json:"budget"`
@@ -111,13 +94,13 @@ type SourceYearEntry struct {
 
 // SubJobYearEntry is one row in the per-year, per-sub-job, per-fund-type breakdown.
 type SubJobYearEntry struct {
-	Name      string  `json:"name"`
-	SortOrder *int    `json:"sort_order"`
-	Year      int     `json:"year"`
-	FundType  string  `json:"fund_type"`
-	Budget    float64 `json:"budget"`
-	Target    float64 `json:"target"`
-	Remain    float64 `json:"remain"`
+	Name      string   `json:"name"`
+	SortOrder *int     `json:"sort_order"`
+	Year      int      `json:"year"`
+	FundType  string   `json:"fund_type"`
+	Budget    float64  `json:"budget"`
+	Target    float64  `json:"target"`
+	Remain    float64  `json:"remain"`
 }
 
 type FlatProject struct {

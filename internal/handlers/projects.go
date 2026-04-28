@@ -123,21 +123,47 @@ func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 	year := q.Get("year")
 	projectType := q.Get("type")
 	division := q.Get("division")
+	source := q.Get("source")
 
 	sql := `
 		SELECT
-			p.id, p.project_code, p.name, p.division, p.project_type, p.year,
-			COALESCE(SUM(CASE WHEN sj.fund_type = 'ผูกพัน' THEN sj.budget ELSE 0 END), 0),
-			COALESCE(SUM(CASE WHEN sj.fund_type = 'ลงทุน'  THEN sj.budget ELSE 0 END), 0),
-			COALESCE(SUM(sj.budget), 0),
-			COALESCE(SUM(CASE WHEN sj.fund_type = 'ผูกพัน' THEN sj.target ELSE 0 END), 0),
-			COALESCE(SUM(CASE WHEN sj.fund_type = 'ลงทุน'  THEN sj.target ELSE 0 END), 0),
-			COALESCE(SUM(sj.target), 0),
-			COALESCE(SUM(CASE WHEN sj.fund_type = 'ผูกพัน' THEN sj.budget - sj.target ELSE 0 END), 0),
-			COALESCE(SUM(CASE WHEN sj.fund_type = 'ลงทุน'  THEN sj.budget - sj.target ELSE 0 END), 0),
-			COALESCE(SUM(sj.budget - sj.target), 0)
+			p.id, p.project_code, p.item_no, p.name, p.division, p.project_type, p.year,
+			COALESCE(
+				(SELECT json_agg(row_data ORDER BY (row_data->>'year')::int, row_data->>'source', row_data->>'fund_type')
+				 FROM (
+					SELECT json_build_object(
+						'year',   data_year,
+						'source', source,
+						'fund_type', fund_type,
+						'budget', SUM(budget),
+						'target', SUM(target),
+						'remain', SUM(budget - target)
+					) AS row_data
+					FROM budget_sources bs
+					WHERE bs.project_id = p.id
+					GROUP BY data_year, source, fund_type
+				 ) sub),
+				'[]'::json
+			) AS source_breakdown,
+			COALESCE(
+				(SELECT json_agg(row_data ORDER BY COALESCE((row_data->>'sort_order')::int, 999999), row_data->>'name', (row_data->>'year')::int, row_data->>'fund_type')
+				 FROM (
+					SELECT json_build_object(
+						'name', name,
+						'sort_order', sort_order,
+						'year', data_year,
+						'fund_type', fund_type,
+						'budget', SUM(budget),
+						'target', SUM(target),
+						'remain', SUM(budget - target)
+					) AS row_data
+					FROM sub_jobs sj
+					WHERE sj.project_id = p.id
+					GROUP BY name, sort_order, data_year, fund_type
+				 ) sub),
+				'[]'::json
+			) AS sub_jobs
 		FROM projects p
-		LEFT JOIN sub_jobs sj ON sj.project_id = p.id
 		WHERE 1=1`
 	args := []any{}
 	i := 1
@@ -157,7 +183,12 @@ func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 		args = append(args, division)
 		i++
 	}
-	sql += ` GROUP BY p.id, p.project_code, p.name, p.division, p.project_type, p.year ORDER BY p.project_code`
+	if source != "" {
+		sql += ` AND p.id IN (SELECT project_id FROM budget_sources WHERE source = $` + strconv.Itoa(i) + `)`
+		args = append(args, source)
+		i++
+	}
+	sql += ` ORDER BY p.project_code`
 
 	rows, err := h.db.Query(r.Context(), sql, args...)
 	if err != nil {
@@ -169,14 +200,26 @@ func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 	result := []models.FlatProject{}
 	for rows.Next() {
 		var fp models.FlatProject
+		var rawBreakdown []byte
+		var rawSubJobs []byte
 		if err := rows.Scan(
-			&fp.ID, &fp.ProjectCode, &fp.Name, &fp.Division, &fp.ProjectType, &fp.Year,
-			&fp.BudgetCommitted, &fp.BudgetInvest, &fp.BudgetTotal,
-			&fp.TargetCommitted, &fp.TargetInvest, &fp.TargetTotal,
-			&fp.RemainCommitted, &fp.RemainInvest, &fp.RemainTotal,
+			&fp.ID, &fp.ProjectCode, &fp.ItemNo, &fp.Name, &fp.Division, &fp.ProjectType, &fp.Year,
+			&rawBreakdown, &rawSubJobs,
 		); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
+		}
+		if len(rawBreakdown) > 0 {
+			_ = json.Unmarshal(rawBreakdown, &fp.SourceBreakdown)
+		}
+		if fp.SourceBreakdown == nil {
+			fp.SourceBreakdown = []models.SourceYearEntry{}
+		}
+		if len(rawSubJobs) > 0 {
+			_ = json.Unmarshal(rawSubJobs, &fp.SubJobs)
+		}
+		if fp.SubJobs == nil {
+			fp.SubJobs = []models.SubJobYearEntry{}
 		}
 		result = append(result, fp)
 	}

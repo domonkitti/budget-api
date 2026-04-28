@@ -104,27 +104,6 @@ func (h *TagHandler) CreateValue(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusCreated, v)
 }
 
-func (h *TagHandler) UpdateValue(w http.ResponseWriter, r *http.Request) {
-	id := chi.URLParam(r, "id")
-	var body struct {
-		Code string `json:"code"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.Code == "" {
-		http.Error(w, "code required", http.StatusBadRequest)
-		return
-	}
-
-	var v models.TagValue
-	err := h.db.QueryRow(r.Context(),
-		`UPDATE tag_values SET code=$1 WHERE id=$2 RETURNING id, category_id, code, created_at`,
-		body.Code, id).Scan(&v.ID, &v.CategoryID, &v.Code, &v.CreatedAt)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusConflict)
-		return
-	}
-	respond(w, http.StatusOK, v)
-}
-
 func (h *TagHandler) DeleteValue(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	h.db.Exec(r.Context(), `DELETE FROM tag_values WHERE id=$1`, id)
@@ -243,10 +222,10 @@ func (h *TagHandler) GetSubJobTags(w http.ResponseWriter, r *http.Request) {
 // Body: { project_id, sub_job_name, category_id, tags: [{tag_value_id, percentage}] }
 func (h *TagHandler) SetSubJobTags(w http.ResponseWriter, r *http.Request) {
 	var body struct {
-		ProjectID  int    `json:"project_id"`
-		SubJobName string `json:"sub_job_name"`
-		CategoryID int    `json:"category_id"`
-		Tags       []struct {
+		ProjectID   int    `json:"project_id"`
+		SubJobName  string `json:"sub_job_name"`
+		CategoryID  int    `json:"category_id"`
+		Tags        []struct {
 			TagValueID int     `json:"tag_value_id"`
 			Percentage float64 `json:"percentage"`
 		} `json:"tags"`
@@ -297,86 +276,6 @@ func (h *TagHandler) SetSubJobTags(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func (h *TagHandler) GetAllocationSelections(w http.ResponseWriter, r *http.Request) {
-	categoryID := r.URL.Query().Get("category_id")
-	if categoryID == "" {
-		http.Error(w, "category_id required", http.StatusBadRequest)
-		return
-	}
-
-	rows, err := h.db.Query(r.Context(), `
-		SELECT id, category_id, project_id, target_type, sub_job_name
-		FROM category_allocation_selections
-		WHERE category_id=$1
-		ORDER BY project_id, target_type, sub_job_name`, categoryID)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer rows.Close()
-
-	result := []models.CategoryAllocationSelection{}
-	for rows.Next() {
-		var row models.CategoryAllocationSelection
-		if err := rows.Scan(&row.ID, &row.CategoryID, &row.ProjectID, &row.TargetType, &row.SubJobName); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		result = append(result, row)
-	}
-	respond(w, http.StatusOK, result)
-}
-
-func (h *TagHandler) SetAllocationSelections(w http.ResponseWriter, r *http.Request) {
-	var body struct {
-		CategoryID int                                  `json:"category_id"`
-		Selections []models.CategoryAllocationSelection `json:"selections"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.CategoryID == 0 {
-		http.Error(w, "invalid body", http.StatusBadRequest)
-		return
-	}
-
-	tx, err := h.db.Begin(r.Context())
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer tx.Rollback(r.Context())
-
-	if _, err := tx.Exec(r.Context(), `DELETE FROM category_allocation_selections WHERE category_id=$1`, body.CategoryID); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	for _, selection := range body.Selections {
-		if selection.ProjectID == 0 || (selection.TargetType != "project" && selection.TargetType != "job") {
-			http.Error(w, "invalid selection", http.StatusBadRequest)
-			return
-		}
-		if selection.TargetType == "job" && (selection.SubJobName == nil || *selection.SubJobName == "") {
-			http.Error(w, "sub_job_name required for job selection", http.StatusBadRequest)
-			return
-		}
-		if selection.TargetType == "project" {
-			selection.SubJobName = nil
-		}
-		if _, err := tx.Exec(r.Context(), `
-			INSERT INTO category_allocation_selections(category_id, project_id, target_type, sub_job_name)
-			VALUES($1,$2,$3,$4)`,
-			body.CategoryID, selection.ProjectID, selection.TargetType, selection.SubJobName); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	}
-
-	if err := tx.Commit(r.Context()); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	w.WriteHeader(http.StatusNoContent)
-}
-
 // GET /summary/by-tag?category=SO&year=2570&fund_type=ลงทุน
 func (h *TagHandler) SummaryByTag(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
@@ -390,37 +289,31 @@ func (h *TagHandler) SummaryByTag(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sql := `
-		WITH project_amounts AS (
-			SELECT project_id, budget, target, budget - target AS remain, data_year AS year, fund_type
-			FROM sub_jobs
-			UNION ALL
-			SELECT bs.project_id, bs.budget, bs.target, bs.budget - bs.target AS remain, bs.data_year AS year, bs.fund_type
-			FROM budget_sources bs
-			WHERE NOT EXISTS (SELECT 1 FROM sub_jobs sj WHERE sj.project_id = bs.project_id)
-		),
-		tagged AS (
+		WITH tagged AS (
 			SELECT tv.id AS value_id, tv.code,
-				pa.budget * pt.percentage / 100.0 AS budget,
-				pa.target * pt.percentage / 100.0 AS target,
-				pa.remain * pt.percentage / 100.0 AS remain,
-				pa.year,
-				pa.fund_type
+				sj.budget * pt.percentage / 100.0 AS budget,
+				sj.target * pt.percentage / 100.0 AS target,
+				(sj.budget - sj.target) * pt.percentage / 100.0 AS remain,
+				p.year,
+				sj.fund_type
 			FROM project_tags pt
 			JOIN tag_values tv ON tv.id = pt.tag_value_id
 			JOIN tag_categories tc ON tc.id = tv.category_id
-			JOIN project_amounts pa ON pa.project_id = pt.project_id
+			JOIN sub_jobs sj ON sj.project_id = pt.project_id
+			JOIN projects p ON p.id = pt.project_id
 			WHERE tc.name = $1
 			UNION ALL
 			SELECT tv.id AS value_id, tv.code,
 				sj.budget * sjt.percentage / 100.0 AS budget,
 				sj.target * sjt.percentage / 100.0 AS target,
 				(sj.budget - sj.target) * sjt.percentage / 100.0 AS remain,
-				sj.data_year AS year,
+				p.year,
 				sj.fund_type
 			FROM sub_job_tags sjt
 			JOIN tag_values tv ON tv.id = sjt.tag_value_id
 			JOIN tag_categories tc ON tc.id = tv.category_id
 			JOIN sub_jobs sj ON sj.project_id = sjt.project_id AND sj.name = sjt.sub_job_name
+			JOIN projects p ON p.id = sjt.project_id
 			WHERE tc.name = $1
 		)
 		SELECT code,

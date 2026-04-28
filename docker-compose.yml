@@ -2,16 +2,19 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: budget
-      POSTGRES_PASSWORD: budget
-      POSTGRES_DB: budget_db
+      POSTGRES_USER: ${POSTGRES_USER:-budget}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-budget}
+      POSTGRES_DB: ${POSTGRES_DB:-budget_db}
     ports:
       - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql
+      - ./migrations/002_tags.sql:/docker-entrypoint-initdb.d/002_tags.sql
+      - ./migrations/003_data_year.sql:/docker-entrypoint-initdb.d/003_data_year.sql
+      - ./migrations/004_project_tags.sql:/docker-entrypoint-initdb.d/004_project_tags.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U budget -d budget_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-budget} -d ${POSTGRES_DB:-budget_db}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -21,25 +24,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: budget
-      DB_PASSWORD: budget
-      DB_NAME: budget_db
-      PORT: 8080
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:-budget}
+      DB_PASSWORD: ${DB_PASSWORD:-budget}
+      DB_NAME: ${DB_NAME:-budget_db}
+      PORT: ${PORT:-8080}
     depends_on:
       db:
         condition: service_healthy
-
-  web:
-    build:
-      context: ../budget-app
-      args:
-        NEXT_PUBLIC_API_URL: http://localhost:8080/api/v1
-    ports:
-      - "3000:3000"
-    depends_on:
-      - api
 
 volumes:
   pgdata:

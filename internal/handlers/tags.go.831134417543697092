@@ -329,7 +329,7 @@ func (h *TagHandler) GetAllocationSelections(w http.ResponseWriter, r *http.Requ
 
 func (h *TagHandler) SetAllocationSelections(w http.ResponseWriter, r *http.Request) {
 	var body struct {
-		CategoryID int                                  `json:"category_id"`
+		CategoryID  int                                  `json:"category_id"`
 		Selections []models.CategoryAllocationSelection `json:"selections"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.CategoryID == 0 {

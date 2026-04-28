@@ -1,0 +1,51 @@
+{
+  "projects": [
+    { "id": 1, "project_code": "I2568Y001", "year": 2568, "project_type": "Y", "item_no": "1", "name": "โครงการพัฒนาระบบสารสนเทศ", "division": "กองแผน",    "department": "ฝ่ายเทคโนโลยี" },
+    { "id": 2, "project_code": "I2570Y001", "year": 2570, "project_type": "Y", "item_no": "2", "name": "โครงการก่อสร้างอาคาร",       "division": "กองพัฒนา",  "department": "ฝ่ายโยธา" },
+    { "id": 3, "project_code": "I2570C001", "year": 2570, "project_type": "C", "item_no": "3", "name": "แผนงานปรับปรุงระบบน้ำ",      "division": "กองบริหาร", "department": "ฝ่ายสาธารณูปโภค" },
+    { "id": 4, "project_code": "I2570L001", "year": 2570, "project_type": "L", "item_no": "4", "name": "สัญญาเช่าอุปกรณ์สำนักงาน", "division": "กองแผน",    "department": "ฝ่ายบริหาร" }
+  ],
+  "sub_jobs": [
+    { "id": 1,  "project_id": 1, "name": "หมวดค่าวัสดุ", "sort_order": 1, "fund_type": "ลงทุน",  "budget": 3000000,  "target": 2000000, "data_year": 2568 },
+    { "id": 2,  "project_id": 1, "name": "หมวดค่าจ้าง",  "sort_order": 2, "fund_type": "ผูกพัน", "budget": 1500000,  "target": 1200000, "data_year": 2568 },
+    { "id": 3,  "project_id": 1, "name": "หมวดค่าวัสดุ", "sort_order": 1, "fund_type": "ลงทุน",  "budget": 4000000,  "target": 2500000, "data_year": 2569 },
+    { "id": 4,  "project_id": 1, "name": "หมวดค่าจ้าง",  "sort_order": 2, "fund_type": "ผูกพัน", "budget": 1800000,  "target": 1400000, "data_year": 2569 },
+    { "id": 5,  "project_id": 1, "name": "หมวดค่าวัสดุ", "sort_order": 1, "fund_type": "ลงทุน",  "budget": 5000000,  "target": 3200000, "data_year": 2570 },
+    { "id": 6,  "project_id": 1, "name": "หมวดค่าจ้าง",  "sort_order": 2, "fund_type": "ผูกพัน", "budget": 2000000,  "target": 1500000, "data_year": 2570 },
+    { "id": 7,  "project_id": 2, "name": "หมวดก่อสร้าง", "sort_order": 1, "fund_type": "ลงทุน",  "budget": 15000000, "target": 8000000, "data_year": 2570 },
+    { "id": 8,  "project_id": 2, "name": "หมวดออกแบบ",   "sort_order": 2, "fund_type": "ลงทุน",  "budget": 1500000,  "target": 1500000, "data_year": 2570 },
+    { "id": 9,  "project_id": 3, "name": "หมวดค่าวัสดุ", "sort_order": 1, "fund_type": "ผูกพัน", "budget": 3000000,  "target": 1000000, "data_year": 2570 },
+    { "id": 10, "project_id": 4, "name": "ค่าเช่า",       "sort_order": 1, "fund_type": "ผูกพัน", "budget": 800000,   "target": 400000,  "data_year": 2570 }
+  ],
+  "budget_sources": [
+    { "id": 1,  "project_id": 1, "source": "เงินกู้",              "fund_type": "ลงทุน",  "budget": 2000000,  "target": 1400000, "data_year": 2568 },
+    { "id": 2,  "project_id": 1, "source": "เงินรายได้ กฟภ.",      "fund_type": "ลงทุน",  "budget": 1500000,  "target": 1000000, "data_year": 2568 },
+    { "id": 3,  "project_id": 1, "source": "เงินสมทบผู้ใช้ไฟ",    "fund_type": "ผูกพัน", "budget": 1000000,  "target": 800000,  "data_year": 2568 },
+    { "id": 4,  "project_id": 1, "source": "เงินกู้",              "fund_type": "ลงทุน",  "budget": 3000000,  "target": 2000000, "data_year": 2569 },
+    { "id": 5,  "project_id": 1, "source": "เงินรายได้ กฟภ.",      "fund_type": "ลงทุน",  "budget": 1800000,  "target": 1200000, "data_year": 2569 },
+    { "id": 6,  "project_id": 1, "source": "เงินสมทบผู้ใช้ไฟ",    "fund_type": "ผูกพัน", "budget": 1000000,  "target": 700000,  "data_year": 2569 },
+    { "id": 7,  "project_id": 1, "source": "เงินกู้",              "fund_type": "ลงทุน",  "budget": 4000000,  "target": 2800000, "data_year": 2570 },
+    { "id": 8,  "project_id": 1, "source": "เงินรายได้ กฟภ.",      "fund_type": "ลงทุน",  "budget": 2000000,  "target": 1200000, "data_year": 2570 },
+    { "id": 9,  "project_id": 1, "source": "เงินสมทบผู้ใช้ไฟ",    "fund_type": "ผูกพัน", "budget": 1000000,  "target": 700000,  "data_year": 2570 },
+    { "id": 10, "project_id": 2, "source": "เงินกู้",              "fund_type": "ลงทุน",  "budget": 10000000, "target": 5500000, "data_year": 2570 },
+    { "id": 11, "project_id": 2, "source": "เงินรายได้ กฟภ.",      "fund_type": "ลงทุน",  "budget": 5000000,  "target": 2500000, "data_year": 2570 },
+    { "id": 12, "project_id": 2, "source": "เงินสมทบผู้ใช้ไฟ",    "fund_type": "ลงทุน",  "budget": 2000000,  "target": 1500000, "data_year": 2570 },
+    { "id": 13, "project_id": 3, "source": "เงินกู้",              "fund_type": "ผูกพัน", "budget": 2000000,  "target": 700000,  "data_year": 2570 },
+    { "id": 14, "project_id": 3, "source": "เงินรายได้ กฟภ.",      "fund_type": "ผูกพัน", "budget": 700000,   "target": 200000,  "data_year": 2570 },
+    { "id": 15, "project_id": 3, "source": "เงินสมทบผู้ใช้ไฟ",    "fund_type": "ผูกพัน", "budget": 300000,   "target": 100000,  "data_year": 2570 },
+    { "id": 16, "project_id": 4, "source": "เงินกู้",              "fund_type": "ผูกพัน", "budget": 500000,   "target": 250000,  "data_year": 2570 },
+    { "id": 17, "project_id": 4, "source": "เงินรายได้ กฟภ.",      "fund_type": "ผูกพัน", "budget": 200000,   "target": 100000,  "data_year": 2570 },
+    { "id": 18, "project_id": 4, "source": "เงินสมทบผู้ใช้ไฟ",    "fund_type": "ผูกพัน", "budget": 100000,   "target": 50000,   "data_year": 2570 }
+  ],
+  "tag_categories": [
+    { "id": 1, "name": "SO" },
+    { "id": 2, "name": "ประเภทงาน" }
+  ],
+  "tag_values": [
+    { "id": 1, "category_id": 1, "code": "SO1" },
+    { "id": 2, "category_id": 1, "code": "SO2" },
+    { "id": 3, "category_id": 2, "code": "IT" },
+    { "id": 4, "category_id": 2, "code": "Civil" }
+  ],
+  "sub_job_tags": []
+}
