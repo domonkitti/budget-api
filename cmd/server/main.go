@@ -48,27 +48,34 @@ type snapshotRoutes interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Get(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
+	Promote(w http.ResponseWriter, r *http.Request)
 }
 type scenarioRoutes interface {
 	List(w http.ResponseWriter, r *http.Request)
 	Create(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
+	Promote(w http.ResponseWriter, r *http.Request)
 	Flat(w http.ResponseWriter, r *http.Request)
 	GetProject(w http.ResponseWriter, r *http.Request)
 	UpdateSubJob(w http.ResponseWriter, r *http.Request)
 	UpdateBudgetSource(w http.ResponseWriter, r *http.Request)
+}
+type changeLogRoutes interface {
+	ListByProject(w http.ResponseWriter, r *http.Request)
+	Undo(w http.ResponseWriter, r *http.Request)
 }
 
 func main() {
 	godotenv.Load()
 
 	var (
-		projects  projectRoutes
-		summary   summaryRoutes
-		tags      tagRoutes
-		meta      metaRoutes
-		snapshots snapshotRoutes
-		scenarios scenarioRoutes
+		projects   projectRoutes
+		summary    summaryRoutes
+		tags       tagRoutes
+		meta       metaRoutes
+		snapshots  snapshotRoutes
+		scenarios  scenarioRoutes
+		changeLogs changeLogRoutes
 	)
 
 	if os.Getenv("MOCK") == "true" {
@@ -83,6 +90,7 @@ func main() {
 		meta = handlers.NewMockMetaHandler(s)
 		snapshots = handlers.NewMockSnapshotHandler()
 		scenarios = handlers.NewMockScenarioHandler()
+		changeLogs = handlers.NewMockChangeLogHandler()
 	} else {
 		ctx := context.Background()
 		pool, err := db.Connect(ctx)
@@ -99,6 +107,7 @@ func main() {
 		meta = handlers.NewMetaHandler(pool)
 		snapshots = handlers.NewSnapshotHandler(pool)
 		scenarios = handlers.NewScenarioHandler(pool)
+		changeLogs = handlers.NewChangeLogHandler(pool)
 	}
 
 	r := chi.NewRouter()
@@ -143,14 +152,19 @@ func main() {
 		r.Post("/snapshots", snapshots.Create)
 		r.Get("/snapshots/{id}", snapshots.Get)
 		r.Delete("/snapshots/{id}", snapshots.Delete)
+		r.Post("/snapshots/{id}/promote", snapshots.Promote)
 
 		r.Get("/scenarios", scenarios.List)
 		r.Post("/scenarios", scenarios.Create)
 		r.Delete("/scenarios/{id}", scenarios.Delete)
+		r.Post("/scenarios/{id}/promote", scenarios.Promote)
 		r.Get("/scenarios/{id}/flat", scenarios.Flat)
 		r.Get("/scenarios/{id}/projects/{code}", scenarios.GetProject)
 		r.Put("/scenarios/{id}/sub-jobs/{sjID}", scenarios.UpdateSubJob)
 		r.Put("/scenarios/{id}/budget-sources/{bsID}", scenarios.UpdateBudgetSource)
+
+		r.Get("/projects/{code}/history", changeLogs.ListByProject)
+		r.Post("/change-log/{id}/undo", changeLogs.Undo)
 	})
 
 	port := os.Getenv("PORT")

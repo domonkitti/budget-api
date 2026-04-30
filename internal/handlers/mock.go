@@ -438,7 +438,25 @@ func (h *MockScenarioHandler) UpdateSubJob(w http.ResponseWriter, r *http.Reques
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func (h *MockScenarioHandler) Promote(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func (h *MockScenarioHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// ── Mock ChangeLog Handler ────────────────────────────────────────────────────
+
+type MockChangeLogHandler struct{}
+
+func NewMockChangeLogHandler() *MockChangeLogHandler { return &MockChangeLogHandler{} }
+
+func (h *MockChangeLogHandler) ListByProject(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusOK, []models.ChangeLogEntry{})
+}
+
+func (h *MockChangeLogHandler) Undo(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
@@ -461,6 +479,10 @@ func (h *MockSnapshotHandler) Get(w http.ResponseWriter, r *http.Request) {
 		Snapshot: models.Snapshot{ID: 1, Label: "mock", CreatedAt: mockTime},
 		Data:     []models.FlatProject{},
 	})
+}
+
+func (h *MockSnapshotHandler) Promote(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (h *MockSnapshotHandler) Delete(w http.ResponseWriter, r *http.Request) {

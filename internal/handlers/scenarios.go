@@ -182,6 +182,50 @@ func (h *ScenarioHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func (h *ScenarioHandler) Promote(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	ctx := r.Context()
+
+	tx, err := h.db.Begin(ctx)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(ctx)
+
+	if _, err = tx.Exec(ctx, `
+		UPDATE sub_jobs sj
+		SET budget = ssj.budget, target = ssj.target
+		FROM scenario_sub_jobs ssj
+		WHERE ssj.scenario_id = $1
+		  AND ssj.project_id = sj.project_id
+		  AND ssj.name      = sj.name
+		  AND ssj.fund_type = sj.fund_type
+		  AND ssj.data_year = sj.data_year`, id); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if _, err = tx.Exec(ctx, `
+		UPDATE budget_sources bs
+		SET budget = sbs.budget, target = sbs.target
+		FROM scenario_budget_sources sbs
+		WHERE sbs.scenario_id = $1
+		  AND sbs.project_id = bs.project_id
+		  AND sbs.source    = bs.source
+		  AND sbs.fund_type = bs.fund_type
+		  AND sbs.data_year = bs.data_year`, id); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func (h *ScenarioHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
 	bsID := chi.URLParam(r, "bsID")
 	var body struct {

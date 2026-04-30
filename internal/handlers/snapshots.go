@@ -82,6 +82,53 @@ func (h *SnapshotHandler) Get(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusOK, sd)
 }
 
+func (h *SnapshotHandler) Promote(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	ctx := r.Context()
+
+	var rawData []byte
+	err := h.db.QueryRow(ctx, `SELECT data FROM snapshots WHERE id = $1`, id).Scan(&rawData)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	var data []models.FlatProject
+	if err := json.Unmarshal(rawData, &data); err != nil {
+		http.Error(w, "invalid snapshot data", http.StatusInternalServerError)
+		return
+	}
+
+	tx, err := h.db.Begin(ctx)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(ctx)
+
+	for _, fp := range data {
+		var projectID int
+		if err := tx.QueryRow(ctx, `SELECT id FROM projects WHERE project_code = $1`, fp.ProjectCode).Scan(&projectID); err != nil {
+			continue
+		}
+		for _, sj := range fp.SubJobs {
+			tx.Exec(ctx, `UPDATE sub_jobs SET budget = $1, target = $2
+				WHERE project_id = $3 AND name = $4 AND fund_type = $5 AND data_year = $6`,
+				sj.Budget, sj.Target, projectID, sj.Name, sj.FundType, sj.Year)
+		}
+		for _, bs := range fp.SourceBreakdown {
+			tx.Exec(ctx, `UPDATE budget_sources SET budget = $1, target = $2
+				WHERE project_id = $3 AND source = $4 AND fund_type = $5 AND data_year = $6`,
+				bs.Budget, bs.Target, projectID, bs.Source, bs.FundType, bs.Year)
+		}
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func (h *SnapshotHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	h.db.Exec(r.Context(), `DELETE FROM snapshots WHERE id = $1`, id)
