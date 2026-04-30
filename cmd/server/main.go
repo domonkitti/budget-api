@@ -13,11 +13,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// route interfaces — implemented by both real and mock handlers
 type projectRoutes interface {
 	List(w http.ResponseWriter, r *http.Request)
 	Get(w http.ResponseWriter, r *http.Request)
 	Flat(w http.ResponseWriter, r *http.Request)
+	UpdateSubJob(w http.ResponseWriter, r *http.Request)
+	UpdateBudgetSource(w http.ResponseWriter, r *http.Request)
 }
 type summaryRoutes interface {
 	Summarize(w http.ResponseWriter, r *http.Request)
@@ -42,15 +43,32 @@ type tagRoutes interface {
 	SetAllocationSelections(w http.ResponseWriter, r *http.Request)
 	SummaryByTag(w http.ResponseWriter, r *http.Request)
 }
+type snapshotRoutes interface {
+	List(w http.ResponseWriter, r *http.Request)
+	Create(w http.ResponseWriter, r *http.Request)
+	Get(w http.ResponseWriter, r *http.Request)
+	Delete(w http.ResponseWriter, r *http.Request)
+}
+type scenarioRoutes interface {
+	List(w http.ResponseWriter, r *http.Request)
+	Create(w http.ResponseWriter, r *http.Request)
+	Delete(w http.ResponseWriter, r *http.Request)
+	Flat(w http.ResponseWriter, r *http.Request)
+	GetProject(w http.ResponseWriter, r *http.Request)
+	UpdateSubJob(w http.ResponseWriter, r *http.Request)
+	UpdateBudgetSource(w http.ResponseWriter, r *http.Request)
+}
 
 func main() {
 	godotenv.Load()
 
 	var (
-		projects projectRoutes
-		summary  summaryRoutes
-		tags     tagRoutes
-		meta     metaRoutes
+		projects  projectRoutes
+		summary   summaryRoutes
+		tags      tagRoutes
+		meta      metaRoutes
+		snapshots snapshotRoutes
+		scenarios scenarioRoutes
 	)
 
 	if os.Getenv("MOCK") == "true" {
@@ -63,6 +81,8 @@ func main() {
 		summary = handlers.NewMockSummaryHandler(s)
 		tags = handlers.NewMockTagHandler(s)
 		meta = handlers.NewMockMetaHandler(s)
+		snapshots = handlers.NewMockSnapshotHandler()
+		scenarios = handlers.NewMockScenarioHandler()
 	} else {
 		ctx := context.Background()
 		pool, err := db.Connect(ctx)
@@ -77,6 +97,8 @@ func main() {
 		summary = handlers.NewSummaryHandler(pool)
 		tags = handlers.NewTagHandler(pool)
 		meta = handlers.NewMetaHandler(pool)
+		snapshots = handlers.NewSnapshotHandler(pool)
+		scenarios = handlers.NewScenarioHandler(pool)
 	}
 
 	r := chi.NewRouter()
@@ -92,6 +114,8 @@ func main() {
 		r.Get("/projects", projects.List)
 		r.Get("/projects/flat", projects.Flat)
 		r.Get("/projects/{code}", projects.Get)
+		r.Put("/sub-jobs/{id}", projects.UpdateSubJob)
+		r.Put("/budget-sources/{id}", projects.UpdateBudgetSource)
 
 		r.Get("/filter-options", meta.FilterOptions)
 
@@ -114,6 +138,19 @@ func main() {
 		r.Put("/sub-job-tags", tags.SetSubJobTags)
 		r.Get("/allocation-selections", tags.GetAllocationSelections)
 		r.Put("/allocation-selections", tags.SetAllocationSelections)
+
+		r.Get("/snapshots", snapshots.List)
+		r.Post("/snapshots", snapshots.Create)
+		r.Get("/snapshots/{id}", snapshots.Get)
+		r.Delete("/snapshots/{id}", snapshots.Delete)
+
+		r.Get("/scenarios", scenarios.List)
+		r.Post("/scenarios", scenarios.Create)
+		r.Delete("/scenarios/{id}", scenarios.Delete)
+		r.Get("/scenarios/{id}/flat", scenarios.Flat)
+		r.Get("/scenarios/{id}/projects/{code}", scenarios.GetProject)
+		r.Put("/scenarios/{id}/sub-jobs/{sjID}", scenarios.UpdateSubJob)
+		r.Put("/scenarios/{id}/budget-sources/{bsID}", scenarios.UpdateBudgetSource)
 	})
 
 	port := os.Getenv("PORT")

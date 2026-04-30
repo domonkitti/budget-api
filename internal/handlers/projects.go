@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -94,24 +95,24 @@ func (h *ProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 	detail := models.ProjectDetail{Project: p}
 
 	sjRows, _ := h.db.Query(r.Context(),
-		`SELECT id, project_id, name, sort_order, fund_type, budget, target, budget-target
-		 FROM sub_jobs WHERE project_id = $1 ORDER BY sort_order`, p.ID)
+		`SELECT id, project_id, name, sort_order, fund_type, data_year, budget, target, budget-target
+		 FROM sub_jobs WHERE project_id = $1 ORDER BY sort_order, data_year, fund_type`, p.ID)
 	defer sjRows.Close()
 	for sjRows.Next() {
 		var sj models.SubJob
 		sjRows.Scan(&sj.ID, &sj.ProjectID, &sj.Name, &sj.SortOrder,
-			&sj.FundType, &sj.Budget, &sj.Target, &sj.Remain)
+			&sj.FundType, &sj.DataYear, &sj.Budget, &sj.Target, &sj.Remain)
 		detail.SubJobs = append(detail.SubJobs, sj)
 	}
 
 	bsRows, _ := h.db.Query(r.Context(),
-		`SELECT id, project_id, source, fund_type, budget, target, budget-target
-		 FROM budget_sources WHERE project_id = $1 ORDER BY source, fund_type`, p.ID)
+		`SELECT id, project_id, source, fund_type, data_year, budget, target, budget-target
+		 FROM budget_sources WHERE project_id = $1 ORDER BY source, data_year, fund_type`, p.ID)
 	defer bsRows.Close()
 	for bsRows.Next() {
 		var bs models.BudgetSource
 		bsRows.Scan(&bs.ID, &bs.ProjectID, &bs.Source, &bs.FundType,
-			&bs.Budget, &bs.Target, &bs.Remain)
+			&bs.DataYear, &bs.Budget, &bs.Target, &bs.Remain)
 		detail.BudgetSources = append(detail.BudgetSources, bs)
 	}
 
@@ -120,10 +121,69 @@ func (h *ProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
-	year := q.Get("year")
-	projectType := q.Get("type")
-	division := q.Get("division")
-	source := q.Get("source")
+	result, err := queryFlat(r.Context(), h.db, map[string]string{
+		"year":     q.Get("year"),
+		"type":     q.Get("type"),
+		"division": q.Get("division"),
+		"source":   q.Get("source"),
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	respond(w, http.StatusOK, result)
+}
+
+func (h *ProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	var body struct {
+		Budget float64 `json:"budget"`
+		Target float64 `json:"target"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+	if _, err := h.db.Exec(r.Context(),
+		`UPDATE sub_jobs SET budget = $1, target = $2 WHERE id = $3`,
+		body.Budget, body.Target, id); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *ProjectHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	var body struct {
+		Budget float64 `json:"budget"`
+		Target float64 `json:"target"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+	if _, err := h.db.Exec(r.Context(),
+		`UPDATE budget_sources SET budget = $1, target = $2 WHERE id = $3`,
+		body.Budget, body.Target, id); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func respond(w http.ResponseWriter, status int, body any) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(body)
+}
+
+// queryFlat is the shared flat-project query used by both the Flat handler and snapshot creation.
+func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) ([]models.FlatProject, error) {
+	year := params["year"]
+	projectType := params["type"]
+	division := params["division"]
+	source := params["source"]
 
 	sql := `
 		SELECT
@@ -190,10 +250,9 @@ func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 	}
 	sql += ` ORDER BY p.project_code`
 
-	rows, err := h.db.Query(r.Context(), sql, args...)
+	rows, err := db.Query(ctx, sql, args...)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -206,8 +265,7 @@ func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 			&fp.ID, &fp.ProjectCode, &fp.ItemNo, &fp.Name, &fp.Division, &fp.ProjectType, &fp.Year,
 			&rawBreakdown, &rawSubJobs,
 		); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			return nil, err
 		}
 		if len(rawBreakdown) > 0 {
 			_ = json.Unmarshal(rawBreakdown, &fp.SourceBreakdown)
@@ -223,11 +281,5 @@ func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 		}
 		result = append(result, fp)
 	}
-	respond(w, http.StatusOK, result)
-}
-
-func respond(w http.ResponseWriter, status int, body any) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(body)
+	return result, nil
 }

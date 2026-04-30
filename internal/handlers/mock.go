@@ -131,6 +131,14 @@ func (h *MockProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "not found", http.StatusNotFound)
 }
 
+func (h *MockProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *MockProjectHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func (h *MockProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	year, typ, div, source := q.Get("year"), q.Get("type"), q.Get("division"), q.Get("source")
@@ -398,6 +406,65 @@ func (h *MockMetaHandler) FilterOptions(w http.ResponseWriter, r *http.Request) 
 	}
 
 	respond(w, http.StatusOK, filterOptions{Years: years, Sources: sources})
+}
+
+// ── Mock Scenario Handler ─────────────────────────────────────────────────────
+
+type MockScenarioHandler struct{}
+
+func NewMockScenarioHandler() *MockScenarioHandler { return &MockScenarioHandler{} }
+
+func (h *MockScenarioHandler) List(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusOK, []models.Scenario{})
+}
+
+func (h *MockScenarioHandler) Create(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusCreated, models.Scenario{ID: 1, Label: "mock", CreatedAt: mockTime, UpdatedAt: mockTime})
+}
+
+func (h *MockScenarioHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *MockScenarioHandler) Flat(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusOK, []models.FlatProject{})
+}
+
+func (h *MockScenarioHandler) GetProject(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusOK, models.ProjectDetail{SubJobs: []models.SubJob{}, BudgetSources: []models.BudgetSource{}})
+}
+
+func (h *MockScenarioHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *MockScenarioHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// ── Mock Snapshot Handler ─────────────────────────────────────────────────────
+
+type MockSnapshotHandler struct{}
+
+func NewMockSnapshotHandler() *MockSnapshotHandler { return &MockSnapshotHandler{} }
+
+func (h *MockSnapshotHandler) List(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusOK, []models.Snapshot{})
+}
+
+func (h *MockSnapshotHandler) Create(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusCreated, models.Snapshot{ID: 1, Label: "mock", CreatedAt: mockTime})
+}
+
+func (h *MockSnapshotHandler) Get(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusOK, models.SnapshotDetail{
+		Snapshot: models.Snapshot{ID: 1, Label: "mock", CreatedAt: mockTime},
+		Data:     []models.FlatProject{},
+	})
+}
+
+func (h *MockSnapshotHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
 }
 
 // ── helpers ───────────────────────────────────────────────────────────────────

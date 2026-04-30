@@ -109,6 +109,26 @@ type SourceYearEntry struct {
 	Remain   float64 `json:"remain"`
 }
 
+type Snapshot struct {
+	ID        int       `json:"id"`
+	Label     string    `json:"label"`
+	Note      string    `json:"note,omitempty"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type SnapshotDetail struct {
+	Snapshot
+	Data []FlatProject `json:"data"`
+}
+
+type Scenario struct {
+	ID        int       `json:"id"`
+	Label     string    `json:"label"`
+	Note      string    `json:"note,omitempty"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 // SubJobYearEntry is one row in the per-year, per-sub-job, per-fund-type breakdown.
 type SubJobYearEntry struct {
 	Name      string  `json:"name"`
