@@ -130,17 +130,19 @@ type Scenario struct {
 }
 
 type ChangeLogEntry struct {
-	ID        int       `json:"id"`
-	TableName string    `json:"table_name"`
-	RowID     int       `json:"row_id"`
-	ProjectID int       `json:"project_id"`
-	RowName   string    `json:"row_name"`
-	FundType  string    `json:"fund_type"`
-	DataYear  int       `json:"data_year"`
-	Field     string    `json:"field"`
-	OldValue  float64   `json:"old_value"`
-	NewValue  float64   `json:"new_value"`
-	ChangedAt time.Time `json:"changed_at"`
+	ID           int       `json:"id"`
+	TableName    string    `json:"table_name"`
+	RowID        int       `json:"row_id"`
+	ProjectID    int       `json:"project_id"`
+	RowName      string    `json:"row_name"`
+	FundType     string    `json:"fund_type"`
+	DataYear     int       `json:"data_year"`
+	Field        string    `json:"field"`
+	OldValue     float64   `json:"old_value"`
+	NewValue     float64   `json:"new_value"`
+	ChangedAt    time.Time `json:"changed_at"`
+	BatchID      string    `json:"batch_id"`
+	BatchComment string    `json:"batch_comment"`
 }
 
 // SubJobYearEntry is one row in the per-year, per-sub-job, per-fund-type breakdown.

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/domonkitti/budget-app-api/internal/models"
@@ -22,7 +23,8 @@ func (h *ChangeLogHandler) ListByProject(w http.ResponseWriter, r *http.Request)
 		SELECT cl.id, cl.table_name, cl.row_id, cl.project_id,
 		       COALESCE(cl.row_name, ''), COALESCE(cl.fund_type, ''),
 		       COALESCE(cl.data_year, 0), cl.field,
-		       COALESCE(cl.old_value, 0), COALESCE(cl.new_value, 0), cl.changed_at
+		       COALESCE(cl.old_value, 0), COALESCE(cl.new_value, 0), cl.changed_at,
+		       cl.batch_id, cl.batch_comment
 		FROM change_log cl
 		JOIN projects p ON p.id = cl.project_id
 		WHERE p.project_code = $1
@@ -38,7 +40,8 @@ func (h *ChangeLogHandler) ListByProject(w http.ResponseWriter, r *http.Request)
 		var e models.ChangeLogEntry
 		rows.Scan(&e.ID, &e.TableName, &e.RowID, &e.ProjectID,
 			&e.RowName, &e.FundType, &e.DataYear, &e.Field,
-			&e.OldValue, &e.NewValue, &e.ChangedAt)
+			&e.OldValue, &e.NewValue, &e.ChangedAt,
+			&e.BatchID, &e.BatchComment)
 		result = append(result, e)
 	}
 	respond(w, http.StatusOK, result)
@@ -68,6 +71,24 @@ func (h *ChangeLogHandler) Undo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if _, err := h.db.Exec(r.Context(), sql, e.OldValue, e.RowID); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *ChangeLogHandler) UpdateBatchComment(w http.ResponseWriter, r *http.Request) {
+	batchId := chi.URLParam(r, "batchId")
+	var body struct {
+		Comment string `json:"comment"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+	if _, err := h.db.Exec(r.Context(),
+		`UPDATE change_log SET batch_comment = $1 WHERE batch_id = $2`,
+		body.Comment, batchId); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

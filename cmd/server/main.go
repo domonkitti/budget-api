@@ -17,8 +17,11 @@ type projectRoutes interface {
 	List(w http.ResponseWriter, r *http.Request)
 	Get(w http.ResponseWriter, r *http.Request)
 	Flat(w http.ResponseWriter, r *http.Request)
+	CreateSubJob(w http.ResponseWriter, r *http.Request)
+	CreateBudgetSource(w http.ResponseWriter, r *http.Request)
 	UpdateSubJob(w http.ResponseWriter, r *http.Request)
 	UpdateBudgetSource(w http.ResponseWriter, r *http.Request)
+	BatchSave(w http.ResponseWriter, r *http.Request)
 }
 type summaryRoutes interface {
 	Summarize(w http.ResponseWriter, r *http.Request)
@@ -63,6 +66,7 @@ type scenarioRoutes interface {
 type changeLogRoutes interface {
 	ListByProject(w http.ResponseWriter, r *http.Request)
 	Undo(w http.ResponseWriter, r *http.Request)
+	UpdateBatchComment(w http.ResponseWriter, r *http.Request)
 }
 
 func main() {
@@ -123,6 +127,8 @@ func main() {
 		r.Get("/projects", projects.List)
 		r.Get("/projects/flat", projects.Flat)
 		r.Get("/projects/{code}", projects.Get)
+		r.Post("/sub-jobs", projects.CreateSubJob)
+		r.Post("/budget-sources", projects.CreateBudgetSource)
 		r.Put("/sub-jobs/{id}", projects.UpdateSubJob)
 		r.Put("/budget-sources/{id}", projects.UpdateBudgetSource)
 
@@ -163,8 +169,11 @@ func main() {
 		r.Put("/scenarios/{id}/sub-jobs/{sjID}", scenarios.UpdateSubJob)
 		r.Put("/scenarios/{id}/budget-sources/{bsID}", scenarios.UpdateBudgetSource)
 
+		r.Post("/batch-save", projects.BatchSave)
+
 		r.Get("/projects/{code}/history", changeLogs.ListByProject)
 		r.Post("/change-log/{id}/undo", changeLogs.Undo)
+		r.Patch("/change-log/batch/{batchId}", changeLogs.UpdateBatchComment)
 	})
 
 	port := os.Getenv("PORT")

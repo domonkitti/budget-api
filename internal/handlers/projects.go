@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/domonkitti/budget-app-api/internal/models"
 	"github.com/go-chi/chi/v5"
@@ -122,16 +123,73 @@ func (h *ProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 func (h *ProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	result, err := queryFlat(r.Context(), h.db, map[string]string{
-		"year":     q.Get("year"),
-		"type":     q.Get("type"),
-		"division": q.Get("division"),
-		"source":   q.Get("source"),
+		"year":        q.Get("year"),
+		"years":       q.Get("years"),
+		"type":        q.Get("type"),
+		"division":    q.Get("division"),
+		"source":      q.Get("source"),
+		"active_only": q.Get("active_only"),
 	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	respond(w, http.StatusOK, result)
+}
+
+func (h *ProjectHandler) CreateSubJob(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		ProjectID int     `json:"project_id"`
+		Name      string  `json:"name"`
+		SortOrder *int    `json:"sort_order"`
+		FundType  string  `json:"fund_type"`
+		DataYear  int     `json:"data_year"`
+		Budget    float64 `json:"budget"`
+		Target    float64 `json:"target"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+	var sj models.SubJob
+	err := h.db.QueryRow(r.Context(),
+		`INSERT INTO sub_jobs (project_id, name, sort_order, fund_type, data_year, budget, target)
+		 VALUES ($1, $2, $3, $4, $5, $6, $7)
+		 RETURNING id, project_id, name, sort_order, fund_type, data_year, budget, target, budget-target`,
+		body.ProjectID, body.Name, body.SortOrder, body.FundType, body.DataYear, body.Budget, body.Target,
+	).Scan(&sj.ID, &sj.ProjectID, &sj.Name, &sj.SortOrder, &sj.FundType, &sj.DataYear, &sj.Budget, &sj.Target, &sj.Remain)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	respond(w, http.StatusCreated, sj)
+}
+
+func (h *ProjectHandler) CreateBudgetSource(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		ProjectID int     `json:"project_id"`
+		Source    string  `json:"source"`
+		FundType  string  `json:"fund_type"`
+		DataYear  int     `json:"data_year"`
+		Budget    float64 `json:"budget"`
+		Target    float64 `json:"target"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+	var bs models.BudgetSource
+	err := h.db.QueryRow(r.Context(),
+		`INSERT INTO budget_sources (project_id, source, fund_type, data_year, budget, target)
+		 VALUES ($1, $2, $3, $4, $5, $6)
+		 RETURNING id, project_id, source, fund_type, data_year, budget, target, budget-target`,
+		body.ProjectID, body.Source, body.FundType, body.DataYear, body.Budget, body.Target,
+	).Scan(&bs.ID, &bs.ProjectID, &bs.Source, &bs.FundType, &bs.DataYear, &bs.Budget, &bs.Target, &bs.Remain)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	respond(w, http.StatusCreated, bs)
 }
 
 func (h *ProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
@@ -172,6 +230,109 @@ func (h *ProjectHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Reque
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		BatchID      string `json:"batch_id"`
+		BatchComment string `json:"batch_comment"`
+		SubJobUpdates []struct {
+			ID     int     `json:"id"`
+			Budget float64 `json:"budget"`
+			Target float64 `json:"target"`
+		} `json:"sub_job_updates"`
+		BudgetSourceUpdates []struct {
+			ID     int     `json:"id"`
+			Budget float64 `json:"budget"`
+			Target float64 `json:"target"`
+		} `json:"budget_source_updates"`
+		NewSubJobs []struct {
+			ProjectID int     `json:"project_id"`
+			Name      string  `json:"name"`
+			SortOrder *int    `json:"sort_order"`
+			FundType  string  `json:"fund_type"`
+			DataYear  int     `json:"data_year"`
+			Budget    float64 `json:"budget"`
+			Target    float64 `json:"target"`
+		} `json:"new_sub_jobs"`
+		NewBudgetSources []struct {
+			ProjectID int     `json:"project_id"`
+			Source    string  `json:"source"`
+			FundType  string  `json:"fund_type"`
+			DataYear  int     `json:"data_year"`
+			Budget    float64 `json:"budget"`
+			Target    float64 `json:"target"`
+		} `json:"new_budget_sources"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+
+	tx, err := h.db.Begin(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(r.Context())
+
+	if body.BatchID != "" {
+		if _, err := tx.Exec(r.Context(), `SELECT set_config('app.batch_id', $1, true)`, body.BatchID); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	for _, sj := range body.SubJobUpdates {
+		if _, err := tx.Exec(r.Context(),
+			`UPDATE sub_jobs SET budget = $1, target = $2 WHERE id = $3`,
+			sj.Budget, sj.Target, sj.ID); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	for _, bs := range body.BudgetSourceUpdates {
+		if _, err := tx.Exec(r.Context(),
+			`UPDATE budget_sources SET budget = $1, target = $2 WHERE id = $3`,
+			bs.Budget, bs.Target, bs.ID); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	for _, sj := range body.NewSubJobs {
+		if _, err := tx.Exec(r.Context(),
+			`INSERT INTO sub_jobs (project_id, name, sort_order, fund_type, data_year, budget, target) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+			sj.ProjectID, sj.Name, sj.SortOrder, sj.FundType, sj.DataYear, sj.Budget, sj.Target); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	for _, bs := range body.NewBudgetSources {
+		if _, err := tx.Exec(r.Context(),
+			`INSERT INTO budget_sources (project_id, source, fund_type, data_year, budget, target) VALUES ($1, $2, $3, $4, $5, $6)`,
+			bs.ProjectID, bs.Source, bs.FundType, bs.DataYear, bs.Budget, bs.Target); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	if body.BatchID != "" && body.BatchComment != "" {
+		if _, err := tx.Exec(r.Context(),
+			`UPDATE change_log SET batch_comment = $1 WHERE batch_id = $2 AND batch_comment = ''`,
+			body.BatchComment, body.BatchID); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	if err := tx.Commit(r.Context()); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func respond(w http.ResponseWriter, status int, body any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
@@ -181,9 +342,17 @@ func respond(w http.ResponseWriter, status int, body any) {
 // queryFlat is the shared flat-project query used by both the Flat handler and snapshot creation.
 func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) ([]models.FlatProject, error) {
 	year := params["year"]
+	yearsParam := params["years"]
 	projectType := params["type"]
 	division := params["division"]
 	source := params["source"]
+	activeOnly := params["active_only"] == "true" || params["active_only"] == "1"
+	years := parseYearsParam(yearsParam)
+	if len(years) == 0 && year != "" {
+		if parsed, err := strconv.Atoi(year); err == nil {
+			years = []int{parsed}
+		}
+	}
 
 	sql := `
 		SELECT
@@ -201,6 +370,7 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 					) AS row_data
 					FROM budget_sources bs
 					WHERE bs.project_id = p.id
+					  AND ($1::int[] IS NULL OR bs.data_year = ANY($1::int[]))
 					GROUP BY data_year, source, fund_type
 				 ) sub),
 				'[]'::json
@@ -219,14 +389,18 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 					) AS row_data
 					FROM sub_jobs sj
 					WHERE sj.project_id = p.id
+					  AND ($1::int[] IS NULL OR sj.data_year = ANY($1::int[]))
 					GROUP BY name, sort_order, data_year, fund_type
 				 ) sub),
 				'[]'::json
 			) AS sub_jobs
 		FROM projects p
 		WHERE 1=1`
-	args := []any{}
-	i := 1
+	args := []any{nil}
+	if len(years) > 0 {
+		args[0] = years
+	}
+	i := 2
 
 	if year != "" {
 		sql += ` AND p.year = $` + strconv.Itoa(i)
@@ -247,6 +421,16 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 		sql += ` AND p.id IN (SELECT project_id FROM budget_sources WHERE source = $` + strconv.Itoa(i) + `)`
 		args = append(args, source)
 		i++
+	}
+	if activeOnly && len(years) > 0 {
+		sql += ` AND EXISTS (
+			SELECT 1
+			FROM budget_sources active_bs
+			WHERE active_bs.project_id = p.id
+			  AND active_bs.data_year = ANY($1::int[])
+			GROUP BY active_bs.project_id
+			HAVING SUM(active_bs.budget) > 0
+		)`
 	}
 	sql += ` ORDER BY p.project_code`
 
@@ -282,4 +466,19 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 		result = append(result, fp)
 	}
 	return result, nil
+}
+
+func parseYearsParam(value string) []int {
+	if strings.TrimSpace(value) == "" {
+		return nil
+	}
+	parts := strings.Split(value, ",")
+	years := make([]int, 0, len(parts))
+	for _, part := range parts {
+		year, err := strconv.Atoi(strings.TrimSpace(part))
+		if err == nil {
+			years = append(years, year)
+		}
+	}
+	return years
 }

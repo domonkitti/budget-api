@@ -131,11 +131,23 @@ func (h *MockProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "not found", http.StatusNotFound)
 }
 
+func (h *MockProjectHandler) CreateSubJob(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *MockProjectHandler) CreateBudgetSource(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func (h *MockProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
 func (h *MockProjectHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *MockProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
@@ -457,6 +469,10 @@ func (h *MockChangeLogHandler) ListByProject(w http.ResponseWriter, r *http.Requ
 }
 
 func (h *MockChangeLogHandler) Undo(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *MockChangeLogHandler) UpdateBatchComment(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
