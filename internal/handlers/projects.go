@@ -9,6 +9,7 @@ import (
 
 	"github.com/domonkitti/budget-app-api/internal/models"
 	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -96,24 +97,33 @@ func (h *ProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 	detail := models.ProjectDetail{Project: p}
 
 	sjRows, _ := h.db.Query(r.Context(),
-		`SELECT id, project_id, name, sort_order, fund_type, data_year, budget, target, budget-target
-		 FROM sub_jobs WHERE project_id = $1 ORDER BY sort_order, data_year, fund_type`, p.ID)
+		`SELECT MIN(id), project_id, name, MIN(sort_order), fund_type, data_year,
+		        SUM(budget), SUM(target), SUM(budget)-SUM(target),
+		        SUM(cut_transfer), SUM(under_budget)
+		 FROM sub_jobs WHERE project_id = $1
+		 GROUP BY project_id, name, fund_type, data_year
+		 ORDER BY MIN(sort_order), name, data_year, fund_type`, p.ID)
 	defer sjRows.Close()
 	for sjRows.Next() {
 		var sj models.SubJob
 		sjRows.Scan(&sj.ID, &sj.ProjectID, &sj.Name, &sj.SortOrder,
-			&sj.FundType, &sj.DataYear, &sj.Budget, &sj.Target, &sj.Remain)
+			&sj.FundType, &sj.DataYear, &sj.Budget, &sj.Target, &sj.Remain,
+			&sj.CutTransfer, &sj.UnderBudget)
 		detail.SubJobs = append(detail.SubJobs, sj)
 	}
 
 	bsRows, _ := h.db.Query(r.Context(),
-		`SELECT id, project_id, source, fund_type, data_year, budget, target, budget-target
-		 FROM budget_sources WHERE project_id = $1 ORDER BY source, data_year, fund_type`, p.ID)
+		`SELECT MIN(id), project_id, source, fund_type, data_year,
+		        SUM(budget), SUM(target), SUM(budget)-SUM(target),
+		        SUM(cut_transfer), SUM(under_budget)
+		 FROM budget_sources WHERE project_id = $1
+		 GROUP BY project_id, source, fund_type, data_year
+		 ORDER BY source, data_year, fund_type`, p.ID)
 	defer bsRows.Close()
 	for bsRows.Next() {
 		var bs models.BudgetSource
 		bsRows.Scan(&bs.ID, &bs.ProjectID, &bs.Source, &bs.FundType,
-			&bs.DataYear, &bs.Budget, &bs.Target, &bs.Remain)
+			&bs.DataYear, &bs.Budget, &bs.Target, &bs.Remain, &bs.CutTransfer, &bs.UnderBudget)
 		detail.BudgetSources = append(detail.BudgetSources, bs)
 	}
 
@@ -167,12 +177,14 @@ func (h *ProjectHandler) CreateSubJob(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProjectHandler) CreateBudgetSource(w http.ResponseWriter, r *http.Request) {
 	var body struct {
-		ProjectID int     `json:"project_id"`
-		Source    string  `json:"source"`
-		FundType  string  `json:"fund_type"`
-		DataYear  int     `json:"data_year"`
-		Budget    float64 `json:"budget"`
-		Target    float64 `json:"target"`
+		ProjectID   int     `json:"project_id"`
+		Source      string  `json:"source"`
+		FundType    string  `json:"fund_type"`
+		DataYear    int     `json:"data_year"`
+		Budget      float64 `json:"budget"`
+		Target      float64 `json:"target"`
+		CutTransfer float64 `json:"cut_transfer"`
+		UnderBudget float64 `json:"under_budget"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "invalid body", http.StatusBadRequest)
@@ -180,11 +192,11 @@ func (h *ProjectHandler) CreateBudgetSource(w http.ResponseWriter, r *http.Reque
 	}
 	var bs models.BudgetSource
 	err := h.db.QueryRow(r.Context(),
-		`INSERT INTO budget_sources (project_id, source, fund_type, data_year, budget, target)
-		 VALUES ($1, $2, $3, $4, $5, $6)
-		 RETURNING id, project_id, source, fund_type, data_year, budget, target, budget-target`,
-		body.ProjectID, body.Source, body.FundType, body.DataYear, body.Budget, body.Target,
-	).Scan(&bs.ID, &bs.ProjectID, &bs.Source, &bs.FundType, &bs.DataYear, &bs.Budget, &bs.Target, &bs.Remain)
+		`INSERT INTO budget_sources (project_id, source, fund_type, data_year, budget, target, cut_transfer, under_budget)
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		 RETURNING id, project_id, source, fund_type, data_year, budget, target, budget-target, cut_transfer, under_budget`,
+		body.ProjectID, body.Source, body.FundType, body.DataYear, body.Budget, body.Target, body.CutTransfer, body.UnderBudget,
+	).Scan(&bs.ID, &bs.ProjectID, &bs.Source, &bs.FundType, &bs.DataYear, &bs.Budget, &bs.Target, &bs.Remain, &bs.CutTransfer, &bs.UnderBudget)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -195,8 +207,10 @@ func (h *ProjectHandler) CreateBudgetSource(w http.ResponseWriter, r *http.Reque
 func (h *ProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	var body struct {
-		Budget float64 `json:"budget"`
-		Target float64 `json:"target"`
+		Budget      float64 `json:"budget"`
+		Target      float64 `json:"target"`
+		CutTransfer float64 `json:"cut_transfer"`
+		UnderBudget float64 `json:"under_budget"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "invalid body", http.StatusBadRequest)
@@ -214,16 +228,18 @@ func (h *ProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
 func (h *ProjectHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	var body struct {
-		Budget float64 `json:"budget"`
-		Target float64 `json:"target"`
+		Budget      float64 `json:"budget"`
+		Target      float64 `json:"target"`
+		CutTransfer float64 `json:"cut_transfer"`
+		UnderBudget float64 `json:"under_budget"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "invalid body", http.StatusBadRequest)
 		return
 	}
 	if _, err := h.db.Exec(r.Context(),
-		`UPDATE budget_sources SET budget = $1, target = $2 WHERE id = $3`,
-		body.Budget, body.Target, id); err != nil {
+		`UPDATE budget_sources SET budget = $1, target = $2, cut_transfer = $3, under_budget = $4 WHERE id = $5`,
+		body.Budget, body.Target, body.CutTransfer, body.UnderBudget, id); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -232,34 +248,42 @@ func (h *ProjectHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Reque
 
 func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 	var body struct {
-		BatchID      string `json:"batch_id"`
-		BatchComment string `json:"batch_comment"`
+		BatchID       string `json:"batch_id"`
+		BatchComment  string `json:"batch_comment"`
 		SubJobUpdates []struct {
-			ID     int     `json:"id"`
-			Budget float64 `json:"budget"`
-			Target float64 `json:"target"`
+			ID          int     `json:"id"`
+			Budget      float64 `json:"budget"`
+			Target      float64 `json:"target"`
+			CutTransfer float64 `json:"cut_transfer"`
+			UnderBudget float64 `json:"under_budget"`
 		} `json:"sub_job_updates"`
 		BudgetSourceUpdates []struct {
-			ID     int     `json:"id"`
-			Budget float64 `json:"budget"`
-			Target float64 `json:"target"`
+			ID          int     `json:"id"`
+			Budget      float64 `json:"budget"`
+			Target      float64 `json:"target"`
+			CutTransfer float64 `json:"cut_transfer"`
+			UnderBudget float64 `json:"under_budget"`
 		} `json:"budget_source_updates"`
 		NewSubJobs []struct {
-			ProjectID int     `json:"project_id"`
-			Name      string  `json:"name"`
-			SortOrder *int    `json:"sort_order"`
-			FundType  string  `json:"fund_type"`
-			DataYear  int     `json:"data_year"`
-			Budget    float64 `json:"budget"`
-			Target    float64 `json:"target"`
+			ProjectID   int     `json:"project_id"`
+			Name        string  `json:"name"`
+			SortOrder   *int    `json:"sort_order"`
+			FundType    string  `json:"fund_type"`
+			DataYear    int     `json:"data_year"`
+			Budget      float64 `json:"budget"`
+			Target      float64 `json:"target"`
+			CutTransfer float64 `json:"cut_transfer"`
+			UnderBudget float64 `json:"under_budget"`
 		} `json:"new_sub_jobs"`
 		NewBudgetSources []struct {
-			ProjectID int     `json:"project_id"`
-			Source    string  `json:"source"`
-			FundType  string  `json:"fund_type"`
-			DataYear  int     `json:"data_year"`
-			Budget    float64 `json:"budget"`
-			Target    float64 `json:"target"`
+			ProjectID   int     `json:"project_id"`
+			Source      string  `json:"source"`
+			FundType    string  `json:"fund_type"`
+			DataYear    int     `json:"data_year"`
+			Budget      float64 `json:"budget"`
+			Target      float64 `json:"target"`
+			CutTransfer float64 `json:"cut_transfer"`
+			UnderBudget float64 `json:"under_budget"`
 		} `json:"new_budget_sources"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
@@ -283,8 +307,18 @@ func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 
 	for _, sj := range body.SubJobUpdates {
 		if _, err := tx.Exec(r.Context(),
-			`UPDATE sub_jobs SET budget = $1, target = $2 WHERE id = $3`,
-			sj.Budget, sj.Target, sj.ID); err != nil {
+			`UPDATE sub_jobs SET budget = $1, target = $2, cut_transfer = $3, under_budget = $4 WHERE id = $5`,
+			sj.Budget, sj.Target, sj.CutTransfer, sj.UnderBudget, sj.ID); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if _, err := tx.Exec(r.Context(), `
+			DELETE FROM sub_jobs
+			WHERE project_id = (SELECT project_id FROM sub_jobs WHERE id = $1)
+			  AND name       = (SELECT name       FROM sub_jobs WHERE id = $1)
+			  AND fund_type  = (SELECT fund_type  FROM sub_jobs WHERE id = $1)
+			  AND data_year  = (SELECT data_year  FROM sub_jobs WHERE id = $1)
+			  AND id != $1`, sj.ID); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -292,8 +326,18 @@ func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 
 	for _, bs := range body.BudgetSourceUpdates {
 		if _, err := tx.Exec(r.Context(),
-			`UPDATE budget_sources SET budget = $1, target = $2 WHERE id = $3`,
-			bs.Budget, bs.Target, bs.ID); err != nil {
+			`UPDATE budget_sources SET budget = $1, target = $2, cut_transfer = $3, under_budget = $4 WHERE id = $5`,
+			bs.Budget, bs.Target, bs.CutTransfer, bs.UnderBudget, bs.ID); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if _, err := tx.Exec(r.Context(), `
+			DELETE FROM budget_sources
+			WHERE project_id = (SELECT project_id FROM budget_sources WHERE id = $1)
+			  AND source     = (SELECT source     FROM budget_sources WHERE id = $1)
+			  AND fund_type  = (SELECT fund_type  FROM budget_sources WHERE id = $1)
+			  AND data_year  = (SELECT data_year  FROM budget_sources WHERE id = $1)
+			  AND id != $1`, bs.ID); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -301,8 +345,8 @@ func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 
 	for _, sj := range body.NewSubJobs {
 		if _, err := tx.Exec(r.Context(),
-			`INSERT INTO sub_jobs (project_id, name, sort_order, fund_type, data_year, budget, target) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-			sj.ProjectID, sj.Name, sj.SortOrder, sj.FundType, sj.DataYear, sj.Budget, sj.Target); err != nil {
+			`INSERT INTO sub_jobs (project_id, name, sort_order, fund_type, data_year, budget, target, cut_transfer, under_budget) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+			sj.ProjectID, sj.Name, sj.SortOrder, sj.FundType, sj.DataYear, sj.Budget, sj.Target, sj.CutTransfer, sj.UnderBudget); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -310,8 +354,8 @@ func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 
 	for _, bs := range body.NewBudgetSources {
 		if _, err := tx.Exec(r.Context(),
-			`INSERT INTO budget_sources (project_id, source, fund_type, data_year, budget, target) VALUES ($1, $2, $3, $4, $5, $6)`,
-			bs.ProjectID, bs.Source, bs.FundType, bs.DataYear, bs.Budget, bs.Target); err != nil {
+			`INSERT INTO budget_sources (project_id, source, fund_type, data_year, budget, target, cut_transfer, under_budget) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+			bs.ProjectID, bs.Source, bs.FundType, bs.DataYear, bs.Budget, bs.Target, bs.CutTransfer, bs.UnderBudget); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -326,11 +370,33 @@ func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	if err := pruneChangeLog(r.Context(), tx); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	if err := tx.Commit(r.Context()); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
+}
+
+type changeLogPruner interface {
+	Exec(context.Context, string, ...any) (pgconn.CommandTag, error)
+}
+
+func pruneChangeLog(ctx context.Context, execer changeLogPruner) error {
+	_, err := execer.Exec(ctx, `
+		WITH ranked AS (
+			SELECT id, ROW_NUMBER() OVER (PARTITION BY project_id ORDER BY changed_at DESC, id DESC) AS rn
+			FROM change_log
+		)
+		DELETE FROM change_log
+		USING ranked
+		WHERE change_log.id = ranked.id
+		  AND ranked.rn > 20`)
+	return err
 }
 
 func respond(w http.ResponseWriter, status int, body any) {

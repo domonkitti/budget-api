@@ -28,8 +28,10 @@ func (h *ChangeLogHandler) ListByProject(w http.ResponseWriter, r *http.Request)
 		FROM change_log cl
 		JOIN projects p ON p.id = cl.project_id
 		WHERE p.project_code = $1
-		ORDER BY cl.changed_at DESC
-		LIMIT 200`, code)
+		  AND cl.field IN ('budget', 'target', 'cut_transfer', 'under_budget')
+		  AND NOT (cl.field = 'budget' AND cl.fund_type = 'ผูกพัน')
+		ORDER BY cl.changed_at DESC, cl.id DESC
+		LIMIT 20`, code)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -64,10 +66,21 @@ func (h *ChangeLogHandler) Undo(w http.ResponseWriter, r *http.Request) {
 		sql = `UPDATE sub_jobs SET budget = $1 WHERE id = $2`
 	case e.Field == "target" && e.TableName == "sub_jobs":
 		sql = `UPDATE sub_jobs SET target = $1 WHERE id = $2`
-	case e.Field == "budget":
+	case e.Field == "cut_transfer" && e.TableName == "sub_jobs":
+		sql = `UPDATE sub_jobs SET cut_transfer = $1 WHERE id = $2`
+	case e.Field == "under_budget" && e.TableName == "sub_jobs":
+		sql = `UPDATE sub_jobs SET under_budget = $1 WHERE id = $2`
+	case e.Field == "budget" && e.TableName == "budget_sources":
 		sql = `UPDATE budget_sources SET budget = $1 WHERE id = $2`
-	default:
+	case e.Field == "target" && e.TableName == "budget_sources":
 		sql = `UPDATE budget_sources SET target = $1 WHERE id = $2`
+	case e.Field == "cut_transfer" && e.TableName == "budget_sources":
+		sql = `UPDATE budget_sources SET cut_transfer = $1 WHERE id = $2`
+	case e.Field == "under_budget" && e.TableName == "budget_sources":
+		sql = `UPDATE budget_sources SET under_budget = $1 WHERE id = $2`
+	default:
+		http.Error(w, "unknown field", http.StatusBadRequest)
+		return
 	}
 
 	if _, err := h.db.Exec(r.Context(), sql, e.OldValue, e.RowID); err != nil {

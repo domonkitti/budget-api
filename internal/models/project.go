@@ -15,28 +15,32 @@ type Project struct {
 }
 
 type SubJob struct {
-	ID        int       `json:"id"`
-	ProjectID int       `json:"project_id"`
-	Name      string    `json:"name"`
-	SortOrder *int      `json:"sort_order,omitempty"`
-	FundType  string    `json:"fund_type"`
-	DataYear  int       `json:"data_year"`
-	Budget    float64   `json:"budget"`
-	Target    float64   `json:"target"`
-	Remain    float64   `json:"remain"`
-	CreatedAt time.Time `json:"created_at"`
+	ID          int       `json:"id"`
+	ProjectID   int       `json:"project_id"`
+	Name        string    `json:"name"`
+	SortOrder   *int      `json:"sort_order,omitempty"`
+	FundType    string    `json:"fund_type"`
+	DataYear    int       `json:"data_year"`
+	Budget      float64   `json:"budget"`
+	Target      float64   `json:"target"`
+	Remain      float64   `json:"remain"`
+	CutTransfer float64   `json:"cut_transfer"`
+	UnderBudget float64   `json:"under_budget"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 type BudgetSource struct {
-	ID        int       `json:"id"`
-	ProjectID int       `json:"project_id"`
-	Source    string    `json:"source"`
-	FundType  string    `json:"fund_type"`
-	DataYear  int       `json:"data_year"`
-	Budget    float64   `json:"budget"`
-	Target    float64   `json:"target"`
-	Remain    float64   `json:"remain"`
-	CreatedAt time.Time `json:"created_at"`
+	ID          int       `json:"id"`
+	ProjectID   int       `json:"project_id"`
+	Source      string    `json:"source"`
+	FundType    string    `json:"fund_type"`
+	DataYear    int       `json:"data_year"`
+	Budget      float64   `json:"budget"`
+	Target      float64   `json:"target"`
+	Remain      float64   `json:"remain"`
+	CutTransfer float64   `json:"cut_transfer"`
+	UnderBudget float64   `json:"under_budget"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 type ProjectDetail struct {
