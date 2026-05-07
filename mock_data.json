@@ -7,7 +7,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานขยายเขตระบบจำหน่ายและระบบสายส่งสำหรับผู้ใช้ไฟ",
-      "division": "วศ",
+      "division": null,
       "department": null
     },
     {
@@ -17,7 +17,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างสถานีไฟฟ้าชั่วคราวคลองหนึ่ง และสถานีไฟฟ้าชั่วคราวท่ามะกา 2",
-      "division": "ภ3",
+      "division": null,
       "department": null
     },
     {
@@ -27,7 +27,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเร่งรัดปรับปรุงระบบไฟฟ้า",
-      "division": "กบ",
+      "division": null,
       "department": null
     },
     {
@@ -37,7 +37,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างสถานีไฟฟ้าชั่วคราว โพธิ์แจ้ง, โคกกรวด2 และนครราชสีมา7",
-      "division": "ภ2",
+      "division": null,
       "department": null
     },
     {
@@ -47,8 +47,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างสถานีไฟฟ้าชั่วคราว ",
-      "division": "ป",
-      "department": null
+      "division": "กคฟ.",
+      "department": "ป"
     },
     {
       "id": 6,
@@ -57,8 +57,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงสายเคเบิลใต้น้ำระบบ 22 เควี วงจร อ.ศรีราชา-เกาะสีชัง",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 7,
@@ -67,7 +67,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบจำหน่ายใต้สายส่ง 115 เควี",
-      "division": "กบ",
+      "division": null,
       "department": null
     },
     {
@@ -77,7 +77,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างเพิ่มเบย์และสายส่งที่สถานีไฟฟ้าโพธาราม2 จ.ราชบุรี (วงจรที่ 2) และสถานีไฟฟ้าหนองปลาหมอ จ.ราชบุรี (วงจรที่ 3)",
-      "division": "กบ",
+      "division": null,
       "department": null
     },
     {
@@ -87,7 +87,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบไฟฟ้าเป็นเคเบิลใต้ดิน 1 จังหวัด 1 ถนนเพื่อเฉลิมพระเกียรติ",
-      "division": "กบ",
+      "division": null,
       "department": null
     },
     {
@@ -97,8 +97,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งอุปกรณ์ควบคุมในระบบจำหน่าย เพื่อเพิ่มประสิทธิภาพระบบศูนย์สั่งการจ่ายไฟ",
-      "division": "ป",
-      "department": null
+      "division": "ศปฟ.",
+      "department": "ป"
     },
     {
       "id": 11,
@@ -107,8 +107,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงอาคาร งานระบบ และภูมิทัศน์ ศูนย์ฝึกปฏิบัติการไฟฟ้าแรงสูง",
-      "division": "บก",
-      "department": null
+      "division": "ศฝฟ.",
+      "department": "บก"
     },
     {
       "id": 12,
@@ -117,7 +117,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาอาคารสำนักงาน กฟภ. ที่ได้รองรับมาตรฐาน Green Office ให้เป็นอาคารที่ใช้พลังงานสุทธิเป็นศูนย์ (Net Zero  Energy Building) ระยะที่ 1",
-      "division": "ว",
+      "division": null,
       "department": null
     },
     {
@@ -127,7 +127,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงสายส่ง 115 เควี ช่วงสถานีไฟฟ้าขอนแก่น 4 (ลานไก)-สถานีไฟฟ้าหนองเรือ-สถานีไฟฟ้าขอนแก่น 3",
-      "division": "วศ",
+      "division": null,
       "department": null
     },
     {
@@ -137,8 +137,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานรื้อย้าย ปรับปรุง และก่อสร้างระบบไฟฟ้าของ กฟภ. เพื่อรองรับการก่อสร้างโครงการพัฒนาระบบรถไฟความเร็วสูงเพื่อเชื่อมโยงภูมิภาค ช่วงกรุงเทพมหานคร-หนองคาย (ระยะที่ 1 ช่วงกรุงเทพมหานคร-นครราชสีมา)",
-      "division": "กบ",
-      "department": null
+      "division": "กจค.1(บก.1)",
+      "department": "ป"
     },
     {
       "id": 15,
@@ -147,8 +147,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเร่งรัดขยายเขตไฟฟ้าให้พื้นที่ทำกินทางการเกษตร",
-      "division": "กบ",
-      "department": null
+      "division": "กจค.2(บก.1)",
+      "department": "กบ"
     },
     {
       "id": 16,
@@ -157,8 +157,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงอุปกรณ์ควบคุมในระบบจำหน่าย พร้อมตู้ควบคุมใน 12 เขตพื้นที่ ",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 17,
@@ -167,7 +167,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างสถานีไฟฟ้าตาพระยา (ชั่วคราว) จ.สระแก้ว",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -177,8 +177,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานขยายเขตไฟฟ้าให้พื้นที่ทำกินทางการเกษตร ปี 2566",
-      "division": "ว",
-      "department": null
+      "division": "กคก",
+      "department": "วว"
     },
     {
       "id": 19,
@@ -187,8 +187,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": " งานเร่งรัดขยายเขตไฟฟ้าให้บ้านเรือนที่ไม่มีไฟฟ้าใช้ปี2566",
-      "division": "ว",
-      "department": null
+      "division": "กคก.",
+      "department": "วว"
     },
     {
       "id": 20,
@@ -197,8 +197,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างปรับปรุงระบบจำหน่ายแรงสูงสายแยกย่อย หม้อแปลงจำหน่าย และระบบจำหน่ายแรงต่ำ ปี 2566",
-      "division": "ว",
-      "department": null
+      "division": "กจค.3(บก.1)",
+      "department": "วว"
     },
     {
       "id": 21,
@@ -207,8 +207,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบไฟฟ้าในพื้นที่ปริมณฑลชนแดนการไฟฟ้านครหลวง ระยะที่ 2",
-      "division": "ภ3",
-      "department": null
+      "division": "ฝงภ.(กต)",
+      "department": "กต"
     },
     {
       "id": 22,
@@ -217,7 +217,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหามิเตอร์และอุปกรณ์ประกอบสำรองจ่าย (ติดตั้งใหม่และชำรุด)",
-      "division": "ล",
+      "division": null,
       "department": null
     },
     {
@@ -227,7 +227,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาหม้อแปลงระบบจำหน่ายสำรองจ่ายและสับเปลี่ยนตามวาระ",
-      "division": "ล",
+      "division": null,
       "department": null
     },
     {
@@ -237,7 +237,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาหม้อแปลงไฟฟ้ากำลังทดแทนชำรุดไม่คุ้มค่าซ่อม และที่มีอายุการใช้งานสูงเสี่ยงต่อการระเบิดชำรุด",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -247,7 +247,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาหม้อแปลง AVR ทดแทนที่เสื่อมสภาพเนื่องจากอายุการใช้งานสูงเสี่ยงต่อการระเบิดชำรุด",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -257,7 +257,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเพิ่มประสิทธิภาพการจ่ายไฟของหม้อแปลงไฟฟ้ากำลัง",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -267,7 +267,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหา Smart Meter และอุปกรณ์ประกอบเพื่อสับเปลี่ยนมิเตอร์จานหมุนเดิมในพื้นที่การไฟฟ้าเมืองพัทยา",
-      "division": "ว",
+      "division": null,
       "department": null
     },
     {
@@ -277,7 +277,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งสถานีอัดประจุไฟฟ้าสาหรับยานยนต์ไฟฟ้า",
-      "division": "ล",
+      "division": null,
       "department": null
     },
     {
@@ -287,7 +287,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหายานพาหนะของ กฟภ.",
-      "division": "วศ",
+      "division": null,
       "department": null
     },
     {
@@ -297,7 +297,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งสถานีอัดประจุไฟฟ้าสำหรับยานยนต์ไฟฟ้า ระยะที่ 2",
-      "division": "บก",
+      "division": null,
       "department": null
     },
     {
@@ -307,8 +307,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาเครื่องยนต์กำเนิดไฟฟ้าโมบายล์ ขนาด 500 กว.",
-      "division": "ป",
-      "department": null
+      "division": "กจพ.2",
+      "department": "ล"
     },
     {
       "id": 32,
@@ -317,7 +317,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาอุปกรณ์สำหรับระบบบริหารจัดการหม้อแปลงจำหน่ายไฟฟ้า \n(Distribution Transformer Management System (DTMS))",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -327,8 +327,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาหม้อแปลง AVR ทดแทนที่เสื่อมสภาพ",
-      "division": "ป",
-      "department": null
+      "division": "กบม.",
+      "department": "ป"
     },
     {
       "id": 34,
@@ -337,8 +337,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งระบบสัญญาณแจ้งเหตุเพลิงไหม้และระบบป้องกันอัคคีภัยให้กับอาคาร LED สำนักงานใหญ่",
-      "division": "บก",
-      "department": null
+      "division": "กปภ.",
+      "department": "บก"
     },
     {
       "id": 35,
@@ -347,8 +347,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งาน Customer Relationship Management (CRM) (การบริหารจัดการความสัมพันธ์กับลูกค้า)",
-      "division": "ธต",
-      "department": null
+      "division": "กสธ.",
+      "department": "ธต"
     },
     {
       "id": 36,
@@ -357,7 +357,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งระบบรักษาความปลอดภัยและบริหารจัดการอาคาร\nสำหรับสถานีไฟฟ้าแบบ Unmanned Substation",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -367,7 +367,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงและเพิ่มประสิทธิภาพระบบปรับอากาศแบบรวมศูนย์ (Chiller) อาคารสำนักงานและอาคารศูนย์สั่งการระบบไฟฟ้า (SCADA) ในพื้นที่สำนักงานใหญ่และการไฟฟ้าเขตจำนวน 12 แห่ง",
-      "division": "ว",
+      "division": null,
       "department": null
     },
     {
@@ -377,7 +377,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาแบบเหล็กผลิตและเครื่องมือ-อุปกรณ์ \nที่แผนกโรงงานผลิตภัณฑ์คอนกรีตพระนครศรีอยุธยา",
-      "division": "กบ",
+      "division": null,
       "department": null
     },
     {
@@ -387,8 +387,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาซอฟต์แวร์สำหรับการบริหารจัดการสินทรัพย์องค์กร \n(Enterprise Asset Management Software : EAM-Software)",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 40,
@@ -397,7 +397,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเพิ่มประสิทธิภาพระบบวิทยุสื่อสาร (พื้นที่ กฟก.1-กฟก.3)",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -407,7 +407,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบกระจายเสียงตามสายแบบดิจิทัล (Digital Public Address System) สำหรับสำนักงานใหญ่ การไฟฟ้าส่วนภูมิภาค",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -417,8 +417,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุง ก่อสร้างอาคาร และจัดหาเครื่องมือ เพื่อใช้เป็นห้องปฏิบัติการทดสอบมิเตอร์",
-      "division": "ป",
-      "department": null
+      "division": "กมต",
+      "department": "ป"
     },
     {
       "id": 43,
@@ -427,8 +427,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานส่งเสริมและผลักดันงานวิจัยไปใช้ประโยชน์/ส่งเสริม วิจัยและพัฒนาสิ่งประดิษฐ์เพื่อให้เข้าสู่มาตรฐานสากล",
-      "division": "ว",
-      "department": null
+      "division": "กนว.",
+      "department": "ว"
     },
     {
       "id": 44,
@@ -437,8 +437,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดซื้อนวัตกรรมผลิตภัณฑ์ของ กฟภ.",
-      "division": "ว",
-      "department": null
+      "division": "กนว.",
+      "department": "วว"
     },
     {
       "id": 45,
@@ -447,8 +447,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "เพิ่มทุนให้บริษัท พีอีเอ เอ็นคอม อินเตอร์เนชั่นแนล จำกัด",
-      "division": "ย",
-      "department": null
+      "division": "รผก.(ย)",
+      "department": "ย"
     },
     {
       "id": 46,
@@ -457,7 +457,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "6. หมวดสำรองราคา",
-      "division": "บ",
+      "division": null,
       "department": null
     },
     {
@@ -467,7 +467,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "7. หมวดสำรองกรณีจำเป็นเร่งด่วน",
-      "division": "บ",
+      "division": null,
       "department": null
     },
     {
@@ -477,8 +477,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 3",
-      "division": "วศ",
-      "department": null
+      "division": "รผก.(วว-วศ)",
+      "department": "วว"
     },
     {
       "id": 49,
@@ -487,8 +487,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเทคโนโลยีสารสนเทศ ระยะที่ 3",
-      "division": "ทส",
-      "department": null
+      "division": null,
+      "department": "ดส"
     },
     {
       "id": 50,
@@ -497,8 +497,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดตั้งศูนย์ฝึกปฏิบัติการไฟฟ้าแรงสูง ระยะที่ 2 (ศฝฟ.)",
-      "division": "บก",
-      "department": null
+      "division": "ศฝฟ.",
+      "department": "บก"
     },
     {
       "id": 51,
@@ -507,7 +507,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานบำรุงรักษาอุปกรณ์ในสถานีไฟฟ้า",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -517,8 +517,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาภูมิสารสนเทศระบบไฟฟ้า ระยะที่ 3",
-      "division": "ว",
-      "department": null
+      "division": "กผร.",
+      "department": "วว"
     },
     {
       "id": 53,
@@ -527,7 +527,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2559-2564",
-      "division": "ล",
+      "division": null,
       "department": null
     },
     {
@@ -537,7 +537,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานรื้อถอนและติดตั้งอุปกรณ์และระบบสื่อสารสำหรับ FRTU ตามแผนจัดสรรคลื่นความถี่ใหม่ของ กสทช.",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -547,7 +547,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาและก่อสร้างศูนย์สำรองข้อมูล (Disaster Recovery Center) ของ กฟภ.",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -557,8 +557,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงพัฒนาและบำรุงรักษาสถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "กบส.",
+      "department": "ป"
     },
     {
       "id": 57,
@@ -567,7 +567,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาขีดความสามารถในการบำรุงรักษาสถานีไฟฟ้า",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -577,7 +577,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์ไฟฟ้าทดแทนสำหรับการจัดการทรัพย์สินระบบจำหน่ายและสายส่งไฟฟ้า",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -587,7 +587,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2560-2565",
-      "division": "ล",
+      "division": null,
       "department": null
     },
     {
@@ -597,7 +597,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหามิเตอร์สับเปลี่ยนตามวาระ ระยะที่ 2",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -607,8 +607,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 4",
-      "division": "วศ",
-      "department": null
+      "division": "รผก.(วว-วศ)",
+      "department": "วว"
     },
     {
       "id": 62,
@@ -617,7 +617,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานการบริหารจัดการด้านระบบรักษาความปลอดภัยของคลังพัสดุ",
-      "division": "ล",
+      "division": null,
       "department": null
     },
     {
@@ -627,7 +627,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อความมั่นคง",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -637,7 +637,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาศูนย์วิเคราะห์และสั่งการแก้ปัญหาไฟฟ้าขัดข้อง",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -647,8 +647,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2561 - 2566",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 66,
@@ -657,8 +657,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานก่อสร้างศูนย์ฝึกปฏิบัติการไฟฟ้าแรงสูง ระยะที่ 3",
-      "division": "บก",
-      "department": null
+      "division": "ศฝฟ.",
+      "department": "บก"
     },
     {
       "id": 67,
@@ -667,8 +667,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงาน Renovate อุปกรณ์สถานีไฟฟ้าเสื่อมสภาพ",
-      "division": "ป",
-      "department": null
+      "division": "กบส.",
+      "department": "ป"
     },
     {
       "id": 68,
@@ -677,8 +677,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงประสิทธิภาพระบบควบคุมและระบบป้องกันสถานีไฟฟ้าตามมาตรฐาน IEC61850 เพื่อรองรับงานเปลี่ยนทดแทน Switchgear ระบบ 22 KV",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 69,
@@ -687,7 +687,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาระบบสื่อสารแบบหลอมรวม",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -697,8 +697,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานขยายเขตไฟฟ้าให้หมู่บ้านในโครงการหมู่บ้านพัฒนาเพื่อความมั่นคงพื้นที่ชายแดนอันเนื่องมาจากพระราชดำริ",
-      "division": "ภ1",
-      "department": null
+      "division": "ฝวบ.(น1)\nกบล.(น1)",
+      "department": "นฉ"
     },
     {
       "id": 71,
@@ -707,8 +707,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาเครื่องมือเครื่องใช้และยานพาหนะสำหรับปฏิบัติงานตามภารกิจหลัก ของ กฟภ.",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 72,
@@ -717,7 +717,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านเทคโนโลยีสารสนเทศ ของ กฟภ.",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -727,7 +727,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานก่อสร้าง ปรับปรุงอาคาร 1 และก่อสร้างทางเชื่อมอาคาร สำนักงานใหญ่ กฟภ. เพื่อขอรับการประเมินและการรับรองตามมาตรฐาน LEED",
-      "division": "วศ",
+      "division": null,
       "department": null
     },
     {
@@ -737,8 +737,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาโครงข่ายไฟฟ้าขนาดเล็กมาก ระยะที่ 1 ",
-      "division": "กบ",
-      "department": null
+      "division": "กจค.3(บก.2)",
+      "department": "ป"
     },
     {
       "id": 75,
@@ -747,8 +747,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนระยะยาวการก่อสร้างเคเบิลใต้ดิน",
-      "division": "กบ",
-      "department": null
+      "division": "ฝปฟ.",
+      "department": "ป"
     },
     {
       "id": 76,
@@ -757,8 +757,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะปี 2562-2567",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 77,
@@ -767,8 +767,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานขยายผลระบบบริหารพัสดุคงคลังโดยใช้เทคโนโลยี RFID และ Barcode เพื่อพัฒนาคลังพัสดุให้เป็นแบบ Modern Warehouse ",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 78,
@@ -777,7 +777,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงประสิทธิภาพกำลังผลิตสำรองจ่ายไฟฟ้า",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -787,7 +787,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงและเพิ่มประสิทธิภาพสถานีไฟฟ้า  ปีงบประมาณ 2563",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -797,8 +797,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อความมั่นคง ปี 2563-2570",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 81,
@@ -807,8 +807,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านระบบงานและแพลตฟอร์ม",
-      "division": "ทส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 82,
@@ -817,7 +817,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านสื่อสารและโทรคมนาคมของ กฟภ. ปี 2563",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -827,8 +827,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานการใช้พื้นที่สำนักงานใหญ่ กฟภ. ดำเนินการตามแผนแม่บท Phase B",
-      "division": "วศ",
-      "department": null
+      "division": null,
+      "department": "วว"
     },
     {
       "id": 84,
@@ -837,8 +837,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะปี 2563-2568",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 85,
@@ -847,8 +847,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงระบบไฟฟ้าเป็นเคเบิลใต้ดิน 1 จังหวัด 1 ถนนเพื่อเฉลิมพระเกียรติ",
-      "division": "กบ",
-      "department": null
+      "division": "กจค.4 (บก2)",
+      "department": "ป"
     },
     {
       "id": 86,
@@ -857,8 +857,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงและเพิ่มประสิทธิภาพสถานีไฟฟ้า ปี 2564",
-      "division": "ป",
-      "department": null
+      "division": null,
+      "department": "ป"
     },
     {
       "id": 87,
@@ -867,8 +867,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงอุปกรณ์ควบคุมในระบบจำหน่าย ระยะที่ 1",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 88,
@@ -877,7 +877,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์/ป้องกัน/ตัดตอน/อุปกรณ์ประกอบในระบบจำหน่ายและสายส่งไฟฟ้า และอุปกรณ์สำรองสำหรับสายเคเบิลใต้ดิน/ใต้น้ำ ",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -887,8 +887,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหายานพาหนะของ กฟภ. ปี 2564-2566",
-      "division": "วศ",
-      "department": null
+      "division": "รผก.(วว-วศ)",
+      "department": "วว"
     },
     {
       "id": 90,
@@ -897,7 +897,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านสื่อสารและโทรคมนาคมของ กฟภ. ปี 2564",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -907,8 +907,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหามิเตอร์ Electronic สับเปลี่ยนทดแทนมิเตอร์จานหมุน",
-      "division": "ล",
-      "department": null
+      "division": null,
+      "department": "ป"
     },
     {
       "id": 92,
@@ -917,8 +917,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะปี 2564-2569",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 93,
@@ -927,8 +927,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานระยะยาวในการจัดหาระบบกักเก็บพลังงานไฟฟ้าด้วยแบตเตอรี่ (Battery Energy Storage System:BESS) บนเกาะสมุย จ.สุราษฎร์ธานี",
-      "division": "ว",
-      "department": null
+      "division": "กรอ.",
+      "department": "วว"
     },
     {
       "id": 94,
@@ -937,8 +937,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 5",
-      "division": "วศ",
-      "department": null
+      "division": "รผก.(วว-วศ)",
+      "department": "วว"
     },
     {
       "id": 95,
@@ -947,8 +947,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานระยะยาวงานปรับปรุงระบบป้องกันและควบคุมในสถานีไฟฟ้า ",
-      "division": "ป",
-      "department": null
+      "division": "กปค.",
+      "department": "ป"
     },
     {
       "id": 96,
@@ -957,7 +957,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านสื่อสารและโทรคมนาคมของ กฟภ. ปี 2565",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -967,8 +967,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงาน Big Data Platform",
-      "division": "ทส",
-      "department": null
+      "division": "กปจ.",
+      "department": "ดส"
     },
     {
       "id": 98,
@@ -977,8 +977,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะปี 2565-2570",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 99,
@@ -987,8 +987,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหา พัฒนา ติดตั้ง และดูแลบำรุงรักษา ระบบบริหารจัดการทรัพยากรองค์กรและระบบสาธารณูปโภคด้านไฟฟ้าของ กฟภ.",
-      "division": "ทส",
-      "department": null
+      "division": "ฝปด.",
+      "department": "ดส"
     },
     {
       "id": 100,
@@ -997,7 +997,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านสื่อสารและโทรคมนาคม ของ กฟภ. ปี 2566",
-      "division": "ทส",
+      "division": null,
       "department": null
     },
     {
@@ -1007,8 +1007,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนระยะยาวการก่อสร้างเคเบิลใต้ดิน ระยะที่ 2",
-      "division": "กบ",
-      "department": null
+      "division": "ฝปฟ.",
+      "department": "ป"
     },
     {
       "id": 102,
@@ -1017,8 +1017,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานก่อสร้างปรับปรุงอาคาร 2 และผังบริเวณ กฟภ. สำนักงานใหญ่ เพื่อขอรับการประเมินและการรับรองมาตรฐาน LEED",
-      "division": "วศ",
-      "department": null
+      "division": "กจก.",
+      "department": "วว"
     },
     {
       "id": 103,
@@ -1027,8 +1027,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะปี 2566-2571",
-      "division": "สอ",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 104,
@@ -1037,8 +1037,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงประสิทธิภาพระบบควบคุมและป้องกันสถานีไฟฟ้า ระยะที่ 2",
-      "division": "ป",
-      "department": null
+      "division": "กทข./กปค.",
+      "department": "ป"
     },
     {
       "id": 105,
@@ -1047,8 +1047,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านระบบงานและแพลตฟอร์ม ปี 2566",
-      "division": "ทส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 106,
@@ -1057,8 +1057,8 @@
       "project_type": "L",
       "item_no": null,
       "name": "งานสัญญาเช่าที่ดิน, อาคาร และอื่น ๆ",
-      "division": "บ",
-      "department": null
+      "division": "กงป.",
+      "department": "บ"
     },
     {
       "id": 107,
@@ -1067,8 +1067,8 @@
       "project_type": "L",
       "item_no": null,
       "name": "งานเช่าเครื่องคอมพิวเตอร์โน้ตบุ๊ก สำหรับงานประมวลผล พร้อมระบบปฏิบัติการ",
-      "division": "ทส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 108,
@@ -1077,7 +1077,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานขยายเขตระบบไฟฟ้าจากเงินสมทบผู้ใช้ไฟ",
-      "division": "บ",
+      "division": null,
       "department": null
     },
     {
@@ -1087,7 +1087,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงและเพิ่มประสิทธิภาพระบบส่งลมเย็นของอาคารสำนักงานและอาคารศูนย์สั่งการระบบไฟฟ้า (SCADA) พื้นที่สำนักงานใหญ่และการไฟฟ้าส่วนภูมิภาคเขต จำนวน 12 แห่ง",
-      "division": "วว",
+      "division": null,
       "department": null
     },
     {
@@ -1097,7 +1097,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบรีเลย์ป้องกัน Line Current Differrential Relay (87L) ที่เชื่อมโยงระหว่าง กฟผ. และ กฟภ. พร้อมเชื่อมต่อระบบ CSCS",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -1107,8 +1107,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเปลี่ยนทดแทน 115 kV GIS พร้อมระบบควบคุมป้องกันและ Stationary Battery",
-      "division": "ป",
-      "department": null
+      "division": "กบส",
+      "department": "ป"
     },
     {
       "id": 112,
@@ -1117,8 +1117,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเปลี่ยนทดแทน Switchgear 22 kV พร้อมระบบควบคุมป้องกันและ Stationary Battery",
-      "division": "ป",
-      "department": null
+      "division": "กบส",
+      "department": "ป"
     },
     {
       "id": 113,
@@ -1127,8 +1127,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงอุปกรณ์ควบคุมในระบบจำหน่าย",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 114,
@@ -1137,7 +1137,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบควบคุมสถานีไฟฟ้า ตามนโยบายความมั่นคงปลอดภัยไซเบอร์",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -1147,8 +1147,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงเพิ่มประสิทธิภาพระบบจำหน่ายแรงต่ำ",
-      "division": "กบ",
-      "department": null
+      "division": "กจค.3 (บก1)",
+      "department": "ป"
     },
     {
       "id": 116,
@@ -1157,8 +1157,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งสวิตช์เกียร์ระบบ 115 เควี, 33 เควี และหม้อแปลงไฟฟ้ากำลัง (TP.2) 3 เฟส ระบบ 115-33 เควี ที่สถานีไฟฟ้าภูเก็ต 2 จ.ภูเก็ต",
-      "division": "ป",
-      "department": null
+      "division": "กจส",
+      "department": "ป"
     },
     {
       "id": 117,
@@ -1167,7 +1167,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาคอนสื่อสารและอุปกรณ์ประกอบตามแผนจัดระเบียบสายสื่อสาร พ.ศ. 2566-2567",
-      "division": "ธต",
+      "division": null,
       "department": null
     },
     {
@@ -1177,8 +1177,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างเคเบิลใต้ดิน",
-      "division": "ป",
-      "department": null
+      "division": "ฝบก.1/กจค4.(บก1)",
+      "department": "ป"
     },
     {
       "id": 119,
@@ -1187,8 +1187,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดซื้อพัสดุสำหรับงานระบบไฟฟ้า",
-      "division": "ล",
-      "department": null
+      "division": "ฝวห./กวผ.",
+      "department": "ล"
     },
     {
       "id": 120,
@@ -1197,8 +1197,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาเครื่องจักรให้แผนกโรงงานผลิตภัณฑ์คอนกรีตในสังกัด กผภ.",
-      "division": "ป",
-      "department": null
+      "division": "กผภ.",
+      "department": "ป"
     },
     {
       "id": 121,
@@ -1207,8 +1207,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบควบคุมและป้องกันสถานีไฟฟ้าแม่ฮ่องสอน",
-      "division": "วว",
-      "department": null
+      "division": "กรอ.",
+      "department": "วว"
     },
     {
       "id": 122,
@@ -1217,7 +1217,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาระบบสำรองข้อมูลสำหรับโครงการมิเตอร์อัจฉริยะ (AMI)สำหรับผู้ใช้ไฟฟ้ารายใหญ่",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -1227,8 +1227,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปฏิบัติการดิจิทัลด้านระบบงานและแพลตฟอร์ม ปี 2567",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 124,
@@ -1237,8 +1237,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานออกแบบและพัฒนาฟีเจอร์บน PEA Work D Super App ระยะที่ 2",
-      "division": "ดส",
-      "department": null
+      "division": "กวบ.",
+      "department": "ดส"
     },
     {
       "id": 125,
@@ -1247,8 +1247,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานขยายผลติดตั้งระบบบริหารจัดการพลังงานอาคารสำนักงาน กฟภ. สำนักงานใหญ่ และ กฟข.ทั้ง 12 เขต",
-      "division": "วว",
-      "department": null
+      "division": "กสพ.",
+      "department": "วว"
     },
     {
       "id": 126,
@@ -1257,8 +1257,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างเหมาจัดหาพร้อมติดตั้งระบบรักษาตวามปลอดภัยและบริหารจัดการอาคารสำหรับสถานีไฟฟ้า แบบ Unmanned Substation ปี 2567",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 127,
@@ -1267,8 +1267,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างบริหารจัดการศูนย์ปฏิบัติการเพิ่มประสิทธิภาพองค์กร (Triple Transformation Capability Center : TCC)",
-      "division": "ย",
-      "department": null
+      "division": "ฝพป./ศปพ.",
+      "department": "ย"
     },
     {
       "id": 128,
@@ -1277,8 +1277,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงและเพิ่มประสิทธิภาพสถานีไฟฟ้า ",
-      "division": "ป",
-      "department": null
+      "division": "กปค.,กทข.",
+      "department": "ป"
     },
     {
       "id": 129,
@@ -1287,8 +1287,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์ป้องกัน/ตัดตอน/อุปกรณ์ประกอบในระบบจำหน่ายและสายส่งไฟฟ้า และอุปกรณ์สำรองสำหรับสายเคเบิลใต้ดิน/ใต้น้ำ ",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 130,
@@ -1297,8 +1297,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานระยะยาวงานปรับปรุงระบบป้องกันและควบคุมในสถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "กปค.",
+      "department": "ป"
     },
     {
       "id": 131,
@@ -1307,8 +1307,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านสื่อสารและโทรคมนาคมของ กฟภ. ปี 2567",
-      "division": "ดส",
-      "department": null
+      "division": null,
+      "department": "ดส"
     },
     {
       "id": 132,
@@ -1317,8 +1317,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานระยะยาวงานปรับปรุงระบบป้องกันและควบคุมในสถานีไฟฟ้าชั่วคราว",
-      "division": "ป",
-      "department": null
+      "division": "กปค.",
+      "department": "ป"
     },
     {
       "id": 133,
@@ -1327,8 +1327,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงประสิทธิภาพระบบควบคุมและป้องกันสถานีไฟฟ้า ระยะที่ 3",
-      "division": "ป",
-      "department": null
+      "division": "กปค.",
+      "department": "ป"
     },
     {
       "id": 134,
@@ -1337,8 +1337,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาพร้อมติดตั้งระบบบริหารไฟฟ้าขัดข้อง (Outage Management System : OMS)",
-      "division": "ป",
-      "department": null
+      "division": "ศปฟ.",
+      "department": "ป"
     },
     {
       "id": 135,
@@ -1347,8 +1347,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2567 - 2572",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 136,
@@ -1357,8 +1357,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานก่อสร้างสายส่ง 115 เควี เชื่อมโยงระหว่างสถานีไฟฟ้าเกาะสมุย 1 - สถานีไฟฟ้าเกาะสมุย 2",
-      "division": "ป",
-      "department": null
+      "division": "กกฟ.2",
+      "department": "ป"
     },
     {
       "id": 137,
@@ -1367,8 +1367,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและงานเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อเพิ่มความมั่นคงปี 2567",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 138,
@@ -1377,7 +1377,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานขยายเขตระบบจำหน่ายและระบบสายส่งสำหรับผู้ใช้ไฟ ปี 2567",
-      "division": "วศ",
+      "division": null,
       "department": null
     },
     {
@@ -1387,8 +1387,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานขยายเขตระบบจำหน่ายและระบบสายส่งสำหรับผู้ใช้ไฟ (ส่วนที่มีเงินสมทบผู้ใช้ไฟและไม่อยู่ใน คฟม.3)",
-      "division": "วว",
-      "department": null
+      "division": "กรพ.",
+      "department": "วว"
     },
     {
       "id": 140,
@@ -1397,8 +1397,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดซื้อพัสดุสำหรับงานระบบไฟฟ้า ",
-      "division": "ล",
-      "department": null
+      "division": "ฝวห./กวผ.",
+      "department": "ล"
     },
     {
       "id": 141,
@@ -1407,8 +1407,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างสถานีไฟฟ้าชั่วคราว(เปลี่ยนแปลงงบ)",
-      "division": "ป",
-      "department": null
+      "division": "กคฟ.",
+      "department": "ป"
     },
     {
       "id": 142,
@@ -1417,8 +1417,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาคอนสื่อสารและอุปกรณ์ประกอบตามแผนการจัดระเบียบสายสื่อสาร พ.ศ. 2566-2567",
-      "division": "ธต",
-      "department": null
+      "division": "กบท.",
+      "department": "ธต"
     },
     {
       "id": 143,
@@ -1427,8 +1427,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างสายส่ง 115 kV เพื่อแก้ปัญหาการจ่ายไฟของสถานีไฟฟ้า บ้านค่าย 3(ลานไก) จ.ระยอง",
-      "division": "ป",
-      "department": null
+      "division": "กคฟ.",
+      "department": "ป"
     },
     {
       "id": 144,
@@ -1437,8 +1437,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งระบบผลิตไฟฟ้าจากพลังงานแสงอาทิตย์บนหลังคา(Solar Rooftop)ให้กับอาคารสำนักงานและสถานีไฟฟ้า 12 เขต",
-      "division": "วว",
-      "department": null
+      "division": "กผภ.",
+      "department": "ป"
     },
     {
       "id": 145,
@@ -1447,7 +1447,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบไฟฟ้าในพื้นที่ระเบียงเศรษฐกิจพิเศษภาคตะวันออก (EEC) จ.ชลบุรี และจ.ระยอง",
-      "division": "กต",
+      "division": null,
       "department": null
     },
     {
@@ -1457,8 +1457,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้าง/ปรับปรุงระบบจำหน่ายประจำปี 2568",
-      "division": "0",
-      "department": null
+      "division": "กจค.3 (บก1)",
+      "department": "ป"
     },
     {
       "id": 147,
@@ -1467,8 +1467,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหามิเตอร์และอุปกรณ์ประกอบสำรองจ่าย (ติดตั้งใหม่และทดแทนชำรุด)",
-      "division": "ล",
-      "department": null
+      "division": "กวผ.",
+      "department": "ล"
     },
     {
       "id": 148,
@@ -1477,8 +1477,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาหม้อแปลงระบบจำหน่ายสำรองจ่ายและบำรุงรักษาต่อเนื่อง/สับเปลี่ยนตามวาระ",
-      "division": "ล",
-      "department": null
+      "division": "กวผ.",
+      "department": "ล"
     },
     {
       "id": 149,
@@ -1487,8 +1487,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาชุดเครื่องยนต์กำเนิดไฟฟ้าแบบเคลื่อนที่ ขนาด 120 กว.",
-      "division": "ป",
-      "department": null
+      "division": "กบผ.",
+      "department": "ป"
     },
     {
       "id": 150,
@@ -1497,8 +1497,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดซื้อแบบเหล็กผลิต ให้แผนกโรงงานผลิตภัณฑ์คอนกรีตในสังกัด กผภ.",
-      "division": "ป",
-      "department": null
+      "division": "กผภ.",
+      "department": "ป"
     },
     {
       "id": 151,
@@ -1507,7 +1507,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งเครื่องอัดประจุไฟฟ้าสำหรับยานยนต์ไฟฟ้า ของ กฟภ.",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -1517,8 +1517,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาระบบสำรองข้อมูลสำหรับโครงการมิเตอร์อัจฉริยะ (AMI) สำหรับผู้ใช้ไฟฟ้ารายใหญ่",
-      "division": "ป",
-      "department": null
+      "division": "กพร.",
+      "department": "ป"
     },
     {
       "id": 153,
@@ -1527,8 +1527,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานออกแบบและพัฒนาฟีเจอร์บน PEA Work D Super App ระยะที่ 3",
-      "division": "ดส",
-      "department": null
+      "division": "กวบ.",
+      "department": "ดส"
     },
     {
       "id": 154,
@@ -1537,8 +1537,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงความมั่นคงปลอดภัยไซเบอร์สำหรับสถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "ศปฟ.",
+      "department": "ป"
     },
     {
       "id": 155,
@@ -1547,8 +1547,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างเหมาจัดหาพร้อมติดตั้งระบบรักษาความปลอดภัยและบริหารจัดการอาคารสำหรับสถานีไฟฟ้าแบบ Unmanned Substation ปี 2568",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 156,
@@ -1557,8 +1557,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งาน HR Channel Integration and Platform Revamp",
-      "division": "บก",
-      "department": null
+      "division": "กสก",
+      "department": "บก"
     },
     {
       "id": 157,
@@ -1567,7 +1567,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างเหมาจัดหาพร้อมติดตั้งระบบเฝ้าระวังสถานีไฟฟ้าอัจฉริยะ จำนวน 50 สถานีไฟฟ้า",
-      "division": "บก",
+      "division": null,
       "department": null
     },
     {
@@ -1577,7 +1577,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาศูนย์ข้อมูลพยากรณ์พลังงานหมุนเวียนของ กฟภ. (PEA Renewable Energy Forecast Center) ระยะที่ 1",
-      "division": "บก",
+      "division": null,
       "department": null
     },
     {
@@ -1587,8 +1587,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานขยายผลติดตั้งระบบบริหารจัดการพลังงานอาคารสำนักงาน กฟภ. สำนักงานใหญ่และ กฟข. ทั้ง 12 เขต ปี 2571",
-      "division": "ว",
-      "department": null
+      "division": "กสพ.",
+      "department": "ว"
     },
     {
       "id": 160,
@@ -1597,8 +1597,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเปลี่ยนเครื่องปรับอากาศแบบแยกส่วน (Split Type) ที่มีอายุมากกว่า 10 ปี สำหรับอาคารสำนักงานและสถานีไฟฟ้า ภายในพื้นที่ กฟภ. สำนักงานใหญ่และการไฟฟ้าเขตระยะที่ 2",
-      "division": "ป",
-      "department": null
+      "division": "กสพ.",
+      "department": "ป"
     },
     {
       "id": 161,
@@ -1607,8 +1607,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบบริหารจัดการพลังงาน สำนักงานใหญ่",
-      "division": "ว",
-      "department": null
+      "division": "กสพ.",
+      "department": "ว"
     },
     {
       "id": 162,
@@ -1617,8 +1617,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2571",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 163,
@@ -1627,8 +1627,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบรักษาความปลอดภัยและบริหารจัดการอาคาร สำหรับสถานีไฟฟ้า แบบ Unmanned Substation ปี 2571",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 164,
@@ -1637,8 +1637,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2572",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 165,
@@ -1647,8 +1647,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบรักษาความปลอดภัยและบริหารจัดการอาคาร สำหรับสถานีไฟฟ้า แบบ Unmanned Substation ปี 2572",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 166,
@@ -1657,8 +1657,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2572",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 167,
@@ -1667,8 +1667,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาระบบการเข้าถึงแอปพลิเคชั่นและเครือข่ายภายในจากระบบเครือข่ายภายนอก Secure Access Service Edge ปี 2573",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 168,
@@ -1677,8 +1677,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2573",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 169,
@@ -1687,8 +1687,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบรักษาความปลอดภัยและบริหารจัดการอาคาร สำหรับสถานีไฟฟ้า แบบ Unmanned Substation ปี 2573",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 170,
@@ -1697,8 +1697,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2573",
-      "division": "ป",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ป"
     },
     {
       "id": 171,
@@ -1707,8 +1707,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2574",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 172,
@@ -1717,8 +1717,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบรักษาความปลอดภัยและบริหารจัดการอาคาร สำหรับสถานีไฟฟ้า แบบ Unmanned Substation ปี 2574",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 173,
@@ -1727,8 +1727,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2574",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 174,
@@ -1737,8 +1737,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2575",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 175,
@@ -1747,8 +1747,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2575",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 176,
@@ -1757,8 +1757,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาระบบการเข้าถึงแอปพลิเคชั่นและเครือข่ายภายในจากระบบเครือข่ายภายนอก Secure Access Service Edge  ปี 2576",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 177,
@@ -1767,8 +1767,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2576",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 178,
@@ -1777,8 +1777,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2576",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 179,
@@ -1787,8 +1787,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2577",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 180,
@@ -1797,8 +1797,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2577",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 181,
@@ -1807,8 +1807,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งอุปกรณ์ MARS Master พร้อมอุปกรณ์ประกอบเพื่อทดแทนอุปกรณ์เดิม",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 182,
@@ -1817,8 +1817,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างเหมาจัดหาพร้อมติดตั้งอุปกรณ์ Remote WRL พร้อมอุปกรณ์ประกอบ เพื่อทดแทนอุปกรณ์เดิม",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 183,
@@ -1827,8 +1827,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2578",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 184,
@@ -1837,8 +1837,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2578",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 185,
@@ -1847,8 +1847,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาระบบการเข้าถึงแอปพลิเคชั่นและเครือข่ายภายในจากระบบเครือข่ายภายนอก Secure Access Service Edge ปี 2579",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 186,
@@ -1857,8 +1857,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation) ปี 2579",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 187,
@@ -1867,8 +1867,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2579",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 188,
@@ -1877,8 +1877,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "หมวดสำรองราคา",
-      "division": "บ",
-      "department": null
+      "division": "กปง.",
+      "department": "บ"
     },
     {
       "id": 189,
@@ -1887,8 +1887,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "หมวดสำรองกรณีจำเป็นเร่งด่วน",
-      "division": "บ",
-      "department": null
+      "division": "กปง.",
+      "department": "บ"
     },
     {
       "id": 190,
@@ -1897,8 +1897,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 6",
-      "division": "วว",
-      "department": null
+      "division": "รผก.(วว-วศ)/ฝยธ.",
+      "department": "วว"
     },
     {
       "id": 191,
@@ -1907,8 +1907,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านสื่อสารและโทรคมนาคม ของ กฟภ. ปี 2568",
-      "division": "ดส",
-      "department": null
+      "division": "ฝรส.",
+      "department": "ดส"
     },
     {
       "id": 192,
@@ -1917,8 +1917,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านระบบงานและแพลตฟอร์ม ปี 2568",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 193,
@@ -1927,8 +1927,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงประสิทธิภาพสินทรัพย์สถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "กบส.",
+      "department": "ป"
     },
     {
       "id": 194,
@@ -1937,8 +1937,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาทดแทนสินทรัพย์สถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "กบส.",
+      "department": "ป"
     },
     {
       "id": 195,
@@ -1947,8 +1947,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดซื้ออุปกรณ์หลักปรับปรุงระบบสายเคเบิลใต้ดิน",
-      "division": "ป",
-      "department": null
+      "division": "กบส.",
+      "department": "ป"
     },
     {
       "id": 196,
@@ -1957,8 +1957,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเพิ่มประสิทธิภาพสินทรัพย์หม้อแปลงไฟฟ้ากำลังและหม้อแปลง AVR",
-      "division": "ป",
-      "department": null
+      "division": "กบม.",
+      "department": "ป"
     },
     {
       "id": 197,
@@ -1967,8 +1967,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงาน Digital Channels Integration and Enhancement",
-      "division": "ธต",
-      "department": null
+      "division": "กวช.",
+      "department": "ธต"
     },
     {
       "id": 198,
@@ -1977,8 +1977,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานการซื้อขายและอนุญาตใช้สิทธิโปรแกรมคอมพิวเตอร์",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.กมม.",
+      "department": "ดส"
     },
     {
       "id": 199,
@@ -1987,8 +1987,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2568 - 2573 ",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 200,
@@ -1997,8 +1997,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนระยะยาวการก่อสร้างเคเบิลใต้ดิน ระยะที่ 3",
-      "division": "ป",
-      "department": null
+      "division": "กจค.1(บก1)",
+      "department": "ป"
     },
     {
       "id": 201,
@@ -2007,8 +2007,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจ้างดูแลบำรุงรักษาระบบคอมพิวเตอร์ซอฟต์แวร์สำเร็จรูปสำหรับธุรกิจหลัก (รซธ.) และบูรณาการระบบงานที่เกี่ยวข้องกับการเชื่อมโยงข้อมูลจากระบบคอมพิวเตอร์ซอฟต์แวร์สำเร็จรูปสำหรับธุรกิจหลัก (รซธ.)",
-      "division": "ดส",
-      "department": null
+      "division": "กปจ.",
+      "department": "ดส"
     },
     {
       "id": 202,
@@ -2017,8 +2017,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่าซื้อพร้อมบริการวิทยุสื่อสารระบบดิจิทัลแบบบูรณาการในพื้นที่ภาคเหนือ,ภาคตะวันออกเฉียงเหนือ และภาคใต้",
-      "division": "ดส",
-      "department": null
+      "division": "กวส.",
+      "department": "ดส"
     },
     {
       "id": 203,
@@ -2027,8 +2027,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานบริหารจัดการ ปรับปรุง และพัฒนาเพื่อเพิ่มประสิทธิภาพของการใช้งานซอฟต์แวร์สำหรับการบริหารจัดการสินทรัพย์องค์กร (EAM-Software)",
-      "division": "ดส",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 204,
@@ -2037,8 +2037,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและงานเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อเพิ่มความมั่นคง ปี 2568",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 205,
@@ -2047,8 +2047,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านสื่อสารและโทรคมนาคม ของ กฟภ. ปี 2569",
-      "division": "ดส",
-      "department": null
+      "division": "ฝรส.",
+      "department": "ดส"
     },
     {
       "id": 206,
@@ -2057,7 +2057,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปฏิบัติการดิจิทัลด้านระบบงานและแพลตฟอร์ม ปี 2569",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2067,8 +2067,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานการซื้อขายและอนุญาตใช้สิทธิโปรแกรมคอมพิวเตอร์ ปี 2569",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.(กคข./กมม./กสท.)",
+      "department": "ดส"
     },
     {
       "id": 208,
@@ -2077,8 +2077,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเพิ่มประสิทธิภาพระบบภูมิสารสนเทศระบบไฟฟ้า",
-      "division": "ย",
-      "department": null
+      "division": "กผร.",
+      "department": "วว"
     },
     {
       "id": 209,
@@ -2087,8 +2087,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและงานเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อเพิ่มความมั่นคงปี 2569",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 210,
@@ -2097,8 +2097,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์ป้องกัน/ตัดตอน/อุปกรณ์ประกอบและอุปกรณ์สำรอง สำหรับสายเคเบิลใต้ดิน/ใต้น้ำ ในระบบจำหน่ายและสายส่งไฟฟ้า ปี 2569",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 211,
@@ -2107,8 +2107,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2569 - 2574 ",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 212,
@@ -2117,8 +2117,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ารถแก้กระแสไฟฟ้าขัดข้อง ปี 2569",
-      "division": "ล",
-      "department": null
+      "division": "กจย.",
+      "department": "ล"
     },
     {
       "id": 213,
@@ -2127,8 +2127,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาระบบกักเก็บพลังงานด้วยแบตเตอรี่แบบเคลื่อนย้ายได้ ( Movable Battery Energy Storage System : Movable BESS) บนพื้นที่เกาะสมุย จ.สุราษฏร์ธานี",
-      "division": "วว",
-      "department": null
+      "division": "กรอ.",
+      "department": "วว"
     },
     {
       "id": 214,
@@ -2137,8 +2137,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 7",
-      "division": "วว",
-      "department": null
+      "division": "รผก.(วว)",
+      "department": "วว"
     },
     {
       "id": 215,
@@ -2147,7 +2147,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2571",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2157,8 +2157,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2571",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 217,
@@ -2167,7 +2167,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อความมั่นคง (ปี2571 - 2573)",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2177,8 +2177,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานปรับปรุงอุปกรณ์ควบคุมในระบบจำหน่าย (FDCU) ระยะที่ 2",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 219,
@@ -2187,8 +2187,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงาน Digital Channels Integration and Enhancement ระยะที่ 2",
-      "division": "ธต",
-      "department": null
+      "division": "กสธ",
+      "department": "ธต"
     },
     {
       "id": 220,
@@ -2197,8 +2197,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ารถแก้กระแสไฟฟ้าขัดข้อง ปี 2571",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 221,
@@ -2207,8 +2207,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2571-2576",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 222,
@@ -2217,7 +2217,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2572",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2227,8 +2227,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2572",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 224,
@@ -2237,8 +2237,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์/ป้องกัน/ตัดตอน/อุปกรณ์ประกอบในระบบจำหน่ายและสายส่งไฟฟ้า และอุปกรณ์สำรองสำหรับสายเคเบิลใต้ดิน/ใต้น้ำ ปี 2572",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 225,
@@ -2247,8 +2247,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงาน Customer Relationship Management (CRM) ปี 2572-2575",
-      "division": "ธต",
-      "department": null
+      "division": "กสธ",
+      "department": "ธต"
     },
     {
       "id": 226,
@@ -2257,8 +2257,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2572-2577",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 227,
@@ -2267,7 +2267,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2573",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2277,8 +2277,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2573",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 229,
@@ -2287,8 +2287,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนระยะยาวการก่อสร้างเคเบิลใต้ดิน ระยะที่ 4",
-      "division": "วว",
-      "department": null
+      "division": "กคก.",
+      "department": "วว"
     },
     {
       "id": 230,
@@ -2297,8 +2297,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ารถแก้กระแสไฟฟ้าขัดข้อง ปี 2573",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 231,
@@ -2307,8 +2307,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2573-2578",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 232,
@@ -2317,8 +2317,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 8",
-      "division": "วว",
-      "department": null
+      "division": "รผก.(วว)",
+      "department": "วว"
     },
     {
       "id": 233,
@@ -2327,7 +2327,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2574",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2337,8 +2337,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2574",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 235,
@@ -2347,7 +2347,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อความมั่นคง (ปี2574 - 2576)",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2357,8 +2357,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2574-2579",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 237,
@@ -2367,7 +2367,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2575",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2377,8 +2377,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2575",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 239,
@@ -2387,8 +2387,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์/ป้องกัน/ตัดตอน/อุปกรณ์ประกอบในระบบจำหน่ายและสายส่งไฟฟ้า และอุปกรณ์สำรองสำหรับสายเคเบิลใต้ดิน/ใต้น้ำ ปี 2575",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 240,
@@ -2397,8 +2397,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2575-2580",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 241,
@@ -2407,7 +2407,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2576",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2417,8 +2417,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2576",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 243,
@@ -2427,8 +2427,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2576-2581",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 244,
@@ -2437,8 +2437,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 9",
-      "division": "วว",
-      "department": null
+      "division": "รผก.(วว)",
+      "department": "วว"
     },
     {
       "id": 245,
@@ -2447,7 +2447,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2577",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2457,8 +2457,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2577",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 247,
@@ -2467,8 +2467,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อ\nความมั่นคง (ปี2577 - 2579)",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 248,
@@ -2477,8 +2477,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนจัดหาระบบ SCADA/TDMS ทดแทนระบบเดิมตามโครงการ คปศ.",
-      "division": "ป",
-      "department": null
+      "division": "ศปฟ",
+      "department": "ป"
     },
     {
       "id": 249,
@@ -2487,8 +2487,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนจัดหาระบบ OMS ทดแทนระบบเดิม",
-      "division": "ป",
-      "department": null
+      "division": "ศปฟ",
+      "department": "ป"
     },
     {
       "id": 250,
@@ -2497,8 +2497,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนระยะยาวการก่อสร้างเคเบิลใต้ดิน ระยะที่ 5",
-      "division": "วว",
-      "department": null
+      "division": "กคก.",
+      "department": "วว"
     },
     {
       "id": 251,
@@ -2507,8 +2507,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2577-2582",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 252,
@@ -2517,7 +2517,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2578",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2527,8 +2527,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2578",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 254,
@@ -2537,8 +2537,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์/ป้องกัน/ตัดตอน/อุปกรณ์ประกอบในระบบจำหน่ายและสายส่งไฟฟ้า และอุปกรณ์สำรองสำหรับสายเคเบิลใต้ดิน/ใต้น้ำ ปี 2578",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 255,
@@ -2547,8 +2547,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2578-2583",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 256,
@@ -2557,7 +2557,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2579",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2567,8 +2567,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2579",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 258,
@@ -2577,8 +2577,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2579-2584",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 259,
@@ -2587,8 +2587,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 10",
-      "division": "วว",
-      "department": null
+      "division": "รผก.(วว)",
+      "department": "วว"
     },
     {
       "id": 260,
@@ -2597,7 +2597,7 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastrucuture) ปี 2580",
-      "division": "ดส",
+      "division": null,
       "department": null
     },
     {
@@ -2607,8 +2607,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ปี 2580",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 262,
@@ -2617,8 +2617,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อ\nความมั่นคง (ปี2580 - 2582)",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 263,
@@ -2627,8 +2627,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2580-2585",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 264,
@@ -2637,8 +2637,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงโรงจักรพลังน้ำขนาดเล็ก ในเขตพื้นที่ กฟน.1 และ กฟฉ.1 ",
-      "division": "ป",
-      "department": null
+      "division": "กปค.",
+      "department": "ป"
     },
     {
       "id": 265,
@@ -2647,8 +2647,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบป้องกันและควบคุมในสถานีไฟฟ้า จำนวน 13 สถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "กปค.",
+      "department": "ป"
     },
     {
       "id": 266,
@@ -2657,8 +2657,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบไฟฟ้าและลิฟต์โดยสารอาคาร 4 สำนักงานใหญ่",
-      "division": "ล",
-      "department": null
+      "division": "กอภ.",
+      "department": "ล"
     },
     {
       "id": 267,
@@ -2667,8 +2667,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบจำหน่ายประจำปี 2569",
-      "division": "ป",
-      "department": null
+      "division": "กจค.3 (บก1)",
+      "department": "ป"
     },
     {
       "id": 268,
@@ -2677,8 +2677,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานขยายเขตไฟฟ้าให้บ้านเรือนที่ไม่มีไฟฟ้าใช้ โดยพลังงานทดแทน ในพื้นที่ห่างไกล",
-      "division": "วว",
-      "department": null
+      "division": "กคก.",
+      "department": "วว"
     },
     {
       "id": 269,
@@ -2687,8 +2687,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างพัฒนาระบบไฟฟ้า รองรับการจ่ายไฟลูกค้ารายใหญ่พิเศษ ในพื้นที่ EEC ระยะที่ 1",
-      "division": "ก",
-      "department": null
+      "division": "กวว.(ก2)",
+      "department": "ก"
     },
     {
       "id": 270,
@@ -2697,7 +2697,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างเพิ่มประสิทธิภาพการจ่ายไฟ สฟฟ.พานทอง2 และสฟฟ.อมตะนคร 1",
-      "division": "ก",
+      "division": null,
       "department": null
     },
     {
@@ -2707,8 +2707,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานการก่อสร้างปรับปรุงระบบจำหน่ายไฟฟ้าเป็นเคเบิลใต้ดิน",
-      "division": "ป",
-      "department": null
+      "division": "ฝบก.1",
+      "department": "ป"
     },
     {
       "id": 272,
@@ -2717,7 +2717,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งระบบผลิตไฟฟ้าจากพลังงานแสงอาทิตย์บนหลังคาตามแนวทาง “การดำเนินงานบริการธุรกิจเสริมการติดตั้งระบบผลิตไฟฟ้าจากพลังงานแสงอาทิตย์ที่ติดตั้งบนหลังคา (Solar Rooftop)” ระยะที่ 5 ในปี 2570",
-      "division": "วว",
+      "division": null,
       "department": null
     },
     {
@@ -2727,8 +2727,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างปรับปรุงระบบไฟฟ้า และเปลี่ยนอุปกรณ์ลิฟต์โดยสารภายในสำนักงานใหญ่",
-      "division": "ล",
-      "department": null
+      "division": "กอค",
+      "department": "ล"
     },
     {
       "id": 274,
@@ -2737,8 +2737,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงอุปกรณ์ควบคุมในระบบจำหน่าย ประจำปี 2570",
-      "division": "ป",
-      "department": null
+      "division": "กทข",
+      "department": "ป"
     },
     {
       "id": 275,
@@ -2747,8 +2747,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาอุปกรณ์สื่อสาร Cellular Router เพื่อทดแทนในระบบจำหน่ายและเพื่อการบริหารจัดการระบบสื่อสาร",
-      "division": "ป",
-      "department": null
+      "division": "กทข",
+      "department": "ป"
     },
     {
       "id": 276,
@@ -2757,7 +2757,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาอุปกรณ์ระบบสื่อสาร สำหรับอุปกรณ์ Recloser ตาม คพจ.2",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2767,8 +2767,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงระบบ Arc Protection ทดแทนที่ชำรุดและเสื่อมสภาพ",
-      "division": "ป",
-      "department": null
+      "division": "กปค",
+      "department": "ป"
     },
     {
       "id": 278,
@@ -2777,8 +2777,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้ง 115 kV Voltage Transformer สำหรับ Gas Insulated Switchgear",
-      "division": "ป",
-      "department": null
+      "division": "กบส.",
+      "department": "ป"
     },
     {
       "id": 279,
@@ -2787,8 +2787,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างปรับปรุงตู้ควบคุมหม้อแปลงไฟฟ้ากำลัง",
-      "division": "ป",
-      "department": null
+      "division": "กบม.",
+      "department": "ป"
     },
     {
       "id": 280,
@@ -2797,7 +2797,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งระบบผลิตไฟฟ้าพลังงานแสงอาทิตย์ให้กับอาคาร ของ กฟภ. ระยะที่ 6",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2807,7 +2807,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งระบบผลิตไฟฟ้าพลังงานแสงอาทิตย์ให้กับอาคาร ของ กฟภ. ระยะที่ 7",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2817,7 +2817,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบควบคุมโครงข่ายไฟฟ้าขนาดเล็กมาก อ.แม่เสรียง จ.แม่ฮ่องสอน",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2827,7 +2827,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบควบคุมโครงข่ายไฟฟ้าขนาดเล็กมาก อ.เบตง จ.ยะลา",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2837,7 +2837,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบควบคุมโครงข่ายไฟฟ้าขนาดเล็กมาก บนพื้นที่เกาะพะลวย จ.สุราษฎร์ธานี",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2847,7 +2847,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานปรับปรุงประสิทธิภาพระบบควบคุมสำหรับระบบกักเก็บพลังงานเชื่อมต่อในระบบจำหน่ายพื้นที่ อำเภอพร้าว จังหวัดเชียงใหม่",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2857,8 +2857,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาอุปกรณ์ตรวจวัดสภาพหม้อแปลงไฟฟ้ากำลัง",
-      "division": "ป",
-      "department": null
+      "division": "กบม.",
+      "department": "ป"
     },
     {
       "id": 287,
@@ -2867,7 +2867,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาและปรับปรุงอุปกรณ์หลักภายในสถานีไฟฟ้า",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2877,8 +2877,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งอุปกรณ์เฝ้าระวังหม้อแปลงระบบจำหน่าย (Compact Distribution Transformers Monitoring Unit) หรือ cDTMU",
-      "division": "ป",
-      "department": null
+      "division": "กมป.",
+      "department": "ป"
     },
     {
       "id": 289,
@@ -2887,7 +2887,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาชุดเครื่องยนต์กำเนิดไฟฟ้าแบบเคลื่อนที่ ขนาด 500 กว. จำนวน 1 เครื่อง และชุดเครื่องยนต์กำเนิดไฟฟ้าแบบเคลื่อนที่ ขนาด 300 กว. จำนวน 18 เครื่อง",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2897,8 +2897,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาเครื่องจักรให้แผนกโรงงานผลิตภัณฑ์คอนกรีต ในสังกัด กผภ.",
-      "division": "ป",
-      "department": null
+      "division": "กผภ",
+      "department": "ป"
     },
     {
       "id": 291,
@@ -2907,7 +2907,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งอุปกรณ์ Distribution Transformer Monitoring Unit (DTMU) สำหรับหม้อแปลงระบบจำหน่าย",
-      "division": "ป",
+      "division": null,
       "department": null
     },
     {
@@ -2917,8 +2917,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาอุปกรณ์สำหรับระบบบริหารจัดการหม้อแปลงระบบจำหน่ายปี 2571",
-      "division": "ป",
-      "department": null
+      "division": "กมป",
+      "department": "ป"
     },
     {
       "id": 293,
@@ -2927,8 +2927,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาอุปกรณ์สำหรับระบบบริหารจัดการหม้อแปลงระบบจำหน่ายปี 2572",
-      "division": "ป",
-      "department": null
+      "division": "กมป",
+      "department": "ป"
     },
     {
       "id": 294,
@@ -2937,8 +2937,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "จัดซื้อเครื่องกำเนิดไฟฟ้าโมบายล์ ขนาด 800 กว. จำนวน 14 เครื่อง",
-      "division": "ป",
-      "department": null
+      "division": "กบผ.",
+      "department": "ป"
     },
     {
       "id": 295,
@@ -2947,8 +2947,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาแพลตฟอร์มสนับสนุนการปฏิบัติงานของพนักงาน (Work-D Super App Development)",
-      "division": "ดส",
-      "department": null
+      "division": "กวบ.",
+      "department": "ดส"
     },
     {
       "id": 296,
@@ -2957,8 +2957,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานเปลี่ยนเครื่องปรับอากาศแบบแยกส่วน (Split Type) ที่มีอายุมากกว่า 10 ปี สำหรับอาคารสำนักงานและสถานีไฟฟ้า ภายในพื้นที่ กฟภ. สำนักงานใหญ่และการไฟฟ้าเขตระยะที่ 1",
-      "division": "วว",
-      "department": null
+      "division": "กสพ.",
+      "department": "วว"
     },
     {
       "id": 297,
@@ -2967,8 +2967,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างเหมาจัดหาพร้อมติดตั้งระบบรักษาความปลอดภัยและบริหารจัดการอาคารสำหรับ สถานีไฟฟ้าแบบ Unmanned Substation พร้อมระบบเฝ้าระวังสถานีไฟฟ้าอัจฉริยะ จำนวน 98 สถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 298,
@@ -2977,8 +2977,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างเหมาติดตั้งระบบเฝ้าระวังสถานีไฟฟ้าอัจฉริยะ จำนวน 100 สถานีไฟฟ้า",
-      "division": "ป",
-      "department": null
+      "division": "กทข.",
+      "department": "ป"
     },
     {
       "id": 299,
@@ -2987,8 +2987,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างจัดหาพร้อมติดตั้งเพื่อปรับปรุงระบบควบคุมการเข้า-ออก อาคาร(Access Control) ทดแทนของเดิมสำหรับอาคารศูนย์สั่งการระบบไฟฟ้า และศูนย์ควบคุมการจ่ายไฟฟ้าเขต 12 เขต",
-      "division": "ป",
-      "department": null
+      "division": "ศปฟ.",
+      "department": "ป"
     },
     {
       "id": 300,
@@ -2997,8 +2997,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างพัฒนา Business Solution และการดำเนินงานของศูนย์ปฏิบัติการเพิ่มประสิทธิภาพองค์กร (Triple Transformation Capability Center : TCC) ปี 2569 - 2570",
-      "division": "ย",
-      "department": null
+      "division": "ศปพ.",
+      "department": "ย"
     },
     {
       "id": 301,
@@ -3007,8 +3007,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างออกแบบและพัฒนา PEA Work D Super App ระยะที่ 5",
-      "division": "ธต",
-      "department": null
+      "division": "กวบ.",
+      "department": "ดส"
     },
     {
       "id": 302,
@@ -3017,8 +3017,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาระบบการเข้าถึงแอปพลิเคชั่นและเครือข่ายภายในจากระบบเครือข่ายภายนอก Secure Access Service Edge (SASE)",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส."
     },
     {
       "id": 303,
@@ -3027,8 +3027,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างออกแบบและพัฒนาระบบบริหารจัดการข้อมูลสถาปัตยกรรมองค์กร",
-      "division": "ดส",
-      "department": null
+      "division": "กดท.",
+      "department": "ดส"
     },
     {
       "id": 304,
@@ -3037,7 +3037,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งาน Human Resourse Service Platform phrase 2 ",
-      "division": "บก",
+      "division": null,
       "department": null
     },
     {
@@ -3047,8 +3047,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างพัฒนา Business Solution และการดำเนินงานของศูนย์ปฏิบัติการเพิ่มประสิทธิภาพองค์กร (Triple Transformation Capability Center : TCC) ปี 2570",
-      "division": "บก",
-      "department": null
+      "division": "ศปพ.",
+      "department": "ย"
     },
     {
       "id": 306,
@@ -3057,8 +3057,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงานออกแบบและพัฒนางานด้านธุรกิจหลัก/ธุรกิจใหม่ ด้านเทคโนโลยีและนวัตกรรม และด้านบุคลากร ปี 2571",
-      "division": "ดส",
-      "department": null
+      "division": "ฝพจ.",
+      "department": "ดส"
     },
     {
       "id": 307,
@@ -3067,8 +3067,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างพัฒนา Business Solution และการดำเนินงานของศูนย์ปฏิบัติการเพิ่มประสิทธิภาพองค์กร (Triple Transformation Capability Center : TCC) ปี 2571",
-      "division": "ย",
-      "department": null
+      "division": "ศปพ.",
+      "department": "ย"
     },
     {
       "id": 308,
@@ -3077,8 +3077,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งาน PEA Smart Plus  (งานพัฒนาแอปพลิเคชันสำหรับผู้ใช้ไฟฟ้า) ระยะที่ 3",
-      "division": "ธต",
-      "department": null
+      "division": "กวช.",
+      "department": "ธต"
     },
     {
       "id": 309,
@@ -3087,8 +3087,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานย้ายแนวและเปลี่ยนทดแทนอุปกรณ์ในระบบจำหน่ายและสายส่งไฟฟ้าเพื่อ\nความมั่นคง (ปี2574 - 2576)",
-      "division": "ป",
-      "department": null
+      "division": "กบร.",
+      "department": "ป"
     },
     {
       "id": 310,
@@ -3097,8 +3097,8 @@
       "project_type": "L",
       "item_no": null,
       "name": "แผนงานเช่าระบบเครือข่ายไร้สาย (Wireless LAN) ทดแทนและเพิ่มประสิทธิภาพ",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส."
     },
     {
       "id": 311,
@@ -3107,8 +3107,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "แผนงงานพัฒนาระบบไฟฟ้าในพื้นที่ระเบียงเศรษฐกิจพิเศษภาคตะวันออก (EEC) จ.ชลบุรี และจ.ระยอง",
-      "division": "กต",
-      "department": null
+      "division": "กวว(ก2)",
+      "department": "กต"
     },
     {
       "id": 312,
@@ -3117,8 +3117,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานก่อสร้างเพิ่มประสิทธิภาพการจ่ายไฟ สฟฟ.พานทอง2 และสฟฟ.อมตะนคร1",
-      "division": "ก",
-      "department": null
+      "division": "กวว.(ก2)",
+      "department": "ก"
     },
     {
       "id": 313,
@@ -3127,8 +3127,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งระบบผลิตไฟฟ้าจากพลังงานแสงอาทิตย์บนหลังคาตามแนวทาง “การดำเนินงานบริการธุรกิจเสริมการติดตั้งระบบผลิตไฟฟ้าจากพลังงานแสงอาทิตย์ที่ติดตั้งบนหลังคา (Solar Rooftop)\"",
-      "division": "วว",
-      "department": null
+      "division": "กสพ",
+      "department": "วว"
     },
     {
       "id": 314,
@@ -3137,8 +3137,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาชุดเครื่องยนต์กำเนิดไฟฟ้าแบบเคลื่อนที่ ขนาด 500 กว.",
-      "division": "ป",
-      "department": null
+      "division": "กบผ",
+      "department": "ป"
     },
     {
       "id": 315,
@@ -3147,8 +3147,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจัดหาพร้อมติดตั้งอุปกรณ์ Distribution Transformer Monitoring Unit (DTMU) สำหรับหม้อแปลงระบบจำหน่าย Distribution Transformers with Sensors for using IoT",
-      "division": "ป",
-      "department": null
+      "division": "กมป",
+      "department": "ป"
     },
     {
       "id": 316,
@@ -3157,8 +3157,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้ง Meter Gateway และ BLE Meter เพื่อรองรับงานวิจัยลักษณะและพฤติกรรมการใช้ไฟฟ้า (Load Research)",
-      "division": "วว",
-      "department": null
+      "division": "กรอ.",
+      "department": "วว"
     },
     {
       "id": 317,
@@ -3167,8 +3167,8 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานพัฒนาระบบคลาวด์ กฟภ. (PEA Cloud Enhancement : IaaS, PaaS and Hybrid Cloud Implementation)",
-      "division": "ดส",
-      "department": null
+      "division": "กคข.",
+      "department": "ดส"
     },
     {
       "id": 318,
@@ -3177,8 +3177,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาระบบโครงสร้างพื้นฐานด้านไอทีและโครงสร้างพื้นฐานด้านการสื่อสาร (IT Infrastructure and Communication Infrastructure)",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท./ฝรส.",
+      "department": "ดส"
     },
     {
       "id": 319,
@@ -3187,8 +3187,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานพัฒนาปรับปรุงความปลอดภัยทางไซเบอร์ (Cyber Security Enhancement) ",
-      "division": "ดส",
-      "department": null
+      "division": "ฝสท.",
+      "department": "ดส"
     },
     {
       "id": 320,
@@ -3197,8 +3197,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดซื้อเครื่องคอมพิวเตอร์แม่ข่ายฐานข้อมูลระบบไฟฟ้า (Database Server) ระบบบริหารจัดการเครื่องลูกข่ายของระบบ GIS และอุปกรณ์ที่เกี่ยวข้อง",
-      "division": "วว",
-      "department": null
+      "division": "กผร.",
+      "department": "วว"
     },
     {
       "id": 321,
@@ -3207,8 +3207,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานจัดหาอุปกรณ์ตรวจวัดสภาพหม้อแปลงไฟฟ้ากำลัง",
-      "division": "ป",
-      "department": null
+      "division": "กบม",
+      "department": "ป"
     },
     {
       "id": 322,
@@ -3217,8 +3217,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานการก่อสร้างปรับปรุงระบบจำหน่ายไฟฟ้าเป็นเคเบิลใต้ดิน",
-      "division": "ป",
-      "department": null
+      "division": "ฝบก.1",
+      "department": "ป"
     },
     {
       "id": 323,
@@ -3227,8 +3227,8 @@
       "project_type": "C",
       "item_no": null,
       "name": "แผนงานเช่ายานพาหนะ ปี 2570 - 2575",
-      "division": "ล",
-      "department": null
+      "division": "รผก.(ล)",
+      "department": "ล"
     },
     {
       "id": 324,
@@ -3237,7 +3237,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานติดตั้งระบบผลิตไฟฟ้าจากพลังงานแสงอาทิตย์บนหลังคาตามแนวทาง “การดำเนินงานบริการธุรกิจเสริมการติดตั้งระบบผลิตไฟฟ้าจากพลังงานแสงอาทิตย์ที่ติดตั้งบนหลังคา (Solar Rooftop)",
-      "division": "วว",
+      "division": null,
       "department": null
     },
     {
@@ -3247,7 +3247,7 @@
       "project_type": "Y",
       "item_no": null,
       "name": "งานจ้างพัฒนา Business Solution และการดำเนินงานของศูนย์ปฏิบัติการเพิ่มประสิทธิภาพองค์กร (Triple Transformation Capability Center : TCC) ",
-      "division": "ย",
+      "division": null,
       "department": null
     }
   ],
