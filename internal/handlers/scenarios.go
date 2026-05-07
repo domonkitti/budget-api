@@ -123,11 +123,13 @@ func (h *ScenarioHandler) GetProject(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sjRows, err := h.db.Query(r.Context(),
-		`SELECT id, project_id, name, sort_order, fund_type, data_year,
-		        budget, target, budget - target AS remain, cut_transfer, under_budget
+		`SELECT MIN(id), project_id, name, MIN(sort_order), fund_type, data_year,
+		        SUM(budget), SUM(target), SUM(budget)-SUM(target),
+		        SUM(cut_transfer), SUM(under_budget)
 		 FROM scenario_sub_jobs
 		 WHERE scenario_id = $1 AND project_id = $2
-		 ORDER BY sort_order, name, data_year, fund_type, id`,
+		 GROUP BY project_id, name, fund_type, data_year
+		 ORDER BY MIN(sort_order), name, data_year, fund_type`,
 		scenID, p.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -144,11 +146,13 @@ func (h *ScenarioHandler) GetProject(w http.ResponseWriter, r *http.Request) {
 	}
 
 	bsRows, err := h.db.Query(r.Context(),
-		`SELECT id, project_id, source, fund_type, data_year,
-		        budget, target, budget - target AS remain, cut_transfer, under_budget
+		`SELECT MIN(id), project_id, source, fund_type, data_year,
+		        SUM(budget), SUM(target), SUM(budget)-SUM(target),
+		        SUM(cut_transfer), SUM(under_budget)
 		 FROM scenario_budget_sources
 		 WHERE scenario_id = $1 AND project_id = $2
-		 ORDER BY source, data_year, fund_type, id`,
+		 GROUP BY project_id, source, fund_type, data_year
+		 ORDER BY source, data_year, fund_type`,
 		scenID, p.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -182,9 +186,28 @@ func (h *ScenarioHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "invalid body", http.StatusBadRequest)
 		return
 	}
-	if _, err := h.db.Exec(r.Context(),
+	ctx := r.Context()
+	tx, err := h.db.Begin(ctx)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(ctx)
+	if _, err := tx.Exec(ctx,
 		`UPDATE scenario_sub_jobs SET budget = $1, target = $2, cut_transfer = $3, under_budget = $4 WHERE id = $5`,
 		body.Budget, body.Target, body.CutTransfer, body.UnderBudget, sjID); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tx.Exec(ctx, `
+		DELETE FROM scenario_sub_jobs
+		WHERE scenario_id = (SELECT scenario_id FROM scenario_sub_jobs WHERE id = $1)
+		  AND project_id  = (SELECT project_id  FROM scenario_sub_jobs WHERE id = $1)
+		  AND name        = (SELECT name        FROM scenario_sub_jobs WHERE id = $1)
+		  AND fund_type   = (SELECT fund_type   FROM scenario_sub_jobs WHERE id = $1)
+		  AND data_year   = (SELECT data_year   FROM scenario_sub_jobs WHERE id = $1)
+		  AND id != $1`, sjID)
+	if err := tx.Commit(ctx); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -205,9 +228,15 @@ func (h *ScenarioHandler) Promote(w http.ResponseWriter, r *http.Request) {
 	if _, err = tx.Exec(ctx, `
 		UPDATE sub_jobs sj
 		SET budget = ssj.budget, target = ssj.target, cut_transfer = ssj.cut_transfer, under_budget = ssj.under_budget
-		FROM scenario_sub_jobs ssj
-		WHERE ssj.scenario_id = $1
-		  AND ssj.project_id = sj.project_id
+		FROM (
+			SELECT project_id, name, fund_type, data_year,
+			       SUM(budget) AS budget, SUM(target) AS target,
+			       SUM(cut_transfer) AS cut_transfer, SUM(under_budget) AS under_budget
+			FROM scenario_sub_jobs
+			WHERE scenario_id = $1
+			GROUP BY project_id, name, fund_type, data_year
+		) ssj
+		WHERE ssj.project_id = sj.project_id
 		  AND ssj.name      = sj.name
 		  AND ssj.fund_type = sj.fund_type
 		  AND ssj.data_year = sj.data_year`, id); err != nil {
@@ -218,9 +247,15 @@ func (h *ScenarioHandler) Promote(w http.ResponseWriter, r *http.Request) {
 	if _, err = tx.Exec(ctx, `
 		UPDATE budget_sources bs
 		SET budget = sbs.budget, target = sbs.target, cut_transfer = sbs.cut_transfer, under_budget = sbs.under_budget
-		FROM scenario_budget_sources sbs
-		WHERE sbs.scenario_id = $1
-		  AND sbs.project_id = bs.project_id
+		FROM (
+			SELECT project_id, source, fund_type, data_year,
+			       SUM(budget) AS budget, SUM(target) AS target,
+			       SUM(cut_transfer) AS cut_transfer, SUM(under_budget) AS under_budget
+			FROM scenario_budget_sources
+			WHERE scenario_id = $1
+			GROUP BY project_id, source, fund_type, data_year
+		) sbs
+		WHERE sbs.project_id = bs.project_id
 		  AND sbs.source    = bs.source
 		  AND sbs.fund_type = bs.fund_type
 		  AND sbs.data_year = bs.data_year`, id); err != nil {
@@ -247,9 +282,28 @@ func (h *ScenarioHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Requ
 		http.Error(w, "invalid body", http.StatusBadRequest)
 		return
 	}
-	if _, err := h.db.Exec(r.Context(),
+	ctx := r.Context()
+	tx, err := h.db.Begin(ctx)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(ctx)
+	if _, err := tx.Exec(ctx,
 		`UPDATE scenario_budget_sources SET budget = $1, target = $2, cut_transfer = $3, under_budget = $4 WHERE id = $5`,
 		body.Budget, body.Target, body.CutTransfer, body.UnderBudget, bsID); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tx.Exec(ctx, `
+		DELETE FROM scenario_budget_sources
+		WHERE scenario_id = (SELECT scenario_id FROM scenario_budget_sources WHERE id = $1)
+		  AND project_id  = (SELECT project_id  FROM scenario_budget_sources WHERE id = $1)
+		  AND source      = (SELECT source      FROM scenario_budget_sources WHERE id = $1)
+		  AND fund_type   = (SELECT fund_type   FROM scenario_budget_sources WHERE id = $1)
+		  AND data_year   = (SELECT data_year   FROM scenario_budget_sources WHERE id = $1)
+		  AND id != $1`, bsID)
+	if err := tx.Commit(ctx); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
