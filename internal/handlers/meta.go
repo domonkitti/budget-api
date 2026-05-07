@@ -15,11 +15,29 @@ func NewMetaHandler(db *pgxpool.Pool) *MetaHandler {
 }
 
 type filterOptions struct {
-	Years   []int    `json:"years"`
-	Sources []string `json:"sources"`
+	Years       []int    `json:"years"`
+	Sources     []string `json:"sources"`
+	Divisions   []string `json:"divisions"`
+	Departments []string `json:"departments"`
+	Groups      []string `json:"groups"`
 }
 
 func (h *MetaHandler) FilterOptions(w http.ResponseWriter, r *http.Request) {
+	scanStrings := func(query string) []string {
+		out := []string{}
+		rows, err := h.db.Query(r.Context(), query)
+		if err != nil {
+			return out
+		}
+		defer rows.Close()
+		for rows.Next() {
+			var s string
+			rows.Scan(&s)
+			out = append(out, s)
+		}
+		return out
+	}
+
 	years := []int{}
 	rows, err := h.db.Query(r.Context(),
 		`SELECT DISTINCT data_year FROM sub_jobs ORDER BY data_year`)
@@ -34,19 +52,11 @@ func (h *MetaHandler) FilterOptions(w http.ResponseWriter, r *http.Request) {
 		years = append(years, y)
 	}
 
-	sources := []string{}
-	srows, err := h.db.Query(r.Context(),
-		`SELECT DISTINCT source FROM budget_sources ORDER BY source`)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer srows.Close()
-	for srows.Next() {
-		var s string
-		srows.Scan(&s)
-		sources = append(sources, s)
-	}
-
-	respond(w, http.StatusOK, filterOptions{Years: years, Sources: sources})
+	respond(w, http.StatusOK, filterOptions{
+		Years:       years,
+		Sources:     scanStrings(`SELECT DISTINCT source FROM budget_sources WHERE source IS NOT NULL ORDER BY source`),
+		Divisions:   scanStrings(`SELECT DISTINCT division FROM projects WHERE division IS NOT NULL ORDER BY division`),
+		Departments: scanStrings(`SELECT DISTINCT department FROM projects WHERE department IS NOT NULL ORDER BY department`),
+		Groups:      scanStrings(`SELECT DISTINCT project_group FROM projects WHERE project_group IS NOT NULL ORDER BY project_group`),
+	})
 }

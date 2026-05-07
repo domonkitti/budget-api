@@ -30,7 +30,7 @@ func (h *ProjectHandler) List(w http.ResponseWriter, r *http.Request) {
 
 	sql := `
 		SELECT DISTINCT p.id, p.project_code, p.year, p.project_type,
-		       p.item_no, p.name, p.division, p.department, p.created_at
+		       p.item_no, p.name, p.division, p.department, p.project_group, p.created_at
 		FROM projects p
 		JOIN sub_jobs sj ON sj.project_id = p.id
 		WHERE 1=1`
@@ -70,7 +70,7 @@ func (h *ProjectHandler) List(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var p models.Project
 		if err := rows.Scan(&p.ID, &p.ProjectCode, &p.Year, &p.ProjectType,
-			&p.ItemNo, &p.Name, &p.Division, &p.Department, &p.CreatedAt); err != nil {
+			&p.ItemNo, &p.Name, &p.Division, &p.Department, &p.GroupName, &p.CreatedAt); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -85,16 +85,20 @@ func (h *ProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	var p models.Project
 	err := h.db.QueryRow(r.Context(),
-		`SELECT id, project_code, year, project_type, item_no, name, division, department, created_at
+		`SELECT id, project_code, year, project_type, item_no, name, division, department, project_group, created_at
 		 FROM projects WHERE project_code = $1`, code).
 		Scan(&p.ID, &p.ProjectCode, &p.Year, &p.ProjectType,
-			&p.ItemNo, &p.Name, &p.Division, &p.Department, &p.CreatedAt)
+			&p.ItemNo, &p.Name, &p.Division, &p.Department, &p.GroupName, &p.CreatedAt)
 	if err != nil {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
 
-	detail := models.ProjectDetail{Project: p}
+	detail := models.ProjectDetail{
+		Project:       p,
+		SubJobs:       []models.SubJob{},
+		BudgetSources: []models.BudgetSource{},
+	}
 
 	sjRows, _ := h.db.Query(r.Context(),
 		`SELECT MIN(id), project_id, name, MIN(sort_order), fund_type, data_year,
@@ -202,6 +206,32 @@ func (h *ProjectHandler) CreateBudgetSource(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	respond(w, http.StatusCreated, bs)
+}
+
+func (h *ProjectHandler) UpdateInfo(w http.ResponseWriter, r *http.Request) {
+	code := chi.URLParam(r, "code")
+	var body struct {
+		Name        string  `json:"name"`
+		ItemNo      *string `json:"item_no"`
+		Year        int     `json:"year"`
+		ProjectType string  `json:"project_type"`
+		Division    *string `json:"division"`
+		Department  *string `json:"department"`
+		GroupName   *string `json:"group_name"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	_, err := h.db.Exec(r.Context(),
+		`UPDATE projects SET name=$1, item_no=$2, year=$3, project_type=$4, division=$5, department=$6, project_group=$7
+		 WHERE project_code=$8`,
+		body.Name, body.ItemNo, body.Year, body.ProjectType, body.Division, body.Department, body.GroupName, code)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	respond(w, http.StatusOK, map[string]string{"ok": "true"})
 }
 
 func (h *ProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
@@ -411,6 +441,8 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 	yearsParam := params["years"]
 	projectType := params["type"]
 	division := params["division"]
+	department := params["department"]
+	groupName := params["group"]
 	source := params["source"]
 	activeOnly := params["active_only"] == "true" || params["active_only"] == "1"
 	years := parseYearsParam(yearsParam)
@@ -422,7 +454,7 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 
 	sql := `
 		SELECT
-			p.id, p.project_code, p.item_no, p.name, p.division, p.project_type, p.year,
+			p.id, p.project_code, p.item_no, p.name, p.division, p.department, p.project_group, p.project_type, p.year,
 			COALESCE(
 				(SELECT json_agg(row_data ORDER BY (row_data->>'year')::int, row_data->>'source', row_data->>'fund_type')
 				 FROM (
@@ -483,6 +515,16 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 		args = append(args, division)
 		i++
 	}
+	if department != "" {
+		sql += ` AND p.department = $` + strconv.Itoa(i)
+		args = append(args, department)
+		i++
+	}
+	if groupName != "" {
+		sql += ` AND p.project_group = $` + strconv.Itoa(i)
+		args = append(args, groupName)
+		i++
+	}
 	if source != "" {
 		sql += ` AND p.id IN (SELECT project_id FROM budget_sources WHERE source = $` + strconv.Itoa(i) + `)`
 		args = append(args, source)
@@ -498,7 +540,19 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 			HAVING SUM(active_bs.budget) > 0
 		)`
 	}
-	sql += ` ORDER BY p.project_code`
+	sql += ` ORDER BY
+		CASE p.project_type WHEN 'Y' THEN 1 WHEN 'C' THEN 2 WHEN 'L' THEN 3 ELSE 4 END,
+		CASE p.project_group
+			WHEN 'หมวดสิ่งก่อสร้าง' THEN 1
+			WHEN 'หมวดเครื่องจักรอุปกรณ์' THEN 2
+			WHEN 'หมวดเครื่องใช้สำนักงานและเครื่องมือเครื่องใช้ขนาดเล็ก' THEN 3
+			WHEN 'หมวดวิจัยและพัฒนา' THEN 4
+			WHEN 'หมวดลงทุนอื่นๆ' THEN 5
+			WHEN 'หมวดสำรองราคา' THEN 6
+			WHEN 'หมวดสำรองกรณีจำเป็นเร่งด่วน' THEN 7
+			ELSE 99
+		END,
+		p.year, p.project_code`
 
 	rows, err := db.Query(ctx, sql, args...)
 	if err != nil {
@@ -512,7 +566,7 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 		var rawBreakdown []byte
 		var rawSubJobs []byte
 		if err := rows.Scan(
-			&fp.ID, &fp.ProjectCode, &fp.ItemNo, &fp.Name, &fp.Division, &fp.ProjectType, &fp.Year,
+			&fp.ID, &fp.ProjectCode, &fp.ItemNo, &fp.Name, &fp.Division, &fp.Department, &fp.GroupName, &fp.ProjectType, &fp.Year,
 			&rawBreakdown, &rawSubJobs,
 		); err != nil {
 			return nil, err

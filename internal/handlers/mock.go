@@ -139,6 +139,10 @@ func (h *MockProjectHandler) CreateBudgetSource(w http.ResponseWriter, r *http.R
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func (h *MockProjectHandler) UpdateInfo(w http.ResponseWriter, r *http.Request) {
+	respond(w, http.StatusOK, map[string]string{"ok": "true"})
+}
+
 func (h *MockProjectHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }

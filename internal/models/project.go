@@ -11,6 +11,7 @@ type Project struct {
 	Name        string    `json:"name"`
 	Division    *string   `json:"division,omitempty"`
 	Department  *string   `json:"department,omitempty"`
+	GroupName   *string   `json:"group_name,omitempty"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
@@ -166,6 +167,8 @@ type FlatProject struct {
 	ItemNo          *string           `json:"item_no"`
 	Name            string            `json:"name"`
 	Division        *string           `json:"division"`
+	Department      *string           `json:"department"`
+	GroupName       *string           `json:"group_name"`
 	ProjectType     string            `json:"project_type"`
 	Year            int               `json:"year"`
 	SubJobs         []SubJobYearEntry `json:"sub_jobs"`
