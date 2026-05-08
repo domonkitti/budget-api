@@ -318,12 +318,14 @@ func queryScenarioFlat(ctx context.Context, db *pgxpool.Pool, scenID string) ([]
 				(SELECT json_agg(row_data ORDER BY (row_data->>'year')::int, row_data->>'source', row_data->>'fund_type')
 				 FROM (
 					SELECT json_build_object(
-						'year',      data_year,
-						'source',    source,
-						'fund_type', fund_type,
-						'budget',    SUM(budget),
-						'target',    SUM(target),
-						'remain',    SUM(budget - target)
+						'year',         data_year,
+						'source',       source,
+						'fund_type',    fund_type,
+						'budget',       SUM(budget),
+						'target',       SUM(target),
+						'remain',       SUM(budget - target),
+						'cut_transfer', SUM(cut_transfer),
+						'under_budget', SUM(under_budget)
 					) AS row_data
 					FROM scenario_budget_sources sbs
 					WHERE sbs.project_id = p.id AND sbs.scenario_id = $1
@@ -335,13 +337,15 @@ func queryScenarioFlat(ctx context.Context, db *pgxpool.Pool, scenID string) ([]
 				(SELECT json_agg(row_data ORDER BY COALESCE((row_data->>'sort_order')::int, 999999), row_data->>'name', (row_data->>'year')::int, row_data->>'fund_type')
 				 FROM (
 					SELECT json_build_object(
-						'name',       name,
-						'sort_order', sort_order,
-						'year',       data_year,
-						'fund_type',  fund_type,
-						'budget',     SUM(budget),
-						'target',     SUM(target),
-						'remain',     SUM(budget - target)
+						'name',         name,
+						'sort_order',   sort_order,
+						'year',         data_year,
+						'fund_type',    fund_type,
+						'budget',       SUM(budget),
+						'target',       SUM(target),
+						'remain',       SUM(budget - target),
+						'cut_transfer', SUM(cut_transfer),
+						'under_budget', SUM(under_budget)
 					) AS row_data
 					FROM scenario_sub_jobs ssj
 					WHERE ssj.project_id = p.id AND ssj.scenario_id = $1

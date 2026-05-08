@@ -106,12 +106,14 @@ type TagSummaryRow struct {
 
 // SourceYearEntry is one row in the per-year, per-source, per-fund-type breakdown.
 type SourceYearEntry struct {
-	Year     int     `json:"year"`
-	Source   string  `json:"source"`
-	FundType string  `json:"fund_type"`
-	Budget   float64 `json:"budget"`
-	Target   float64 `json:"target"`
-	Remain   float64 `json:"remain"`
+	Year        int     `json:"year"`
+	Source      string  `json:"source"`
+	FundType    string  `json:"fund_type"`
+	Budget      float64 `json:"budget"`
+	Target      float64 `json:"target"`
+	Remain      float64 `json:"remain"`
+	CutTransfer float64 `json:"cut_transfer"`
+	UnderBudget float64 `json:"under_budget"`
 }
 
 type Snapshot struct {
@@ -152,13 +154,15 @@ type ChangeLogEntry struct {
 
 // SubJobYearEntry is one row in the per-year, per-sub-job, per-fund-type breakdown.
 type SubJobYearEntry struct {
-	Name      string  `json:"name"`
-	SortOrder *int    `json:"sort_order"`
-	Year      int     `json:"year"`
-	FundType  string  `json:"fund_type"`
-	Budget    float64 `json:"budget"`
-	Target    float64 `json:"target"`
-	Remain    float64 `json:"remain"`
+	Name        string  `json:"name"`
+	SortOrder   *int    `json:"sort_order"`
+	Year        int     `json:"year"`
+	FundType    string  `json:"fund_type"`
+	Budget      float64 `json:"budget"`
+	Target      float64 `json:"target"`
+	Remain      float64 `json:"remain"`
+	CutTransfer float64 `json:"cut_transfer"`
+	UnderBudget float64 `json:"under_budget"`
 }
 
 type FlatProject struct {

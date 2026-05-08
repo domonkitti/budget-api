@@ -21,35 +21,40 @@ type mockStore struct {
 }
 
 type mockProject struct {
-	ID          int     `json:"id"`
-	ProjectCode string  `json:"project_code"`
-	Year        int     `json:"year"`
-	ProjectType string  `json:"project_type"`
-	ItemNo      *string `json:"item_no"`
-	Name        string  `json:"name"`
-	Division    *string `json:"division"`
-	Department  *string `json:"department"`
+	ID           int     `json:"id"`
+	ProjectCode  string  `json:"project_code"`
+	Year         int     `json:"year"`
+	ProjectType  string  `json:"project_type"`
+	ItemNo       *string `json:"item_no"`
+	Name         string  `json:"name"`
+	Division     *string `json:"division"`
+	Department   *string `json:"department"`
+	ProjectGroup *string `json:"project_group"`
 }
 
 type mockSubJob struct {
-	ID        int     `json:"id"`
-	ProjectID int     `json:"project_id"`
-	Name      string  `json:"name"`
-	SortOrder *int    `json:"sort_order"`
-	FundType  string  `json:"fund_type"`
-	DataYear  int     `json:"data_year"`
-	Budget    float64 `json:"budget"`
-	Target    float64 `json:"target"`
+	ID          int     `json:"id"`
+	ProjectID   int     `json:"project_id"`
+	Name        string  `json:"name"`
+	SortOrder   *int    `json:"sort_order"`
+	FundType    string  `json:"fund_type"`
+	DataYear    int     `json:"data_year"`
+	Budget      float64 `json:"budget"`
+	Target      float64 `json:"target"`
+	CutTransfer float64 `json:"cut_transfer"`
+	UnderBudget float64 `json:"under_budget"`
 }
 
 type mockBudgetSource struct {
-	ID        int     `json:"id"`
-	ProjectID int     `json:"project_id"`
-	Source    string  `json:"source"`
-	FundType  string  `json:"fund_type"`
-	DataYear  int     `json:"data_year"`
-	Budget    float64 `json:"budget"`
-	Target    float64 `json:"target"`
+	ID          int     `json:"id"`
+	ProjectID   int     `json:"project_id"`
+	Source      string  `json:"source"`
+	FundType    string  `json:"fund_type"`
+	DataYear    int     `json:"data_year"`
+	Budget      float64 `json:"budget"`
+	Target      float64 `json:"target"`
+	CutTransfer float64 `json:"cut_transfer"`
+	UnderBudget float64 `json:"under_budget"`
 }
 
 type mockTagCategory struct {
@@ -200,6 +205,8 @@ func (h *MockProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 			agg[k].Budget += bs.Budget
 			agg[k].Target += bs.Target
 			agg[k].Remain += bs.Budget - bs.Target
+			agg[k].CutTransfer += bs.CutTransfer
+			agg[k].UnderBudget += bs.UnderBudget
 		}
 		breakdown := []models.SourceYearEntry{}
 		for _, e := range agg {
@@ -226,6 +233,8 @@ func (h *MockProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 			subJobAgg[k].Budget += sj.Budget
 			subJobAgg[k].Target += sj.Target
 			subJobAgg[k].Remain += sj.Budget - sj.Target
+			subJobAgg[k].CutTransfer += sj.CutTransfer
+			subJobAgg[k].UnderBudget += sj.UnderBudget
 		}
 		subJobs := []models.SubJobYearEntry{}
 		for _, e := range subJobAgg {
@@ -234,7 +243,8 @@ func (h *MockProjectHandler) Flat(w http.ResponseWriter, r *http.Request) {
 
 		result = append(result, models.FlatProject{
 			ID: p.ID, ProjectCode: p.ProjectCode, ItemNo: p.ItemNo, Name: p.Name,
-			Division: p.Division, ProjectType: p.ProjectType, Year: p.Year,
+			Division: p.Division, Department: p.Department, GroupName: p.ProjectGroup,
+			ProjectType: p.ProjectType, Year: p.Year,
 			SubJobs: subJobs, SourceBreakdown: breakdown,
 		})
 	}
@@ -524,6 +534,7 @@ func toSubJob(sj mockSubJob) models.SubJob {
 		ID: sj.ID, ProjectID: sj.ProjectID, Name: sj.Name,
 		SortOrder: sj.SortOrder, FundType: sj.FundType, DataYear: sj.DataYear,
 		Budget: sj.Budget, Target: sj.Target, Remain: sj.Budget - sj.Target,
+		CutTransfer: sj.CutTransfer, UnderBudget: sj.UnderBudget,
 		CreatedAt: mockTime,
 	}
 }
@@ -532,7 +543,8 @@ func toBudgetSource(bs mockBudgetSource) models.BudgetSource {
 	return models.BudgetSource{
 		ID: bs.ID, ProjectID: bs.ProjectID, Source: bs.Source,
 		FundType: bs.FundType, DataYear: bs.DataYear,
-		Budget: bs.Budget, Target: bs.Target,
-		Remain: bs.Budget - bs.Target, CreatedAt: mockTime,
+		Budget: bs.Budget, Target: bs.Target, Remain: bs.Budget - bs.Target,
+		CutTransfer: bs.CutTransfer, UnderBudget: bs.UnderBudget,
+		CreatedAt: mockTime,
 	}
 }

@@ -459,12 +459,14 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 				(SELECT json_agg(row_data ORDER BY (row_data->>'year')::int, row_data->>'source', row_data->>'fund_type')
 				 FROM (
 					SELECT json_build_object(
-						'year',   data_year,
-						'source', source,
-						'fund_type', fund_type,
-						'budget', SUM(budget),
-						'target', SUM(target),
-						'remain', SUM(budget - target)
+						'year',         data_year,
+						'source',       source,
+						'fund_type',    fund_type,
+						'budget',       SUM(budget),
+						'target',       SUM(target),
+						'remain',       SUM(budget - target),
+						'cut_transfer', SUM(cut_transfer),
+						'under_budget', SUM(under_budget)
 					) AS row_data
 					FROM budget_sources bs
 					WHERE bs.project_id = p.id
@@ -477,13 +479,15 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 				(SELECT json_agg(row_data ORDER BY COALESCE((row_data->>'sort_order')::int, 999999), row_data->>'name', (row_data->>'year')::int, row_data->>'fund_type')
 				 FROM (
 					SELECT json_build_object(
-						'name', name,
-						'sort_order', sort_order,
-						'year', data_year,
-						'fund_type', fund_type,
-						'budget', SUM(budget),
-						'target', SUM(target),
-						'remain', SUM(budget - target)
+						'name',         name,
+						'sort_order',   sort_order,
+						'year',         data_year,
+						'fund_type',    fund_type,
+						'budget',       SUM(budget),
+						'target',       SUM(target),
+						'remain',       SUM(budget - target),
+						'cut_transfer', SUM(cut_transfer),
+						'under_budget', SUM(under_budget)
 					) AS row_data
 					FROM sub_jobs sj
 					WHERE sj.project_id = p.id
