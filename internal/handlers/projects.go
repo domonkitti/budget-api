@@ -315,6 +315,10 @@ func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 			CutTransfer float64 `json:"cut_transfer"`
 			UnderBudget float64 `json:"under_budget"`
 		} `json:"new_budget_sources"`
+		DeletedSubJobNames []struct {
+			ProjectID int    `json:"project_id"`
+			Name      string `json:"name"`
+		} `json:"deleted_sub_job_names"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "invalid body", http.StatusBadRequest)
@@ -386,6 +390,15 @@ func (h *ProjectHandler) BatchSave(w http.ResponseWriter, r *http.Request) {
 		if _, err := tx.Exec(r.Context(),
 			`INSERT INTO budget_sources (project_id, source, fund_type, data_year, budget, target, cut_transfer, under_budget) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
 			bs.ProjectID, bs.Source, bs.FundType, bs.DataYear, bs.Budget, bs.Target, bs.CutTransfer, bs.UnderBudget); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	for _, sj := range body.DeletedSubJobNames {
+		if _, err := tx.Exec(r.Context(),
+			`DELETE FROM sub_jobs WHERE project_id = $1 AND name = $2`,
+			sj.ProjectID, sj.Name); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
