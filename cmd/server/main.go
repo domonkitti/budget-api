@@ -8,6 +8,7 @@ import (
 
 	"github.com/domonkitti/budget-app-api/internal/db"
 	"github.com/domonkitti/budget-app-api/internal/handlers"
+	"github.com/domonkitti/budget-app-api/internal/po"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
@@ -69,6 +70,13 @@ type changeLogRoutes interface {
 	Undo(w http.ResponseWriter, r *http.Request)
 	UpdateBatchComment(w http.ResponseWriter, r *http.Request)
 }
+type importRoutes interface {
+	CheckVersions(w http.ResponseWriter, r *http.Request)
+	FetchDiff(w http.ResponseWriter, r *http.Request)
+	Accept(w http.ResponseWriter, r *http.Request)
+	BatchAccept(w http.ResponseWriter, r *http.Request)
+	ListLog(w http.ResponseWriter, r *http.Request)
+}
 
 func main() {
 	godotenv.Load()
@@ -81,6 +89,7 @@ func main() {
 		snapshots  snapshotRoutes
 		scenarios  scenarioRoutes
 		changeLogs changeLogRoutes
+		imports    importRoutes
 	)
 
 	if os.Getenv("MOCK") == "true" {
@@ -96,6 +105,7 @@ func main() {
 		snapshots = handlers.NewMockSnapshotHandler()
 		scenarios = handlers.NewMockScenarioHandler()
 		changeLogs = handlers.NewMockChangeLogHandler()
+		imports = handlers.NewMockImportHandler()
 	} else {
 		ctx := context.Background()
 		pool, err := db.Connect(ctx)
@@ -113,6 +123,15 @@ func main() {
 		snapshots = handlers.NewSnapshotHandler(pool)
 		scenarios = handlers.NewScenarioHandler(pool)
 		changeLogs = handlers.NewChangeLogHandler(pool)
+
+		poURL := os.Getenv("PO_API_URL")
+		var poClient po.Client
+		if poURL == "" || poURL == "mock" {
+			poClient = po.NewMockClient()
+		} else {
+			poClient = po.NewHTTPClient(poURL)
+		}
+		imports = handlers.NewImportHandler(pool, poClient)
 	}
 
 	r := chi.NewRouter()
@@ -177,6 +196,12 @@ func main() {
 		r.Get("/projects/{code}/history", changeLogs.ListByProject)
 		r.Post("/change-log/{id}/undo", changeLogs.Undo)
 		r.Patch("/change-log/batch/{batchId}", changeLogs.UpdateBatchComment)
+
+		r.Get("/import/versions", imports.CheckVersions)
+		r.Get("/import/project/{code}/diff", imports.FetchDiff)
+		r.Post("/import/project/{code}/accept", imports.Accept)
+		r.Post("/import/batch-accept", imports.BatchAccept)
+		r.Get("/import/log", imports.ListLog)
 	})
 
 	port := os.Getenv("PORT")
