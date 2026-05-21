@@ -365,6 +365,137 @@ func hasChangedSubJobs(diffs []models.SubJobDiff) bool {
 	return false
 }
 
+// ProjectOverview returns all projects that have budget > 0 for the requested year,
+// with their PO import status and aggregated ลงทุน budget.
+func (h *ImportHandler) ProjectOverview(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	yearStr := r.URL.Query().Get("year")
+	var year int
+	if yearStr == "" {
+		var val string
+		if err := h.db.QueryRow(ctx, `SELECT value FROM settings WHERE key = 'active_year'`).Scan(&val); err != nil {
+			http.Error(w, "cannot read active_year: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Sscanf(val, "%d", &year)
+	} else {
+		fmt.Sscanf(yearStr, "%d", &year)
+	}
+	if year == 0 {
+		http.Error(w, "invalid year", http.StatusBadRequest)
+		return
+	}
+
+	// Projects may store budget in sub_jobs OR budget_sources (no-sub_jobs pattern).
+	// We pick whichever table the project actually uses; never sum both to avoid double-counting.
+	rows, err := h.db.Query(ctx, `
+		SELECT
+			p.project_code,
+			p.name,
+			p.project_type,
+			p.year,
+			p.project_group,
+			p.item_no,
+			COALESCE(pis.status, 'budget_only') AS status,
+			CASE
+				WHEN EXISTS (SELECT 1 FROM sub_jobs WHERE project_id = p.id AND fund_type = 'ลงทุน')
+				THEN COALESCE((SELECT SUM(budget) FROM sub_jobs WHERE project_id = p.id AND fund_type = 'ลงทุน'), 0)
+				ELSE COALESCE((SELECT SUM(budget) FROM budget_sources WHERE project_id = p.id AND fund_type = 'ลงทุน'), 0)
+			END AS full_plan_budget,
+			CASE
+				WHEN EXISTS (SELECT 1 FROM sub_jobs WHERE project_id = p.id AND fund_type = 'ลงทุน')
+				THEN COALESCE((SELECT SUM(budget) FROM sub_jobs WHERE project_id = p.id AND fund_type = 'ลงทุน' AND data_year = $1), 0)
+				ELSE COALESCE((SELECT SUM(budget) FROM budget_sources WHERE project_id = p.id AND fund_type = 'ลงทุน' AND data_year = $1), 0)
+			END AS active_year_budget
+		FROM projects p
+		LEFT JOIN po_import_status pis ON pis.project_code = p.project_code
+		WHERE p.id IN (
+			SELECT DISTINCT project_id FROM sub_jobs
+			WHERE data_year = $1 AND budget > 0 AND fund_type = 'ลงทุน'
+			UNION
+			SELECT DISTINCT project_id FROM budget_sources
+			WHERE data_year = $1 AND budget > 0 AND fund_type = 'ลงทุน'
+		)
+		ORDER BY p.project_code
+	`, year)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	result := []models.ProjectOverviewItem{}
+	for rows.Next() {
+		var item models.ProjectOverviewItem
+		if err := rows.Scan(&item.ProjectCode, &item.Name, &item.ProjectType, &item.ProjectYear, &item.GroupName, &item.ItemNo, &item.Status, &item.FullPlanBudget, &item.ActiveYearBudget); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		result = append(result, item)
+	}
+
+	// Also include projects that exist in PO but have no BG record at all.
+	// Their budget numbers come from the PO system.
+	newRows, err := h.db.Query(ctx, `
+		SELECT project_code FROM po_import_status
+		WHERE project_code NOT IN (SELECT project_code FROM projects)
+	`)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer newRows.Close()
+
+	var newCodes []string
+	for newRows.Next() {
+		var code string
+		if err := newRows.Scan(&code); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		newCodes = append(newCodes, code)
+	}
+
+	for _, code := range newCodes {
+		poPrj, err := h.poClient.FetchProject(ctx, code)
+		if err != nil {
+			continue
+		}
+		var fullPlan, activeYearBudget float64
+		for _, sj := range poPrj.SubJobs {
+			if sj.FundType == "ลงทุน" {
+				fullPlan += sj.Budget
+				if sj.DataYear == year {
+					activeYearBudget += sj.Budget
+				}
+			}
+		}
+		if activeYearBudget == 0 {
+			continue // no ลงทุน budget for this year — skip, consistent with BG filter
+		}
+		var projectYear int
+		var projectType string
+		if len(code) >= 6 {
+			fmt.Sscanf(code[1:5], "%d", &projectYear)
+			projectType = string(code[5])
+		}
+		result = append(result, models.ProjectOverviewItem{
+			ProjectCode:      code,
+			Name:             poPrj.Name,
+			ProjectType:      projectType,
+			ProjectYear:      projectYear,
+			GroupName:        poPrj.GroupName,
+			ItemNo:           poPrj.ItemNo,
+			Status:           "new",
+			FullPlanBudget:   fullPlan,
+			ActiveYearBudget: activeYearBudget,
+		})
+	}
+
+	respond(w, http.StatusOK, result)
+}
+
 func ptrStr(s *string) string {
 	if s == nil {
 		return ""

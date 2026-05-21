@@ -84,52 +84,73 @@ func NewMockClient() Client {
 }
 
 var mockVersions = []models.POProjectVersion{
-	{ProjectCode: "I2570Y001", Version: 3, UpdatedAt: time.Date(2026, 5, 18, 9, 0, 0, 0, time.UTC)},
-	{ProjectCode: "I2570Y002", Version: 2, UpdatedAt: time.Date(2026, 4, 10, 14, 0, 0, 0, time.UTC)},
-	{ProjectCode: "I2570C001", Version: 1, UpdatedAt: time.Date(2026, 5, 15, 11, 0, 0, 0, time.UTC)},
+	// I2568C001: BG accepted v1; PO now at v2 with changed sub-job numbers → has_update
+	{ProjectCode: "I2568C001", Version: 2, UpdatedAt: time.Date(2026, 5, 19, 10, 0, 0, 0, time.UTC)},
+	// I2570C003: BG has budget_sources only, PO has sub_jobs → new
+	{ProjectCode: "I2570C003", Version: 1, UpdatedAt: time.Date(2026, 5, 18, 8, 0, 0, 0, time.UTC)},
+	// I2570C004: BG has budget_sources only, PO also has no sub_jobs → up_to_date
+	{ProjectCode: "I2570C004", Version: 1, UpdatedAt: time.Date(2026, 5, 15, 8, 0, 0, 0, time.UTC)},
+	// I2570C005: no BG record at all, starts at active year → new
+	{ProjectCode: "I2570C005", Version: 1, UpdatedAt: time.Date(2026, 5, 20, 9, 0, 0, 0, time.UTC)},
 }
 
 var str = func(s string) *string { return &s }
 
 var mockProjects = map[string]models.POProject{
-	"I2570Y001": {
-		ProjectCode: "I2570Y001",
-		Version:     3,
-		ExportedAt:  time.Date(2026, 5, 18, 9, 0, 0, 0, time.UTC),
-		Name:        "โครงการปรับปรุงระบบน้ำประปา (ฉบับปรับปรุง)",
-		Division:    str("สำนักสาธารณูปโภค"),
-		Department:  str("ฝ่ายโครงสร้างพื้นฐาน"),
-		GroupName:   str("หมวดสาธารณูปโภค"),
-		SubJobs: []models.POSubJob{
-			{Name: "งานออกแบบ", FundType: "ลงทุน", DataYear: 2570, Budget: 1500000, Target: 1200000},
-			{Name: "งานก่อสร้าง", FundType: "ลงทุน", DataYear: 2570, Budget: 8000000, Target: 7500000},
-			{Name: "งานก่อสร้าง", FundType: "ผูกพัน", DataYear: 2570, Budget: 2000000, Target: 1800000},
-			{Name: "งานตรวจสอบ", FundType: "ลงทุน", DataYear: 2570, Budget: 500000, Target: 400000},
-		},
-	},
-	"I2570Y002": {
-		ProjectCode: "I2570Y002",
+	// I2568C001: same sub_job names as BG; หมวดสิ่งก่อสร้าง and หมวดยานพาหนะ ลงทุน have changed
+	"I2568C001": {
+		ProjectCode: "I2568C001",
 		Version:     2,
-		ExportedAt:  time.Date(2026, 4, 10, 14, 0, 0, 0, time.UTC),
-		Name:        "โครงการก่อสร้างอาคารสำนักงาน",
-		Division:    str("สำนักโยธา"),
-		Department:  str("ฝ่ายก่อสร้าง"),
-		GroupName:   str("หมวดก่อสร้าง"),
+		ExportedAt:  time.Date(2026, 5, 19, 10, 0, 0, 0, time.UTC),
+		Name:        "แผนงานสนับสนุนการดำเนินงาน ระยะที่ 6",
+		Division:    str("รผก.(วว-วศ)/ฝยธ."),
+		Department:  str("วว"),
 		SubJobs: []models.POSubJob{
-			{Name: "งานฐานราก", FundType: "ลงทุน", DataYear: 2570, Budget: 3000000, Target: 2800000},
-			{Name: "งานโครงสร้าง", FundType: "ลงทุน", DataYear: 2570, Budget: 12000000, Target: 11000000},
+			{Name: "1. หมวดที่ดิน",               FundType: "ลงทุน",  DataYear: 2570, Budget: 0, Target: 0},
+			{Name: "2. หมวดสิ่งก่อสร้าง",         FundType: "ผูกพัน", DataYear: 2570, Budget: 1324.969, Target: 173.955},
+			{Name: "2. หมวดสิ่งก่อสร้าง",         FundType: "ลงทุน",  DataYear: 2570, Budget: 520.000, Target: 34.114},
+			{Name: "3. หมวดยานพาหนะ",             FundType: "ผูกพัน", DataYear: 2570, Budget: 820.922, Target: 468.5},
+			{Name: "3. หมวดยานพาหนะ",             FundType: "ลงทุน",  DataYear: 2570, Budget: 850.000, Target: 180.91},
+			{Name: "4. หมวดเครื่องมือ-เครื่องใช้", FundType: "ผูกพัน", DataYear: 2570, Budget: 620.592, Target: 255.765},
+			{Name: "4. หมวดเครื่องมือ-เครื่องใช้", FundType: "ลงทุน",  DataYear: 2570, Budget: 345.04, Target: 147.07},
+			{Name: "สำรองราคา",                   FundType: "ผูกพัน", DataYear: 2570, Budget: 152.117, Target: 0},
 		},
 	},
-	"I2570C001": {
-		ProjectCode: "I2570C001",
+	// I2570C003: BG has budget_sources only; PO has sub_jobs → all will appear as "added"
+	"I2570C003": {
+		ProjectCode: "I2570C003",
 		Version:     1,
-		ExportedAt:  time.Date(2026, 5, 15, 11, 0, 0, 0, time.UTC),
-		Name:        "โครงการพัฒนาระบบสารสนเทศ",
-		Division:    str("สำนักเทคโนโลยี"),
-		Department:  str("ฝ่ายพัฒนาระบบ"),
+		ExportedAt:  time.Date(2026, 5, 18, 8, 0, 0, 0, time.UTC),
+		Name:        "แผนงานการก่อสร้างปรับปรุงระบบจำหน่ายไฟฟ้าเป็นเคเบิลใต้ดิน",
+		Division:    str("ฝบก.1"),
+		Department:  str("ป"),
 		SubJobs: []models.POSubJob{
-			{Name: "งานวิเคราะห์ความต้องการ", FundType: "ลงทุน", DataYear: 2570, Budget: 800000, Target: 700000},
-			{Name: "งานพัฒนาระบบ", FundType: "ลงทุน", DataYear: 2570, Budget: 4500000, Target: 4000000},
+			{Name: "งานรวม", FundType: "ลงทุน", DataYear: 2570, Budget: 850.000, Target: 78.45},
+			{Name: "งานรวม", FundType: "ลงทุน", DataYear: 2571, Budget: 920.000, Target: 0},
+		},
+	},
+	// I2570C004: BG has budget_sources only; PO also has no sub_jobs → diff is empty, up_to_date
+	"I2570C004": {
+		ProjectCode: "I2570C004",
+		Version:     1,
+		ExportedAt:  time.Date(2026, 5, 15, 8, 0, 0, 0, time.UTC),
+		Name:        "แผนงานเช่ายานพาหนะ ปี 2570 - 2575",
+		Division:    str("รผก.(ล)"),
+		Department:  str("ล"),
+		SubJobs:     []models.POSubJob{},
+	},
+	// I2570C005: no BG record at all, new project starting at active year
+	"I2570C005": {
+		ProjectCode: "I2570C005",
+		Version:     1,
+		ExportedAt:  time.Date(2026, 5, 20, 9, 0, 0, 0, time.UTC),
+		Name:        "แผนงานพัฒนาระบบพลังงานทดแทน ระยะที่ 1",
+		Division:    str("ฝวพ."),
+		Department:  str("พน"),
+		SubJobs: []models.POSubJob{
+			{Name: "1. งานสำรวจและออกแบบ", FundType: "ลงทุน", DataYear: 2570, Budget: 15000.000, Target: 0},
+			{Name: "2. งานก่อสร้าง",       FundType: "ลงทุน", DataYear: 2570, Budget: 85000.000, Target: 0},
+			{Name: "2. งานก่อสร้าง",       FundType: "ลงทุน", DataYear: 2571, Budget: 120000.000, Target: 0},
 		},
 	},
 }

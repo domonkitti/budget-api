@@ -78,3 +78,16 @@ type ProjectDiff struct {
 	ProjectDiffs []FieldDiff  `json:"project_diffs"`
 	SubJobDiffs  []SubJobDiff `json:"sub_job_diffs"`
 }
+
+// ProjectOverviewItem is one row in the project overview page.
+type ProjectOverviewItem struct {
+	ProjectCode      string  `json:"project_code"`
+	Name             string  `json:"name"`
+	ProjectType      string  `json:"project_type"`    // Y | C | L
+	ProjectYear      int     `json:"project_year"`     // year from project code (start year)
+	GroupName        *string `json:"group_name"`       // หมวด (Y type only)
+	ItemNo           *string `json:"item_no"`
+	Status           string  `json:"status"`           // "has_update" | "new" | "up_to_date" | "budget_only"
+	FullPlanBudget   float64 `json:"full_plan_budget"`
+	ActiveYearBudget float64 `json:"active_year_budget"`
+}

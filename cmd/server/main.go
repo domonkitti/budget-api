@@ -76,6 +76,11 @@ type importRoutes interface {
 	Accept(w http.ResponseWriter, r *http.Request)
 	BatchAccept(w http.ResponseWriter, r *http.Request)
 	ListLog(w http.ResponseWriter, r *http.Request)
+	ProjectOverview(w http.ResponseWriter, r *http.Request)
+}
+type settingsRoutes interface {
+	GetActiveYear(w http.ResponseWriter, r *http.Request)
+	SetActiveYear(w http.ResponseWriter, r *http.Request)
 }
 
 func main() {
@@ -90,6 +95,7 @@ func main() {
 		scenarios  scenarioRoutes
 		changeLogs changeLogRoutes
 		imports    importRoutes
+		settings   settingsRoutes
 	)
 
 	if os.Getenv("MOCK") == "true" {
@@ -106,6 +112,7 @@ func main() {
 		scenarios = handlers.NewMockScenarioHandler()
 		changeLogs = handlers.NewMockChangeLogHandler()
 		imports = handlers.NewMockImportHandler()
+		settings = handlers.NewMockSettingsHandler()
 	} else {
 		ctx := context.Background()
 		pool, err := db.Connect(ctx)
@@ -132,6 +139,7 @@ func main() {
 			poClient = po.NewHTTPClient(poURL)
 		}
 		imports = handlers.NewImportHandler(pool, poClient)
+		settings = handlers.NewSettingsHandler(pool)
 	}
 
 	r := chi.NewRouter()
@@ -202,6 +210,11 @@ func main() {
 		r.Post("/import/project/{code}/accept", imports.Accept)
 		r.Post("/import/batch-accept", imports.BatchAccept)
 		r.Get("/import/log", imports.ListLog)
+
+		r.Get("/project-overview", imports.ProjectOverview)
+
+		r.Get("/settings/active-year", settings.GetActiveYear)
+		r.Put("/settings/active-year", settings.SetActiveYear)
 	})
 
 	port := os.Getenv("PORT")
