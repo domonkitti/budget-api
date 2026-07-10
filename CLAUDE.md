@@ -15,7 +15,7 @@ Set `MOCK=true` to run with `mock_data.json` instead of Postgres.
 
 ## Project code format
 `I{year}{type}{seq}` — e.g. `I2570Y001`  
-type: Y=รายปี, C=แผนงาน, L=สัญญาเช่า
+type: Y=รายปี, CY=เปลี่ยนแปลงงบรายปี, C=แผนงาน, CC=เปลี่ยนแปลงแผนงาน, L=สัญญาเช่า
 
 ## File layout
 ```

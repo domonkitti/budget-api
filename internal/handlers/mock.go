@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -134,6 +135,38 @@ func (h *MockProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.Error(w, "not found", http.StatusNotFound)
+}
+
+func (h *MockProjectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		Name        string  `json:"name"`
+		ProjectType string  `json:"project_type"`
+		Year        int     `json:"year"`
+		Division    *string `json:"division"`
+		Department  *string `json:"department"`
+		GroupName   *string `json:"group_name"`
+		ItemNo      *string `json:"item_no"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+	nextID := len(h.s.Projects) + 1
+	nextSeq := 1
+	for _, p := range h.s.Projects {
+		if p.Year == body.Year && p.ProjectType == body.ProjectType {
+			nextSeq++
+		}
+	}
+	codeStr := fmt.Sprintf("I%d%s%03d", body.Year, body.ProjectType, nextSeq)
+	mp := mockProject{
+		ID: nextID, ProjectCode: codeStr, Year: body.Year,
+		ProjectType: body.ProjectType, Name: body.Name,
+		Division: body.Division, Department: body.Department,
+		ProjectGroup: body.GroupName, ItemNo: body.ItemNo,
+	}
+	h.s.Projects = append(h.s.Projects, mp)
+	respond(w, http.StatusCreated, toProject(mp))
 }
 
 func (h *MockProjectHandler) CreateSubJob(w http.ResponseWriter, r *http.Request) {

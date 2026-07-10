@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -78,6 +79,57 @@ func (h *ProjectHandler) List(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respond(w, http.StatusOK, projects)
+}
+
+func (h *ProjectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		Name        string  `json:"name"`
+		ProjectType string  `json:"project_type"`
+		Year        int     `json:"year"`
+		Division    *string `json:"division"`
+		Department  *string `json:"department"`
+		GroupName   *string `json:"group_name"`
+		ItemNo      *string `json:"item_no"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "invalid body", http.StatusBadRequest)
+		return
+	}
+	if body.Name == "" || body.ProjectType == "" || body.Year == 0 {
+		http.Error(w, "name, project_type, and year are required", http.StatusBadRequest)
+		return
+	}
+
+	var nextSeq int
+	likePattern := fmt.Sprintf("I%d%s%%", body.Year, body.ProjectType)
+	// prefix = 'I' + 4-digit year + type chars; seq starts one position after
+	seqStart := 1 + 4 + len(body.ProjectType) + 1
+	err := h.db.QueryRow(r.Context(),
+		fmt.Sprintf(`SELECT COALESCE(MAX(CAST(SUBSTRING(project_code FROM %d) AS INT)), 0) + 1
+		 FROM projects
+		 WHERE project_code LIKE $1`, seqStart),
+		likePattern,
+	).Scan(&nextSeq)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	code := fmt.Sprintf("I%d%s%03d", body.Year, body.ProjectType, nextSeq)
+
+	var p models.Project
+	err = h.db.QueryRow(r.Context(),
+		`INSERT INTO projects (project_code, year, project_type, name, division, department, project_group, item_no)
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		 RETURNING id, project_code, year, project_type, item_no, name, division, department, project_group, created_at`,
+		code, body.Year, body.ProjectType, body.Name, body.Division, body.Department, body.GroupName, body.ItemNo,
+	).Scan(&p.ID, &p.ProjectCode, &p.Year, &p.ProjectType, &p.ItemNo, &p.Name, &p.Division, &p.Department, &p.GroupName, &p.CreatedAt)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	respond(w, http.StatusCreated, p)
 }
 
 func (h *ProjectHandler) Get(w http.ResponseWriter, r *http.Request) {
@@ -558,7 +610,7 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 		)`
 	}
 	sql += ` ORDER BY
-		CASE p.project_type WHEN 'Y' THEN 1 WHEN 'C' THEN 2 WHEN 'L' THEN 3 ELSE 4 END,
+		CASE p.project_type WHEN 'Y' THEN 1 WHEN 'CY' THEN 2 WHEN 'C' THEN 3 WHEN 'CC' THEN 4 WHEN 'L' THEN 5 ELSE 6 END,
 		CASE p.project_group
 			WHEN 'หมวดสิ่งก่อสร้าง' THEN 1
 			WHEN 'หมวดเครื่องจักรอุปกรณ์' THEN 2

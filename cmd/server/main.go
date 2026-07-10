@@ -18,6 +18,7 @@ type projectRoutes interface {
 	List(w http.ResponseWriter, r *http.Request)
 	Get(w http.ResponseWriter, r *http.Request)
 	Flat(w http.ResponseWriter, r *http.Request)
+	CreateProject(w http.ResponseWriter, r *http.Request)
 	UpdateInfo(w http.ResponseWriter, r *http.Request)
 	CreateSubJob(w http.ResponseWriter, r *http.Request)
 	CreateBudgetSource(w http.ResponseWriter, r *http.Request)
@@ -154,6 +155,7 @@ func main() {
 	r.Route("/api/v1", func(r chi.Router) {
 		// TODO: r.Use(auth.Require) — enable when auth is ready (see internal/auth/middleware.go)
 		r.Get("/projects", projects.List)
+		r.Post("/projects", projects.CreateProject)
 		r.Get("/projects/flat", projects.Flat)
 		r.Get("/projects/{code}", projects.Get)
 		r.Patch("/projects/{code}", projects.UpdateInfo)
