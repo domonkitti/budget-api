@@ -83,6 +83,17 @@ type settingsRoutes interface {
 	GetActiveYear(w http.ResponseWriter, r *http.Request)
 	SetActiveYear(w http.ResponseWriter, r *http.Request)
 }
+type reportRoutes interface {
+	ListGroups(w http.ResponseWriter, r *http.Request)
+	CreateGroup(w http.ResponseWriter, r *http.Request)
+	UpdateGroup(w http.ResponseWriter, r *http.Request)
+	DeleteGroup(w http.ResponseWriter, r *http.Request)
+	List(w http.ResponseWriter, r *http.Request)
+	Get(w http.ResponseWriter, r *http.Request)
+	Create(w http.ResponseWriter, r *http.Request)
+	Update(w http.ResponseWriter, r *http.Request)
+	Delete(w http.ResponseWriter, r *http.Request)
+}
 
 func main() {
 	godotenv.Load()
@@ -97,6 +108,7 @@ func main() {
 		changeLogs changeLogRoutes
 		imports    importRoutes
 		settings   settingsRoutes
+		reports    reportRoutes
 	)
 
 	if os.Getenv("MOCK") == "true" {
@@ -114,6 +126,7 @@ func main() {
 		changeLogs = handlers.NewMockChangeLogHandler()
 		imports = handlers.NewMockImportHandler()
 		settings = handlers.NewMockSettingsHandler()
+		// reports has no mock counterpart yet — left nil; /report-groups and /reports 500 under MOCK=true.
 	} else {
 		ctx := context.Background()
 		pool, err := db.Connect(ctx)
@@ -141,6 +154,7 @@ func main() {
 		}
 		imports = handlers.NewImportHandler(pool, poClient)
 		settings = handlers.NewSettingsHandler(pool)
+		reports = handlers.NewReportHandler(pool)
 	}
 
 	r := chi.NewRouter()
@@ -217,6 +231,17 @@ func main() {
 
 		r.Get("/settings/active-year", settings.GetActiveYear)
 		r.Put("/settings/active-year", settings.SetActiveYear)
+
+		r.Get("/report-groups", reports.ListGroups)
+		r.Post("/report-groups", reports.CreateGroup)
+		r.Patch("/report-groups/{id}", reports.UpdateGroup)
+		r.Delete("/report-groups/{id}", reports.DeleteGroup)
+
+		r.Get("/reports", reports.List)
+		r.Get("/reports/{id}", reports.Get)
+		r.Post("/reports", reports.Create)
+		r.Patch("/reports/{id}", reports.Update)
+		r.Delete("/reports/{id}", reports.Delete)
 	})
 
 	port := os.Getenv("PORT")
