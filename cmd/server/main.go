@@ -88,11 +88,13 @@ type reportRoutes interface {
 	CreateGroup(w http.ResponseWriter, r *http.Request)
 	UpdateGroup(w http.ResponseWriter, r *http.Request)
 	DeleteGroup(w http.ResponseWriter, r *http.Request)
+	ReorderGroups(w http.ResponseWriter, r *http.Request)
 	List(w http.ResponseWriter, r *http.Request)
 	Get(w http.ResponseWriter, r *http.Request)
 	Create(w http.ResponseWriter, r *http.Request)
 	Update(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
+	ReorderReports(w http.ResponseWriter, r *http.Request)
 }
 
 func main() {
@@ -234,10 +236,12 @@ func main() {
 
 		r.Get("/report-groups", reports.ListGroups)
 		r.Post("/report-groups", reports.CreateGroup)
+		r.Patch("/report-groups/reorder", reports.ReorderGroups)
 		r.Patch("/report-groups/{id}", reports.UpdateGroup)
 		r.Delete("/report-groups/{id}", reports.DeleteGroup)
 
 		r.Get("/reports", reports.List)
+		r.Patch("/reports/reorder", reports.ReorderReports)
 		r.Get("/reports/{id}", reports.Get)
 		r.Post("/reports", reports.Create)
 		r.Patch("/reports/{id}", reports.Update)

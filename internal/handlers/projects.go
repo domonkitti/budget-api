@@ -600,13 +600,15 @@ func queryFlat(ctx context.Context, db *pgxpool.Pool, params map[string]string) 
 		i++
 	}
 	if activeOnly && len(years) > 0 {
+		// Per-year, not summed across the range — a project active in one year
+		// shouldn't be hidden because a later year's negative budget cancels it out.
 		sql += ` AND EXISTS (
 			SELECT 1
 			FROM budget_sources active_bs
 			WHERE active_bs.project_id = p.id
 			  AND active_bs.data_year = ANY($1::int[])
-			GROUP BY active_bs.project_id
-			HAVING SUM(active_bs.budget) > 0
+			GROUP BY active_bs.data_year
+			HAVING SUM(active_bs.budget) <> 0
 		)`
 	}
 	sql += ` ORDER BY

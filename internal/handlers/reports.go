@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/domonkitti/budget-app-api/internal/models"
 	"github.com/go-chi/chi/v5"
@@ -82,10 +83,44 @@ func (h *ReportHandler) DeleteGroup(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// ReorderGroups takes the full group id list in the desired display order and rewrites
+// sort_order to match — used by the admin drag-and-drop reorder on the report list page.
+func (h *ReportHandler) ReorderGroups(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		IDs []string `json:"ids"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || len(body.IDs) == 0 {
+		http.Error(w, "ids required", http.StatusBadRequest)
+		return
+	}
+	tx, err := h.db.Begin(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(r.Context())
+	for i, idStr := range body.IDs {
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			http.Error(w, "invalid id: "+idStr, http.StatusBadRequest)
+			return
+		}
+		if _, err := tx.Exec(r.Context(), `UPDATE report_groups SET sort_order = $1 WHERE id = $2`, i, id); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+	if err := tx.Commit(r.Context()); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
 // -- Reports --
 
 func (h *ReportHandler) List(w http.ResponseWriter, r *http.Request) {
-	rows, err := h.db.Query(r.Context(), `SELECT id, group_id, preset_id, data FROM reports ORDER BY id`)
+	rows, err := h.db.Query(r.Context(), `SELECT id, group_id, preset_id, sort_order, data FROM reports ORDER BY group_id, sort_order, id`)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -95,7 +130,7 @@ func (h *ReportHandler) List(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var rep models.Report
 		var rawData []byte
-		if err := rows.Scan(&rep.ID, &rep.GroupID, &rep.PresetID, &rawData); err != nil {
+		if err := rows.Scan(&rep.ID, &rep.GroupID, &rep.PresetID, &rep.Order, &rawData); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -110,8 +145,8 @@ func (h *ReportHandler) Get(w http.ResponseWriter, r *http.Request) {
 	var rep models.Report
 	var rawData []byte
 	err := h.db.QueryRow(r.Context(),
-		`SELECT id, group_id, preset_id, data FROM reports WHERE id = $1`, id).
-		Scan(&rep.ID, &rep.GroupID, &rep.PresetID, &rawData)
+		`SELECT id, group_id, preset_id, sort_order, data FROM reports WHERE id = $1`, id).
+		Scan(&rep.ID, &rep.GroupID, &rep.PresetID, &rep.Order, &rawData)
 	if err != nil {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
@@ -133,14 +168,50 @@ func (h *ReportHandler) Create(w http.ResponseWriter, r *http.Request) {
 	rep.GroupID = body.GroupID
 	rep.Data = body.Data
 	err := h.db.QueryRow(r.Context(),
-		`INSERT INTO reports (group_id, data) VALUES ($1, $2) RETURNING id, preset_id`,
+		`INSERT INTO reports (group_id, data, sort_order)
+		 VALUES ($1, $2, COALESCE((SELECT MAX(sort_order) + 1 FROM reports WHERE group_id = $1), 0))
+		 RETURNING id, preset_id, sort_order`,
 		body.GroupID, []byte(body.Data)).
-		Scan(&rep.ID, &rep.PresetID)
+		Scan(&rep.ID, &rep.PresetID, &rep.Order)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	respond(w, http.StatusCreated, rep)
+}
+
+// ReorderReports takes a report id list (typically all reports within one group) in the
+// desired display order and rewrites sort_order to match.
+func (h *ReportHandler) ReorderReports(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		IDs []string `json:"ids"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || len(body.IDs) == 0 {
+		http.Error(w, "ids required", http.StatusBadRequest)
+		return
+	}
+	tx, err := h.db.Begin(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer tx.Rollback(r.Context())
+	for i, idStr := range body.IDs {
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			http.Error(w, "invalid id: "+idStr, http.StatusBadRequest)
+			return
+		}
+		if _, err := tx.Exec(r.Context(), `UPDATE reports SET sort_order = $1 WHERE id = $2`, i, id); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+	if err := tx.Commit(r.Context()); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
 }
 
 // Update applies a partial patch — used both for the admin editor's debounced autosave (data

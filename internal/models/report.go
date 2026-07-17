@@ -16,5 +16,6 @@ type Report struct {
 	ID       int             `json:"id,string"`
 	GroupID  int             `json:"groupId,string"`
 	PresetID *string         `json:"presetId"`
+	Order    int             `json:"order"`
 	Data     json.RawMessage `json:"data"`
 }
