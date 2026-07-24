@@ -467,44 +467,6 @@ func (h *MockMetaHandler) FilterOptions(w http.ResponseWriter, r *http.Request) 
 	respond(w, http.StatusOK, filterOptions{Years: years, Sources: sources})
 }
 
-// ── Mock Scenario Handler ─────────────────────────────────────────────────────
-
-type MockScenarioHandler struct{}
-
-func NewMockScenarioHandler() *MockScenarioHandler { return &MockScenarioHandler{} }
-
-func (h *MockScenarioHandler) List(w http.ResponseWriter, r *http.Request) {
-	respond(w, http.StatusOK, []models.Scenario{})
-}
-
-func (h *MockScenarioHandler) Create(w http.ResponseWriter, r *http.Request) {
-	respond(w, http.StatusCreated, models.Scenario{ID: 1, Label: "mock", CreatedAt: mockTime, UpdatedAt: mockTime})
-}
-
-func (h *MockScenarioHandler) Delete(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNoContent)
-}
-
-func (h *MockScenarioHandler) Flat(w http.ResponseWriter, r *http.Request) {
-	respond(w, http.StatusOK, []models.FlatProject{})
-}
-
-func (h *MockScenarioHandler) GetProject(w http.ResponseWriter, r *http.Request) {
-	respond(w, http.StatusOK, models.ProjectDetail{SubJobs: []models.SubJob{}, BudgetSources: []models.BudgetSource{}})
-}
-
-func (h *MockScenarioHandler) UpdateSubJob(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNoContent)
-}
-
-func (h *MockScenarioHandler) Promote(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNoContent)
-}
-
-func (h *MockScenarioHandler) UpdateBudgetSource(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNoContent)
-}
-
 // ── Mock ChangeLog Handler ────────────────────────────────────────────────────
 
 type MockChangeLogHandler struct{}

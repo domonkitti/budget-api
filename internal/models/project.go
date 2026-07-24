@@ -128,14 +128,6 @@ type SnapshotDetail struct {
 	Data []FlatProject `json:"data"`
 }
 
-type Scenario struct {
-	ID        int       `json:"id"`
-	Label     string    `json:"label"`
-	Note      string    `json:"note,omitempty"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-}
-
 type ChangeLogEntry struct {
 	ID           int       `json:"id"`
 	TableName    string    `json:"table_name"`

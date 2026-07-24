@@ -56,16 +56,6 @@ type snapshotRoutes interface {
 	Delete(w http.ResponseWriter, r *http.Request)
 	Promote(w http.ResponseWriter, r *http.Request)
 }
-type scenarioRoutes interface {
-	List(w http.ResponseWriter, r *http.Request)
-	Create(w http.ResponseWriter, r *http.Request)
-	Delete(w http.ResponseWriter, r *http.Request)
-	Promote(w http.ResponseWriter, r *http.Request)
-	Flat(w http.ResponseWriter, r *http.Request)
-	GetProject(w http.ResponseWriter, r *http.Request)
-	UpdateSubJob(w http.ResponseWriter, r *http.Request)
-	UpdateBudgetSource(w http.ResponseWriter, r *http.Request)
-}
 type changeLogRoutes interface {
 	ListByProject(w http.ResponseWriter, r *http.Request)
 	Undo(w http.ResponseWriter, r *http.Request)
@@ -106,7 +96,6 @@ func main() {
 		tags       tagRoutes
 		meta       metaRoutes
 		snapshots  snapshotRoutes
-		scenarios  scenarioRoutes
 		changeLogs changeLogRoutes
 		imports    importRoutes
 		settings   settingsRoutes
@@ -124,7 +113,6 @@ func main() {
 		tags = handlers.NewMockTagHandler(s)
 		meta = handlers.NewMockMetaHandler(s)
 		snapshots = handlers.NewMockSnapshotHandler()
-		scenarios = handlers.NewMockScenarioHandler()
 		changeLogs = handlers.NewMockChangeLogHandler()
 		imports = handlers.NewMockImportHandler()
 		settings = handlers.NewMockSettingsHandler()
@@ -144,7 +132,6 @@ func main() {
 		tags = handlers.NewTagHandler(pool)
 		meta = handlers.NewMetaHandler(pool)
 		snapshots = handlers.NewSnapshotHandler(pool)
-		scenarios = handlers.NewScenarioHandler(pool)
 		changeLogs = handlers.NewChangeLogHandler(pool)
 
 		poURL := os.Getenv("PO_API_URL")
@@ -207,15 +194,6 @@ func main() {
 		r.Get("/snapshots/{id}", snapshots.Get)
 		r.Delete("/snapshots/{id}", snapshots.Delete)
 		r.Post("/snapshots/{id}/promote", snapshots.Promote)
-
-		r.Get("/scenarios", scenarios.List)
-		r.Post("/scenarios", scenarios.Create)
-		r.Delete("/scenarios/{id}", scenarios.Delete)
-		r.Post("/scenarios/{id}/promote", scenarios.Promote)
-		r.Get("/scenarios/{id}/flat", scenarios.Flat)
-		r.Get("/scenarios/{id}/projects/{code}", scenarios.GetProject)
-		r.Put("/scenarios/{id}/sub-jobs/{sjID}", scenarios.UpdateSubJob)
-		r.Put("/scenarios/{id}/budget-sources/{bsID}", scenarios.UpdateBudgetSource)
 
 		r.Post("/batch-save", projects.BatchSave)
 
